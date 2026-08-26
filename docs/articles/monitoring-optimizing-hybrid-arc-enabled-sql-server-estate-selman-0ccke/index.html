@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/sebastianselman.ch/assets/style.css">
+<link rel="stylesheet" href="/assets/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%89%3C/text%3E%3C/svg%3E">
 <script>
   (function(){
@@ -29,12 +29,12 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
-  <a class="wordmark" href="/sebastianselman.ch/">Sebastian Selman</a>
+  <a class="wordmark" href="/">Sebastian Selman</a>
   <nav>
-    <a href="/sebastianselman.ch/#now">Now</a>
-    <a href="/sebastianselman.ch/#projects">Projects</a>
-    <a href="/sebastianselman.ch/#writing">Writing</a>
-    <a href="/sebastianselman.ch/reading/">Reading</a>
+    <a href="/#now">Now</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#writing">Writing</a>
+    <a href="/reading/">Reading</a>
   </nav>
   <button id="theme" type="button" aria-label="Switch between light and dark">
     <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
@@ -92,9 +92,9 @@
 <p>Azure Workbooks &amp; Power BI Integration: Azure Monitor Workbooks provide customizable dashboards within the Azure portal. There are pre-built workbook templates for many services; for SQL Server, you could either use the performance data from Arc or bring in your own collected metrics to design a dashboard. If your team prefers Power BI for reporting, you can export Azure Monitor data to Power BI as well. For example, you can use the Log Analytics API or Azure Monitor REST API to feed data into Power BI to create live reports. Some community-driven solutions even offer Power BI templates for SQL Server performance. One such solution, SQLWatch, demonstrates how performance metrics can be collected from DMVs (like performance counters, memory clerks, wait stats, etc.), stored in a SQL database, and then visualized with a Power BI dashboard [[3]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fsargable%2Ecom%2Farchive%2Farticles%2Fsql-server-performance-dashboard-using-powerbi%2F&amp;urlhash=IFZD&amp;trk=article-ssr-frontend-pulse_little-text-block). In that approach, a lightweight data collection on each SQL instance populates a central repository with historical metrics, and Power BI reads from it to produce charts for CPU, memory, I/O, waits, etc. This is similar in spirit to what Azure Arc’s monitoring does (gathering DMV data), but one could extend or customize it via Power BI for specific reporting needs. In short, yes, it’s possible to have “cool PowerBI” dashboards for SQL monitoring – either by using Azure’s built-in workbooks or by custom solutions – it depends on how much customization you need. Power BI might be preferable if you want to mash up data from multiple sources (say, combine SQL performance with business data) or share reports widely outside the Azure portal.</p>
 <p>SIEM Integration (Security Monitoring): Since you also mentioned using a SIEM solution: Azure provides Azure Sentinel (now part of Microsoft Defender for Cloud) as a cloud-native SIEM. You can stream your SQL Server logs (audit logs, Windows event logs, etc.) to Sentinel. For Arc-enabled SQL Servers, enabling Azure Monitor logs for SQL audit or diagnostics would allow those events to flow into your Log Analytics workspace, which Sentinel watches. This means security-relevant events from on-prem SQL (via Arc) can be centrally analyzed for threats. For example, Sentinel could detect if there are multiple failed login attempts on an on-prem SQL instance (from the audit log) followed by a successful login – which might indicate a brute-force attack succeeded – and raise an incident. Or it could correlate an OS-level security event with a SQL event to spot suspicious activity. If you already use another SIEM (Splunk, etc.), you can similarly export logs there. The general principle is to centralize logs for security: Azure Arc doesn’t replace your SIEM but makes it easier to funnel the on-prem data to whatever analysis platform you choose. The Azure Monitor Agent (AMA) can send logs to Azure, or you can use event hub integrations to pipe data out to third-party SIEMs. By doing this, you ensure that leveraging Azure’s monitoring doesn’t compromise security — on the contrary, it enhances visibility. All logs in transit to Azure are encrypted, and access to them in Azure can be locked down via role-based access.</p>
 <h3>Recommended by LinkedIn</h3>
-<p><a href="https://www.linkedin.com/pulse/drowning-data-starving-information-real-cost-sql-server-randvere-hl4bc" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/monitoring-optimizing-hybrid-arc-enabled-sql-server-estate-selman-0ccke-e4b7dfa4e5.jpg" alt="Drowning in Data, Starving for Information: The Real Cost of SQL Server Monitoring Done Wrong.." loading="lazy"> Drowning in Data, Starving for Information: The Real… Chris Randvere 3 months ago</a></p>
-<p><a href="https://www.linkedin.com/pulse/sql-server-fine-tune-optimization-guide-arunagiri-gopal-uhj0f" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/monitoring-optimizing-hybrid-arc-enabled-sql-server-estate-selman-0ccke-0b0cc8dbd8.jpg" alt="SQL Server Fine-Tune &amp; Optimization Guide" loading="lazy"> SQL Server Fine-Tune &amp; Optimization Guide Arunagiri Gopal 2 years ago</a></p>
-<p><a href="https://www.linkedin.com/pulse/tempdb-misconfiguration-silent-performance-killer-matias-villalobos-jvtce" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/monitoring-optimizing-hybrid-arc-enabled-sql-server-estate-selman-0ccke-fe3cb3e0e0.jpg" alt="TempDB Misconfiguration: The Silent Performance Killer" loading="lazy"> TempDB Misconfiguration: The Silent Performance Killer Matias Villalobos 5 months ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/drowning-data-starving-information-real-cost-sql-server-randvere-hl4bc" target="_blank" rel="noopener"><img src="/assets/img/monitoring-optimizing-hybrid-arc-enabled-sql-server-estate-selman-0ccke-e4b7dfa4e5.jpg" alt="Drowning in Data, Starving for Information: The Real Cost of SQL Server Monitoring Done Wrong.." loading="lazy"> Drowning in Data, Starving for Information: The Real… Chris Randvere 3 months ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/sql-server-fine-tune-optimization-guide-arunagiri-gopal-uhj0f" target="_blank" rel="noopener"><img src="/assets/img/monitoring-optimizing-hybrid-arc-enabled-sql-server-estate-selman-0ccke-0b0cc8dbd8.jpg" alt="SQL Server Fine-Tune &amp; Optimization Guide" loading="lazy"> SQL Server Fine-Tune &amp; Optimization Guide Arunagiri Gopal 2 years ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/tempdb-misconfiguration-silent-performance-killer-matias-villalobos-jvtce" target="_blank" rel="noopener"><img src="/assets/img/monitoring-optimizing-hybrid-arc-enabled-sql-server-estate-selman-0ccke-fe3cb3e0e0.jpg" alt="TempDB Misconfiguration: The Silent Performance Killer" loading="lazy"> TempDB Misconfiguration: The Silent Performance Killer Matias Villalobos 5 months ago</a></p>
 <p>To summarize, Azure’s ecosystem offers a rich set of native tools for monitoring: Azure Arc’s own dashboards for immediate SQL metrics, Azure Monitor for setting up alerts and custom analytics, and options to visualize data in tools like Workbooks or Power BI, or to feed logs into a SIEM for security insights. These tools cover the full spectrum from operational performance to security monitoring.</p>
 <h4>Optimizing Cost without Impacting Performance or Security</h4>
 <p>Cost optimization for a large SQL Server estate must be balanced with maintaining high performance and robust security. Here are several strategies and considerations:</p>
@@ -130,7 +130,7 @@
 <p>[9]<a href="https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fsamexpert%2Ecom%2Fsql-server-azure-arc-vs-spla-on-hosting-providers%2F&amp;urlhash=UKps&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">SQL Server with Azure Arc vs. SPLA -</a> <a href="https://www.linkedin.com/redir/redirect?url=http%3A%2F%2Fsamexpert%2Ecom&amp;urlhash=09zn&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">samexpert.com</a></p>
 <p>[10] <a href="https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fsql%2Fsql-server%2Fazure-arc%2Fassess%3Fview%3Dsql-server-ver16%26tabs%3Dportal&amp;urlhash=k2Lu&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">Configure best practices assessment - SQL Server enabled by Azure Arc | Microsoft Learn</a></p>
   </div>
-  <p class="back"><a href="/sebastianselman.ch/#writing">← All writing</a></p>
+  <p class="back"><a href="/#writing">← All writing</a></p>
 </article>
 </main>
 <footer>
