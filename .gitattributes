@@ -1,0 +1,10 @@
+# Keep generated output byte-identical across platforms. Without this, Windows
+# checkouts rewrite LF to CRLF and `node build.mjs` then reports a diff against
+# files it did not actually change.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
