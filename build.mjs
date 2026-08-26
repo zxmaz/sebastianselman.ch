@@ -175,6 +175,25 @@ function inline(s) {
   return t;
 }
 
+/**
+ * Fold a slug to ASCII so it survives as a bare URL path segment.
+ *
+ * "grenzen-erreichen-überwinden" served fine locally but 404s on GitHub Pages
+ * unless percent-encoded, because the href carries the raw UTF-8 byte. German
+ * umlauts get their conventional two-letter expansion (ü → ue) rather than
+ * being stripped, so the slug still reads as the word it came from.
+ */
+const UMLAUTS = { ä: 'ae', ö: 'oe', ü: 'ue', Ä: 'ae', Ö: 'oe', Ü: 'ue', ß: 'ss' };
+
+function asciiSlug(slug) {
+  return String(slug)
+    .replace(/[äöüÄÖÜß]/g, (c) => UMLAUTS[c])
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')   // strip remaining diacritics
+    .replace(/[^A-Za-z0-9._-]+/g, '-')
+    .replace(/-{2,}/g, '-').replace(/^-|-$/g, '')
+    .toLowerCase();
+}
+
 /** First real paragraph, trimmed — used as a card summary. */
 function excerpt(body, max = 190) {
   for (const block of body.split(/\n{2,}/)) {
@@ -420,7 +439,7 @@ async function loadDocs(dir, origin) {
   const out = [];
   for (const f of (await readdir(full)).filter(f => f.endsWith('.md')).sort()) {
     const { meta, body } = parseMd(await readFile(path.join(full, f), 'utf8'));
-    const slug = meta.slug || f.replace(/\.md$/, '');
+    const slug = asciiSlug(meta.slug || f.replace(/\.md$/, ''));
     out.push({ slug, meta, body, origin, excerpt: excerpt(body),
                href: `/${dir}/${slug}/` });
   }

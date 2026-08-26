@@ -1,13 +1,13 @@
 ---
 title: "Grenzen erreichen. Grenzen überwinden."
-slug: "grenzen-erreichen-überwinden-sebastian-rappen"
+slug: grenzen-erreichen-ueberwinden-sebastian-rappen
 date: 2019-11-18
 byline: Sebastian Rappen
 lang: de
 source: "https://www.linkedin.com/pulse/grenzen-erreichen-%C3%BCberwinden-sebastian-rappen/"
 summary: "Horos (altgr. ὅρος) bezeichnet die Grenze, den Grenzstein."
 cover_image: "https://media.licdn.com/dms/image/v2/C5612AQHpbeCJ_RKZzQ/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1574055623969?e=2147483647&v=beta&t=RpM_IhI1xb-KNzguJU7y-ctzlgwYK205qiUqM3fMyvY"
-images: ["grenzen-erreichen-überwinden-sebastian-rappen-36d9b0fc13.jpg", "grenzen-erreichen-überwinden-sebastian-rappen-b2d0feb3c6.jpg", "grenzen-erreichen-überwinden-sebastian-rappen-6c8c1cf1f7.jpg"]
+images: ["grenzen-erreichen-ueberwinden-sebastian-rappen-36d9b0fc13.jpg", "grenzen-erreichen-ueberwinden-sebastian-rappen-b2d0feb3c6.jpg", "grenzen-erreichen-ueberwinden-sebastian-rappen-6c8c1cf1f7.jpg"]
 captured_at: 2026-08-26T10:37:14.170Z
 origin: linkedin
 translated_as: "Heroes, fools and design thinkers meet outside the box"
@@ -26,11 +26,11 @@ Doch möchte ich auf einen besonderen Aspekt von Grenzen eingehen, der selten Be
 
 ## Recommended by LinkedIn
 
-[![Resonanz, Toleranz und die Kunst des Mitschwingens](/assets/img/grenzen-erreichen-überwinden-sebastian-rappen-36d9b0fc13.jpg) Resonanz, Toleranz und die Kunst des Mitschwingens Maurizio Tondolo 10 months ago](https://de.linkedin.com/pulse/resonanz-toleranz-und-die-kunst-des-mitschwingens-maurizio-tondolo-wqkvf)
+[![Resonanz, Toleranz und die Kunst des Mitschwingens](/assets/img/grenzen-erreichen-ueberwinden-sebastian-rappen-36d9b0fc13.jpg) Resonanz, Toleranz und die Kunst des Mitschwingens Maurizio Tondolo 10 months ago](https://de.linkedin.com/pulse/resonanz-toleranz-und-die-kunst-des-mitschwingens-maurizio-tondolo-wqkvf)
 
-[![Herr, Herr und doch nie gekannt: Die tiefste Selbstprüfung des Glaubens in Matthäus 7 - Teil 22](/assets/img/grenzen-erreichen-überwinden-sebastian-rappen-b2d0feb3c6.jpg) Herr, Herr und doch nie gekannt: Die tiefste… Lukas Lowartz 2 months ago](https://de.linkedin.com/pulse/herr-und-doch-nie-gekannt-die-tiefste-selbstpr%C3%BCfung-des-lukas-lowartz-3lttf)
+[![Herr, Herr und doch nie gekannt: Die tiefste Selbstprüfung des Glaubens in Matthäus 7 - Teil 22](/assets/img/grenzen-erreichen-ueberwinden-sebastian-rappen-b2d0feb3c6.jpg) Herr, Herr und doch nie gekannt: Die tiefste… Lukas Lowartz 2 months ago](https://de.linkedin.com/pulse/herr-und-doch-nie-gekannt-die-tiefste-selbstpr%C3%BCfung-des-lukas-lowartz-3lttf)
 
-[![Charlie Kirk: Rhetorik eines Provokateurs – Analyse eines polarisierenden Stils](/assets/img/grenzen-erreichen-überwinden-sebastian-rappen-6c8c1cf1f7.jpg) Charlie Kirk: Rhetorik eines Provokateurs – Analyse… Michael Ehlers 11 months ago](https://de.linkedin.com/pulse/charlie-kirk-rhetorik-eines-provokateurs-analyse-stils-michael-ehlers-jnyue)
+[![Charlie Kirk: Rhetorik eines Provokateurs – Analyse eines polarisierenden Stils](/assets/img/grenzen-erreichen-ueberwinden-sebastian-rappen-6c8c1cf1f7.jpg) Charlie Kirk: Rhetorik eines Provokateurs – Analyse… Michael Ehlers 11 months ago](https://de.linkedin.com/pulse/charlie-kirk-rhetorik-eines-provokateurs-analyse-stils-michael-ehlers-jnyue)
 
 Der für mich spannende Punkt ist nun, dass obwohl Luhmann und Co. dargelegt haben, dass Grenzen erreicht werden müssen, notwendig sind, diese Grenzen nicht fähig sind, alle wesentlichen Entscheidungen zu treffen. Der Mensch muss, wenn ihm das Projekt Leben gelingen will, über das zweiwertige Denken hinaus andere Denkfiguren und Entscheidungspraktiken entwickeln, um vorwärts kommen zu können. Er muss also nicht nur Grenzen überwinden, sondern auch das Denken in Grenzen, die immer nur ein hier oder dort kennen, überwinden.
 
