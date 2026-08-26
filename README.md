@@ -73,19 +73,41 @@ Essays and articles carry YAML front-matter (`title`, `date`, `slug`, `byline`,
 `source`). The `slug` becomes the URL, so changing it breaks existing links —
 don't, unless you mean to.
 
+Slugs are folded to ASCII at build time (`ü` → `ue`, and so on). A raw umlaut in
+a URL path 404s on GitHub Pages unless every href percent-encodes it — it works
+locally and breaks live, which is the worst way to find out. Keep new image
+filenames ASCII for the same reason.
+
 ---
 
 ## Commands
 
 ```bash
+node build.mjs --base sebastianselman.ch
+```
+
+**Use `--base` for now.** Until DNS points the domain at GitHub, the site is
+served from a subpath (`zxmaz.github.io/sebastianselman.ch/`), where
+root-absolute links would 404. The flag prefixes internal links and skips the
+CNAME, because a custom domain and a subpath cannot both apply.
+
+Once the DNS cutover lands (Work Item #190), drop the flag permanently:
+
+```bash
 node build.mjs
 ```
+
+To preview locally:
 
 ```bash
 node build.mjs --serve
 ```
 
 `--serve` builds and then serves `docs/` on <http://localhost:4173>.
+
+> On Git Bash, pass the base **without** a leading slash. Git Bash rewrites
+> `/sebastianselman.ch` into a Windows filesystem path; the build detects that
+> and warns, but the clean form avoids the noise.
 
 After adding large images:
 
@@ -103,6 +125,8 @@ run it as often as you like.
 
 GitHub Pages serves `docs/` from `main`, on repo `zxmaz/sebastianselman.ch`.
 Push to `main` and the site updates within a minute or two.
+
+**Live now:** <https://zxmaz.github.io/sebastianselman.ch/>
 
 `docs/CNAME` holds the custom domain. `docs/.nojekyll` stops GitHub trying to run
 Jekyll over the output.
