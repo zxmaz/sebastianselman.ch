@@ -5,8 +5,15 @@
 // running it twice produces byte-identical output, so `git status` after a
 // rebuild tells you exactly what your edit changed and nothing else.
 //
-//   node build.mjs            build into docs/
-//   node build.mjs --serve    build, then serve docs/ on :4173
+//   node build.mjs                            build for the custom domain
+//   node build.mjs --serve                    build, then serve docs/ on :4173
+//   node build.mjs --base /sebastianselman.ch build for a GitHub Pages subpath
+//
+// The default build targets sebastianselman.ch at a domain root and writes a
+// CNAME. Before the DNS cutover the only reachable URL is the project-pages
+// subpath github.io/<repo>/, where every root-absolute href would 404 — so
+// --base prefixes internal links and omits the CNAME. Drop the flag once DNS
+// points at GitHub.
 
 import { readdir, readFile, mkdir, writeFile, rm, cp, stat } from 'node:fs/promises';
 import { createServer } from 'node:http';
@@ -16,6 +23,33 @@ const ROOT = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z
 const CONTENT = path.join(ROOT, 'content');
 const DOCS = path.join(ROOT, 'docs');
 const ASSETS = path.join(ROOT, 'assets');
+
+const argv = process.argv.slice(2);
+const baseIdx = argv.indexOf('--base');
+
+/**
+ * URL prefix for every internal link; '' for a domain root. No trailing slash.
+ *
+ * Accepts `--base sebastianselman.ch` or `--base /sebastianselman.ch`. Git Bash
+ * on Windows rewrites a leading-slash argument into a real filesystem path
+ * ("C:/Program Files/Git/sebastianselman.ch"), which would otherwise sail
+ * through and produce a site full of unusable local hrefs — so detect that and
+ * recover the intended segment rather than fail silently.
+ */
+const BASE = (() => {
+  let v = baseIdx >= 0 && argv[baseIdx + 1] ? argv[baseIdx + 1] : '';
+  if (!v) return '';
+  if (/^[A-Za-z]:[\\/]/.test(v) || v.includes('\\')) {
+    const seg = v.replace(/\\/g, '/').split('/').filter(Boolean).pop();
+    console.warn(`  ! --base looked path-mangled ("${v}"); using "/${seg}".` +
+                 `  Pass it without a leading slash to avoid this.`);
+    v = seg;
+  }
+  return '/' + v.replace(/^\/+/, '').replace(/\/+$/, '');
+})();
+/** Prefix an internal absolute path. External URLs and anchors pass through. */
+const u = (href) => (BASE && typeof href === 'string' && href.startsWith('/'))
+  ? BASE + href : href;
 
 const KIND_LABEL = { talk: 'Talk', workshop: 'Workshop', session: 'Session', podcast: 'Podcast' };
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
@@ -114,7 +148,7 @@ function md2html(md) {
     if (onlyImg) {
       flushList();
       const cap = onlyImg[1].trim();
-      out.push(`<figure><img src="${esc(onlyImg[2])}" alt="${esc(cap)}" loading="lazy">` +
+      out.push(`<figure><img src="${esc(u(onlyImg[2]))}" alt="${esc(cap)}" loading="lazy">` +
                (cap ? `<figcaption>${inline(cap)}</figcaption>` : '') + `</figure>`);
       continue;
     }
@@ -130,10 +164,10 @@ function md2html(md) {
 function inline(s) {
   let t = esc(s);
   t = t.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,
-    (_, alt, src) => `<img src="${src}" alt="${alt}" loading="lazy">`);
+    (_, alt, src) => `<img src="${u(src)}" alt="${alt}" loading="lazy">`);
   t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, txt, href) => {
     const ext = /^https?:/i.test(href) ? ' target="_blank" rel="noopener"' : '';
-    return `<a href="${href}"${ext}>${txt}</a>`;
+    return `<a href="${u(href)}"${ext}>${txt}</a>`;
   });
   t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   t = t.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
@@ -174,7 +208,7 @@ ${canonical ? `<meta property="og:url" content="${esc(canonical)}">` : ''}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="${u('/assets/style.css')}">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%89%3C/text%3E%3C/svg%3E">
 <script>
   (function(){
@@ -190,12 +224,12 @@ ${canonical ? `<meta property="og:url" content="${esc(canonical)}">` : ''}
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
-  <a class="wordmark" href="/">Sebastian Selman</a>
+  <a class="wordmark" href="${u('/')}">Sebastian Selman</a>
   <nav>
-    <a href="/#now">Now</a>
-    <a href="/#projects">Projects</a>
-    <a href="/#writing">Writing</a>
-    <a href="/reading/">Reading</a>
+    <a href="${u('/#now')}">Now</a>
+    <a href="${u('/#projects')}">Projects</a>
+    <a href="${u('/#writing')}">Writing</a>
+    <a href="${u('/reading/')}">Reading</a>
   </nav>
   <button id="theme" type="button" aria-label="Switch between light and dark">
     <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
@@ -277,7 +311,7 @@ function projectsSection(projects) {
   const card = (p) => `
     <li class="project">
       <div class="phead">
-        <h3>${p.url ? `<a href="${esc(p.url)}"${/^https?:/.test(p.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(p.name)}</a>` : esc(p.name)}</h3>
+        <h3>${p.url ? `<a href="${esc(u(p.url))}"${/^https?:/.test(p.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(p.name)}</a>` : esc(p.name)}</h3>
         <span class="kind">${esc(p.kind)}</span>
         <span class="period">${esc(p.period)}</span>
       </div>
@@ -308,7 +342,7 @@ function writingSection(docs) {
         .sort((a, b) => (b.meta.date || '').localeCompare(a.meta.date || ''))
         .map(d => `
         <li>
-          <a href="${d.href}">${esc(d.meta.title)}</a>
+          <a href="${u(d.href)}">${esc(d.meta.title)}</a>
           <p class="excerpt">${esc(d.excerpt)}</p>
           <p class="meta">${esc(humanDate(d.meta.date))}${
             d.meta.byline && d.meta.byline !== 'Sebastian Selman'
@@ -345,7 +379,7 @@ function articlePage(doc, profile) {
   const other = doc.meta.translation_of || doc.meta.translated_as;
   if (other && doc.meta.translation_href) {
     const lang = doc.meta.translation_lang === 'de' ? 'German' : 'English';
-    const link = `<a href="${esc(doc.meta.translation_href)}">“${esc(other)}”</a>`;
+    const link = `<a href="${esc(u(doc.meta.translation_href))}">“${esc(other)}”</a>`;
     notes.push(doc.meta.translation_of
       ? `This began as the ${lang} piece ${link}.`
       : `Later rewritten in ${lang} as ${link}.`);
@@ -367,7 +401,7 @@ function articlePage(doc, profile) {
   <div class="prose">
 ${md2html(doc.body)}
   </div>
-  <p class="back"><a href="/#writing">← All writing</a></p>
+  <p class="back"><a href="${u('/#writing')}">← All writing</a></p>
 </article>`;
 
   return shell({
@@ -442,7 +476,7 @@ async function main() {
   <div class="prose reading">
 ${md2html(rBody)}
   </div>
-  <p class="back"><a href="/">← Home</a></p>
+  <p class="back"><a href="${u('/')}">← Home</a></p>
 </article>`,
   }), 'utf8');
 
@@ -458,7 +492,10 @@ ${md2html(rBody)}
   await writeFile(path.join(DOCS, 'assets', 'style.css'), STYLE, 'utf8');
 
   // GitHub Pages plumbing
-  await writeFile(path.join(DOCS, 'CNAME'), 'sebastianselman.ch\n', 'utf8');
+  // A CNAME and a project-pages subpath are mutually exclusive: with the custom
+  // domain set, GitHub redirects github.io/<repo>/ to a hostname that does not
+  // resolve until the DNS cutover.
+  if (!BASE) await writeFile(path.join(DOCS, 'CNAME'), 'sebastianselman.ch\n', 'utf8');
   await writeFile(path.join(DOCS, '.nojekyll'), '', 'utf8');
   await writeFile(path.join(DOCS, 'robots.txt'),
     `User-agent: *\nAllow: /\nSitemap: ${profile.meta.url}/sitemap.xml\n`, 'utf8');

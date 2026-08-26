@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/sebastianselman.ch/assets/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%89%3C/text%3E%3C/svg%3E">
 <script>
   (function(){
@@ -29,12 +29,12 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
-  <a class="wordmark" href="/">Sebastian Selman</a>
+  <a class="wordmark" href="/sebastianselman.ch/">Sebastian Selman</a>
   <nav>
-    <a href="/#now">Now</a>
-    <a href="/#projects">Projects</a>
-    <a href="/#writing">Writing</a>
-    <a href="/reading/">Reading</a>
+    <a href="/sebastianselman.ch/#now">Now</a>
+    <a href="/sebastianselman.ch/#projects">Projects</a>
+    <a href="/sebastianselman.ch/#writing">Writing</a>
+    <a href="/sebastianselman.ch/reading/">Reading</a>
   </nav>
   <button id="theme" type="button" aria-label="Switch between light and dark">
     <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
@@ -67,7 +67,7 @@
 </ul>
 <h3>Shifting Data Quality “Left” to Source Systems with MDM</h3>
 <p>It is paramount to enforce data quality as early as possible – ideally at the point of data creation in source systems. Catching errors upstream prevents bad data from propagating downstream. Piethein Strengholt, a noted expert on data architecture, advises: “If it’s fast and fluid, break it apart into smaller pieces and leave it up to the domains. If it’s stable and it truly matters, consider using MDM.”[[9]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fwww%2Eoreilly%2Ecom%2Flibrary%2Fview%2Fdata-management-at%2F9781098138851%2Fch10%2Ehtml&amp;urlhash=ezpU&amp;trk=article-ssr-frontend-pulse_little-text-block). In other words, dynamic domain-specific data can be handled within those domains, but critical master data that needs consistency enterprise-wide should be managed through Master Data Management (MDM). By “shifting left” data quality, we validate and clean data in the operational source or upon ingestion, rather than only in later analytical stages[[3]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fazure%2Fcloud-adoption-framework%2Fscenarios%2Fcloud-scale-analytics%2Fgovern-data-quality&amp;urlhash=dcjK&amp;trk=article-ssr-frontend-pulse_little-text-block). This approach ensures higher quality data feeds every downstream process. The challenge here is: At scale you will only identify the need to master data, once you have brought it out of the transactional realm into an analytical layer and are aiming to combine the data from different systems, be it for advanced analytics or to produce features to feed your next model training run. But isn't that &quot;too late&quot; since you'd want to fix those as far left as possible?</p>
-<figure><img src="/assets/img/establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-24df1be1a2.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
+<figure><img src="/sebastianselman.ch/assets/img/establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-24df1be1a2.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>Analytical flow from source to report, while you will be able to identify incongruencies in the analytical estate (here in green), they stem from the transactional systems (here in blue) and that is where you'd want to fix them.</p>
 <p>So one key question to answer will need to be: If you only identify issues in the analytical estate, because that is where you'd often apply MDM and identify issues, how do you communicate or automagically enforce necessary changes back to the source systems?</p>
 <h4>The Role of Master Data Management (MDM)</h4>
@@ -194,9 +194,9 @@
 <h4>Integrating MDM and External Data Quality Solutions</h4>
 <p>While Purview is great for cataloging and monitoring, it is not itself an MDM or data cleaning tool. This is where integration with the earlier mentioned MDM solutions comes in:</p>
 <h3>Recommended by LinkedIn</h3>
-<p><a href="https://www.linkedin.com/pulse/keeping-eye-your-data-jonathan-reichental-ph-d-" target="_blank" rel="noopener"><img src="/assets/img/establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-6e94ddeb1d.jpg" alt="Keeping An Eye On Your Data" loading="lazy"> Keeping An Eye On Your Data Jonathan Reichental, PhD 3 years ago</a></p>
-<p><a href="https://www.linkedin.com/pulse/shadow-dark-data-heiko-specht-kkhdf" target="_blank" rel="noopener"><img src="/assets/img/establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-2711ce9b3b.jpg" alt="Shadow IT &amp; Dark Data" loading="lazy"> Shadow IT &amp; Dark Data Heiko Specht 5 months ago</a></p>
-<p><a href="https://www.linkedin.com/pulse/data-governance-why-mesh-microsoft-fabric-good-fit-ali-nadre" target="_blank" rel="noopener"><img src="/assets/img/establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-073f281c04.jpg" alt="Data Governance: Why Data Mesh and Microsoft Fabric are a good fit." loading="lazy"> Data Governance: Why Data Mesh and Microsoft Fabric… Ali Nadre, MSc 3 years ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/keeping-eye-your-data-jonathan-reichental-ph-d-" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-6e94ddeb1d.jpg" alt="Keeping An Eye On Your Data" loading="lazy"> Keeping An Eye On Your Data Jonathan Reichental, PhD 3 years ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/shadow-dark-data-heiko-specht-kkhdf" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-2711ce9b3b.jpg" alt="Shadow IT &amp; Dark Data" loading="lazy"> Shadow IT &amp; Dark Data Heiko Specht 5 months ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/data-governance-why-mesh-microsoft-fabric-good-fit-ali-nadre" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-073f281c04.jpg" alt="Data Governance: Why Data Mesh and Microsoft Fabric are a good fit." loading="lazy"> Data Governance: Why Data Mesh and Microsoft Fabric… Ali Nadre, MSc 3 years ago</a></p>
 <ul>
 <li>Microsoft provides integration between Purview and these MDM ISVs (Independent Software Vendors for Master Data Management). For example, Purview + Profisee integration (available via Purview’s partner connectors) allows mastered data from Profisee to be visible in the Purview catalog. So, if Your company uses Profisee to master customer data, Purview can list the “Customer” entity and show which source systems feed it and which domain owns it. Data stewards can even initiate actions in Profisee from Purview’s interface, establishing a governance workflow.</li>
 <li>Similarly, Purview + CluedIn integration is offered. CluedIn can push its discovered metadata and lineage into Purview, and vice versa. In effect, CluedIn could serve as the backend that does the heavy lifting of data unification and cleaning, and Purview as the frontend to view the results and govern them. If CluedIn is detecting data quality issues or duplicates, those could surface as alerts in Purview.</li>
@@ -351,7 +351,7 @@
 <p>[15] <a href="https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fpurview%2Fdata-governance-master-data-management%23partner-mdm-integration-with-microsoft-purview&amp;urlhash=mD0d&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">Master Data Management in Microsoft Purview | Microsoft Learn</a></p>
 <p>[16] <a href="https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fwww%2Emicrosoft%2Ecom%2Fen-us%2Fsecurity%2Fblog%2F2023%2F04%2F24%2Fgetting-started-with-the-cdmc-framework-microsofts-guide-to-cloud-data-management%2F%3Fmsockid%3D2043ce8c330166493f38db55329167f3&amp;urlhash=tLci&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">Data protection with Microsoft Purview and the CDMC framework | Microsoft Security Blog</a></p>
   </div>
-  <p class="back"><a href="/#writing">← All writing</a></p>
+  <p class="back"><a href="/sebastianselman.ch/#writing">← All writing</a></p>
 </article>
 </main>
 <footer>
