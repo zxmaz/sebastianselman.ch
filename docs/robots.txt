@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sebastianselman.ch/sitemap.xml

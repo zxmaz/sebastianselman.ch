@@ -1,0 +1,33 @@
+[
+  {
+    "name": "Slaying Dragons with AI",
+    "kind": "Doctoral research",
+    "period": "2026 – 2029",
+    "status": "active",
+    "url": "https://www.linkedin.com/pulse/slaying-dragons-ai-sebastian-selman-xqome/",
+    "summary": "Formalising a workshop intervention into doctoral research. The hypothesis: a Peterson-style goal-setting programme improves goal attainment not only for university students but for people with far less room to fail — refugees, young people in care and detention, adults in the criminal-justice system.",
+    "highlights": [
+      "Three mediating mechanisms worth isolating: language, the IKEA effect of a self-authored system, and consequences inside criminal-law proceedings",
+      "Developed with Franziska-J. Klebôn out of the Tomorrow University Berlin Immersion",
+      "Delivered as a live workshop before it was a paper — the failure rate is part of the data"
+    ]
+  },
+  {
+    "name": "Business Mission Control",
+    "kind": "Podcast",
+    "period": "2026 –",
+    "status": "in preparation",
+    "url": null,
+    "summary": "A conversation series with Dr. Estera Kot, CTO of Clouds on Mars, on what actually happens when enterprises put AI into production.",
+    "highlights": []
+  },
+  {
+    "name": "Writing",
+    "kind": "Essays and articles",
+    "period": "2019 –",
+    "status": "active",
+    "url": "/writing/",
+    "summary": "Sixteen pieces, from design-thinking essays written as Sebastian Rappen to recent work on Azure AI Foundry, data mesh and where AI investment actually pays. Everything published on limmatreframe.com and LinkedIn now lives here.",
+    "highlights": []
+  }
+]

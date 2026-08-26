@@ -1,0 +1,38 @@
+{
+  "name": "Sebastian Selman",
+  "role": "Consulting Lead Switzerland, Clouds on Mars",
+  "location": "Switzerland",
+  "tagline": "Working at the seam between frontier technology and how organisations actually adopt it.",
+
+  "intro": [
+    "I advise enterprises on the organisational side of AI adoption — the part that isn't the model. Before Clouds on Mars came ten years at Microsoft Switzerland as a Data & AI Specialist, co-developing analytics and AI solutions with strategic Swiss enterprise accounts. That decade taught me to read enterprise technology decisions from the inside.",
+    "I lecture at Swiss and German universities on organisational development, digital culture, and performance measurement for teams working alongside emerging technology. Most of what I'm thinking about right now sits under one heading: **Slaying Dragons with AI** — taking a goal-setting intervention that works for privileged students and asking whether it also works for people with far less room to fail."
+  ],
+
+  "publishing_note": "Earlier essays and articles appear under my former publishing name, Sebastian Rappen.",
+
+  "links": [
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/humancentereddesign/", "primary": true },
+    { "label": "GitHub", "url": "https://github.com/zxmaz", "primary": true },
+    { "label": "Email", "url": "mailto:sebastianrappen@gmail.com", "primary": false }
+  ],
+
+  "career": [
+    { "org": "Clouds on Mars", "role": "Consulting Lead Switzerland", "from": "2026", "to": null },
+    { "org": "Microsoft Switzerland", "role": "Data & AI Specialist", "from": "2016", "to": "2026", "note": "Ten years — my longest role to date." },
+    { "org": "EY", "role": "Consultant", "from": null, "to": null },
+    { "org": "DFB — Deutscher Fußball-Bund", "role": "", "from": null, "to": null }
+  ],
+
+  "meta": {
+    "title": "Sebastian Selman",
+    "description": "Consulting Lead Switzerland at Clouds on Mars. Data & AI strategy, organisational adoption, and Slaying Dragons with AI.",
+    "url": "https://sebastianselman.ch"
+  },
+
+  "_notes": {
+    "show_tentative": false,
+    "comment": "show_tentative=false keeps engagements marked status:'tentative' off the published page. Flip to true once a date is confirmed, or change that entry's status to 'confirmed'. See README.md.",
+    "source": "Bio text follows the canonical variants approved 2026-08-03 (knowledge entries #425-429). Two claims from the full speaker bio are deliberately NOT reproduced here: the 'stealth-mode start-up' (no matching venture on record) and any present-tense claim that the podcast has published (only the show name is confirmed)."
+  }
+}

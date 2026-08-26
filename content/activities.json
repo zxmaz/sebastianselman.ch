@@ -1,0 +1,29 @@
+[
+  {
+    "date": "2026-11-16",
+    "title": "The Effort Illusion: Why Your AI Users Feel More Productive Than They Are",
+    "kind": "talk",
+    "venue": "Swiss AI Summit (SWAIS) 2026, Kunsthaus Zürich",
+    "url": null,
+    "status": "tentative",
+    "blurb": "Enterprises still measure AI impact by input — prompts written, tokens consumed, hours 'saved'. The research says users systematically overestimate their own gains, anchored on the effort they put in. What to measure instead."
+  },
+  {
+    "date": "2026-09-04",
+    "title": "Slaying Dragons with AI — WAVE Fellowship workshop",
+    "kind": "workshop",
+    "venue": "WeBloom WAVE Fellowship 2026, Zurich",
+    "url": "https://www.linkedin.com/pulse/slaying-dragons-ai-sebastian-selman-xqome/",
+    "status": "tentative",
+    "blurb": "A 90-minute hands-on session for 30 early-career women in STEM: build a working local AI agent system on your own laptop, then use it on a future-self goal-setting exercise. Co-presented with Franziska-J. Klebôn."
+  },
+  {
+    "date": "2026-07-14",
+    "title": "Slaying Dragons with AI — Berlin Immersion",
+    "kind": "workshop",
+    "venue": "Tomorrow University of Applied Sciences, Berlin",
+    "url": "https://www.linkedin.com/pulse/slaying-dragons-ai-sebastian-selman-xqome/",
+    "status": "past",
+    "blurb": "60 minutes, 40 attendees, four working prototypes by the end of the hour. The write-up is the honest version, including what stopped the other thirty-six."
+  }
+]
