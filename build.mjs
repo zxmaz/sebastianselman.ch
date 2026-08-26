@@ -248,7 +248,8 @@ ${canonical ? `<meta property="og:url" content="${esc(canonical)}">` : ''}
     <a href="${u('/#now')}">Now</a>
     <a href="${u('/#projects')}">Projects</a>
     <a href="${u('/#writing')}">Writing</a>
-    <a href="${u('/reading/')}">Reading</a>
+    <a href="${u('/#career')}">Career</a>
+    <a href="${u('/#reading')}">Reading</a>
   </nav>
   <button id="theme" type="button" aria-label="Switch between light and dark">
     <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
@@ -267,6 +268,32 @@ ${body}
     document.documentElement.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
   });
+
+  // Career timeline. Progressive enhancement: with no JS every detail block is
+  // already visible, so the section reads fine — this only adds the focus.
+  (function () {
+    var cv = document.querySelector('.cv');
+    if (!cv) return;
+    var bands = cv.querySelectorAll('.band');
+    var details = cv.querySelectorAll('.cv-detail');
+    if (!bands.length) return;
+    cv.classList.add('interactive');
+
+    function select(key) {
+      bands.forEach(function (b) {
+        var on = b.dataset.org === key;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      details.forEach(function (d) {
+        d.classList.toggle('active', d.dataset.org === key);
+      });
+    }
+    bands.forEach(function (b) {
+      b.addEventListener('click', function () { select(b.dataset.org); });
+    });
+    select(bands[0].dataset.org);
+  })();
 </script>
 </body>
 </html>
@@ -327,20 +354,154 @@ function nowSection(activities, showTentative) {
 }
 
 function projectsSection(projects) {
+  const ext = (url) => /^https?:/.test(url) ? ' target="_blank" rel="noopener"' : '';
   const card = (p) => `
     <li class="project">
       <div class="phead">
-        <h3>${p.url ? `<a href="${esc(u(p.url))}"${/^https?:/.test(p.url) ? ' target="_blank" rel="noopener"' : ''}>${esc(p.name)}</a>` : esc(p.name)}</h3>
+        <h3>${p.url ? `<a href="${esc(u(p.url))}"${ext(p.url)}>${esc(p.name)}</a>` : esc(p.name)}</h3>
         <span class="kind">${esc(p.kind)}</span>
         <span class="period">${esc(p.period)}</span>
       </div>
       <p>${inline(p.summary)}</p>
       ${p.highlights?.length ? `<ul class="highlights">${p.highlights.map(h => `<li>${inline(h)}</li>`).join('')}</ul>` : ''}
+      ${p.episodes?.length ? `
+      <ol class="episodes">${p.episodes
+        .slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+        .map(e => `
+        <li>
+          <a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.title)}</a>
+          <span class="ep-date">${esc(humanDate(e.date))}</span>
+        </li>`).join('')}
+      </ol>` : ''}
+      ${p.links?.length ? `<p class="plinks">${p.links.map(l =>
+        `<a href="${esc(l.url)}"${ext(l.url)}>${esc(l.label)}<span aria-hidden="true">↗</span></a>`
+      ).join('')}</p>` : ''}
     </li>`;
   return `<section id="projects">
   <h2>Projects</h2>
   <p class="section-note">What I'm working on beyond client engagements.</p>
   <ul class="projects">${projects.map(card).join('')}
+  </ul>
+</section>`;
+}
+
+/**
+ * Career timeline: a year ruler with one band per employer, plus role detail.
+ *
+ * Bands are positioned as percentages of the full span, so overlapping stints
+ * (the LimmatReframe consultancy ran alongside both BVS and Microsoft) sit on
+ * their own rows and read as genuinely concurrent rather than being flattened
+ * into a false sequence. Clicking a band reveals that employer's roles; without
+ * JavaScript every detail block is simply visible, so the section still works.
+ */
+function careerSection(career) {
+  const months = (ym) => {
+    const [y, m] = String(ym).split('-').map(Number);
+    return y * 12 + (m || 1) - 1;
+  };
+  const nowYm = () => {
+    const d = new Date();
+    return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}`;
+  };
+
+  const entries = career.slice().sort((a, b) => months(b.from) - months(a.from));
+  // End month counts as worked — a role listed to "Dec 2025" ran through December.
+  // This makes both the band geometry and the computed durations agree with the
+  // spans LinkedIn shows (Microsoft reads 4 yrs 8 mos, not 4 yrs 7 mos).
+  const endOf = (e) => months(e.to || nowYm()) + 1;
+  const minM = Math.min(...entries.map(e => months(e.from)));
+  const maxM = Math.max(...entries.map(endOf));
+  const startYear = Math.floor(minM / 12);
+  const endYear = Math.floor(maxM / 12);
+  const spanStart = startYear * 12;
+  const spanEnd = (endYear + 1) * 12;
+  const total = spanEnd - spanStart;
+  const pct = (m) => ((m - spanStart) / total) * 100;
+
+  const years = [];
+  for (let y = startYear; y <= endYear; y++) years.push(y);
+
+  const duration = (e) => {
+    const n = endOf(e) - months(e.from);
+    const y = Math.floor(n / 12), mo = n % 12;
+    return [y ? `${y} yr${y > 1 ? 's' : ''}` : '', mo ? `${mo} mo${mo > 1 ? 's' : ''}` : '']
+      .filter(Boolean).join(' ');
+  };
+  const span = (from, to) =>
+    `${humanMonth(from)} – ${to ? humanMonth(to) : 'present'}`;
+
+  const bands = entries.map((e, i) => `
+      <button class="band" data-org="${esc(e.key)}" type="button"
+              style="--x:${pct(months(e.from)).toFixed(3)}%;--w:${(pct(endOf(e)) - pct(months(e.from))).toFixed(3)}%;--row:${i}"
+              aria-label="${esc(e.org)}, ${esc(span(e.from, e.to))}">
+        <span>${esc(e.org)}</span>
+      </button>`).join('');
+
+  const details = entries.map(e => `
+    <div class="cv-detail" data-org="${esc(e.key)}">
+      <div class="cv-org">
+        <h3>${esc(e.org)}</h3>
+        <p class="cv-meta">${esc(span(e.from, e.to))} · ${esc(duration(e))}${
+          e.location ? ` · ${esc(e.location)}` : ''}</p>
+      </div>
+      <ol class="cv-roles">${e.roles.map(r => `
+        <li>
+          <h4>${esc(r.title)}</h4>
+          <p class="cv-when">${esc(span(r.from, r.to))}</p>
+          ${r.summary ? `<p>${inline(r.summary)}</p>` : ''}
+        </li>`).join('')}
+      </ol>
+    </div>`).join('');
+
+  return `<section id="career">
+  <h2>Career</h2>
+  <p class="section-note">Where the last fifteen years went. Select a band for the detail.</p>
+  <div class="cv">
+    <div class="cv-chart" style="--rows:${entries.length}">
+      <div class="cv-years">${years.map(y =>
+        `<span style="--x:${pct(y * 12).toFixed(3)}%">${String(y).slice(2)}</span>`).join('')}</div>
+      <div class="cv-bands">${bands}
+      </div>
+    </div>
+    <div class="cv-details">${details}
+    </div>
+  </div>
+</section>`;
+}
+
+/** "2021-05" → "May 2021". */
+function humanMonth(ym) {
+  const m = String(ym || '').match(/^(\d{4})-(\d{2})$/);
+  return m ? `${MONTHS[Number(m[2]) - 1]} ${m[1]}` : String(ym || '');
+}
+
+/** Books and essays, rendered inline on the home page. */
+function readingSection(reading) {
+  const item = (b, kind) => `
+    <li class="${kind}">
+      ${b.cover ? `<img class="cover" src="${esc(u(b.cover))}" alt="" loading="lazy">` : ''}
+      <div>
+        <h3>${b.url
+          ? `<a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.title)}</a>`
+          : esc(b.title)}<span class="by">${esc(b.author)}</span></h3>
+        <p>${inline(b.note)}</p>
+      </div>
+    </li>`;
+
+  return `<section id="reading">
+  <h2>Reading</h2>
+  <p class="section-note">${inline(reading.intro)}</p>
+  ${reading.epigraph ? `
+  <blockquote class="epigraph">
+    <p>${esc(reading.epigraph.text)}</p>
+    <cite>${esc(reading.epigraph.attribution)}</cite>
+  </blockquote>` : ''}
+  ${reading.essays?.length ? `
+  <h3 class="sub">Essays</h3>
+  <ul class="reading-list">${reading.essays.map(e => item(e, 'read-essay')).join('')}
+  </ul>` : ''}
+  <h3 class="sub">Books</h3>
+  <ul class="reading-list">${reading.books.map(b => item(b, 'read-book')).join('')}
   </ul>
 </section>`;
 }
@@ -450,6 +611,8 @@ async function main() {
   const profile = JSON.parse(await readFile(path.join(CONTENT, 'profile.json'), 'utf8'));
   const activities = JSON.parse(await readFile(path.join(CONTENT, 'activities.json'), 'utf8'));
   const projects = JSON.parse(await readFile(path.join(CONTENT, 'projects.json'), 'utf8'));
+  const career = JSON.parse(await readFile(path.join(CONTENT, 'career.json'), 'utf8'));
+  const reading = JSON.parse(await readFile(path.join(CONTENT, 'reading.json'), 'utf8'));
 
   const essays = await loadDocs('essays', 'limmatreframe');
   const articles = await loadDocs('articles', 'linkedin');
@@ -470,6 +633,8 @@ async function main() {
       nowSection(activities, showTentative),
       projectsSection(projects),
       writingSection(docs),
+      careerSection(career),
+      readingSection(reading),
     ].join('\n\n'),
   }), 'utf8');
 
@@ -479,25 +644,6 @@ async function main() {
     await mkdir(dir, { recursive: true });
     await writeFile(path.join(dir, 'index.html'), articlePage(d, profile), 'utf8');
   }
-
-  // Reading list
-  const { meta: rMeta, body: rBody } = parseMd(await readFile(path.join(CONTENT, 'reading.md'), 'utf8'));
-  await mkdir(path.join(DOCS, 'reading'), { recursive: true });
-  await writeFile(path.join(DOCS, 'reading', 'index.html'), shell({
-    title: `Reading — ${profile.name}`,
-    description: 'Books worth re-reading, with notes on why.',
-    canonical: `${profile.meta.url}/reading/`,
-    body: `<article class="piece">
-  <header class="piece-head">
-    <h1>Reading</h1>
-    <p class="origin">Books I turn to for advice — carried over from limmatreframe.com.</p>
-  </header>
-  <div class="prose reading">
-${md2html(rBody)}
-  </div>
-  <p class="back"><a href="${u('/')}">← Home</a></p>
-</article>`,
-  }), 'utf8');
 
   // /writing/ → home anchor, so the projects.json link resolves.
   await mkdir(path.join(DOCS, 'writing'), { recursive: true });
@@ -519,7 +665,7 @@ ${md2html(rBody)}
   await writeFile(path.join(DOCS, 'robots.txt'),
     `User-agent: *\nAllow: /\nSitemap: ${profile.meta.url}/sitemap.xml\n`, 'utf8');
 
-  const urls = ['/', '/reading/', ...docs.map(d => d.href)];
+  const urls = ['/', ...docs.map(d => d.href)];
   await writeFile(path.join(DOCS, 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     urls.map(u => `  <url><loc>${profile.meta.url}${u}</loc></url>`).join('\n') +
@@ -744,6 +890,79 @@ h2 { font-size: 1.05rem; font-family: var(--mono); font-weight: 500;
 .reading img { max-width: 130px; }
 .back { margin-top: 3rem; font: 500 .82rem/1 var(--mono); }
 .back a { text-decoration: none; }
+
+
+/* ── podcast episodes inside a project card ────────────────────────────── */
+.episodes { list-style: none; margin: 1rem 0 0; padding: 0; border-top: 1px solid var(--line); }
+.episodes li { display: flex; gap: .9rem; align-items: baseline; justify-content: space-between;
+               padding: .5rem 0; border-bottom: 1px solid var(--line); }
+.episodes li:last-child { border-bottom: 0; }
+.episodes a { font-size: .95rem; font-weight: 600; color: var(--fg); text-decoration: none; }
+.episodes a:hover { color: var(--accent); }
+.ep-date { font: 400 .72rem/1 var(--mono); color: var(--faint); white-space: nowrap; flex: none; }
+.plinks { margin: .9rem 0 0 !important; display: flex; gap: 1rem; flex-wrap: wrap; }
+.plinks a { font: 500 .78rem/1 var(--mono); text-decoration: none; display: inline-flex; gap: .3rem; }
+.plinks span { font-size: .8em; }
+
+/* ── career timeline ───────────────────────────────────────────────────── */
+.cv-chart { position: relative; margin: 0 0 2rem; }
+.cv-years { position: relative; height: 1.4rem; border-bottom: 1px solid var(--line);
+            margin-bottom: .6rem; }
+.cv-years span { position: absolute; left: var(--x); transform: translateX(-50%);
+                 font: 400 .68rem/1 var(--mono); color: var(--faint); }
+.cv-bands { position: relative; height: calc(var(--rows) * 1.85rem); }
+.band {
+  position: absolute; left: var(--x); width: var(--w); top: calc(var(--row) * 1.85rem);
+  height: 1.5rem; min-width: 2.5rem;
+  display: flex; align-items: center; padding: 0 .5rem;
+  border: 1px solid var(--line); border-radius: 4px;
+  background: var(--surface); color: var(--muted);
+  font: 500 .7rem/1 var(--mono); text-align: left; cursor: default;
+  overflow: hidden; white-space: nowrap;
+}
+.cv.interactive .band { cursor: pointer; }
+.cv.interactive .band:hover { border-color: var(--accent); color: var(--accent); }
+.band.active { background: var(--accent-bg); border-color: transparent; color: var(--accent); }
+.band span { overflow: hidden; text-overflow: ellipsis; }
+
+.cv-detail { padding: 1.25rem 0 0; border-top: 1px solid var(--line); }
+.cv.interactive .cv-detail { display: none; }
+.cv.interactive .cv-detail.active { display: block; }
+.cv-org h3 { font-size: 1.2rem; font-weight: 600; margin: 0 0 .2rem; }
+.cv-meta { font: 400 .76rem/1.5 var(--mono); color: var(--faint); margin: 0 0 1rem; }
+.cv-roles { list-style: none; margin: 0; padding: 0; }
+.cv-roles > li { padding: 0 0 1.1rem 1rem; border-left: 2px solid var(--line); margin-left: .2rem; }
+.cv-roles > li:last-child { padding-bottom: 0; }
+.cv-roles h4 { font-size: 1rem; font-weight: 600; margin: 0 0 .15rem; }
+.cv-when { font: 400 .72rem/1.4 var(--mono); color: var(--faint); margin: 0 0 .45rem; }
+.cv-roles p:last-child { margin: 0; color: var(--muted); font-size: .94rem; }
+@media (max-width: 620px) {
+  .cv-years span:nth-child(even) { display: none; }
+  .band { font-size: .62rem; padding: 0 .3rem; }
+}
+
+/* ── reading ───────────────────────────────────────────────────────────── */
+.epigraph { margin: 0 0 2.25rem; padding: .2rem 0 .2rem 1.3rem;
+            border-left: 2px solid var(--accent); }
+.epigraph p { margin: 0 0 .35rem; font-style: italic; color: var(--fg); }
+.epigraph cite { font: 400 .78rem/1 var(--mono); color: var(--faint); font-style: normal; }
+.reading-list { list-style: none; padding: 0; margin: 0; }
+.reading-list > li { display: grid; grid-template-columns: 62px 1fr; gap: 1.1rem;
+                     padding: 1.1rem 0; border-top: 1px solid var(--line); }
+.reading-list > li:first-child { border-top: 0; padding-top: 0; }
+.read-essay { grid-template-columns: 1fr !important; }
+.reading-list .cover { width: 62px; height: auto; border-radius: 3px;
+                       box-shadow: var(--shadow); align-self: start; }
+.reading-list h3 { font-size: 1.02rem; font-weight: 600; margin: 0 0 .3rem; }
+.reading-list h3 a { color: var(--fg); text-decoration: none; }
+.reading-list h3 a:hover { color: var(--accent); }
+.reading-list .by { display: block; font: 400 .72rem/1.4 var(--mono);
+                    color: var(--faint); margin-top: .15rem; }
+.reading-list p { margin: 0; color: var(--muted); font-size: .93rem; }
+@media (max-width: 620px) {
+  .reading-list > li { grid-template-columns: 48px 1fr; gap: .85rem; }
+  .reading-list .cover { width: 48px; }
+}
 
 /* ── footer ────────────────────────────────────────────────────────────── */
 footer { max-width: 46rem; margin: 0 auto; padding: 2.5rem clamp(1.1rem, 5vw, 3rem) 4rem;

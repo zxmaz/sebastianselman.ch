@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/sebastianselman.ch/assets/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%89%3C/text%3E%3C/svg%3E">
 <script>
   (function(){
@@ -29,12 +29,13 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
-  <a class="wordmark" href="/">Sebastian Selman</a>
+  <a class="wordmark" href="/sebastianselman.ch/">Sebastian Selman</a>
   <nav>
-    <a href="/#now">Now</a>
-    <a href="/#projects">Projects</a>
-    <a href="/#writing">Writing</a>
-    <a href="/reading/">Reading</a>
+    <a href="/sebastianselman.ch/#now">Now</a>
+    <a href="/sebastianselman.ch/#projects">Projects</a>
+    <a href="/sebastianselman.ch/#writing">Writing</a>
+    <a href="/sebastianselman.ch/#career">Career</a>
+    <a href="/sebastianselman.ch/#reading">Reading</a>
   </nav>
   <button id="theme" type="button" aria-label="Switch between light and dark">
     <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
@@ -54,7 +55,7 @@
 <p>The integration, in public preview, of Microsoft Fabric with Azure AI Foundry brings enterprise analytics and generative AI together, answering the key question: “How can we make AI agents truly data-aware and trustworthy using our organization’s structured data?” This new capability, announced in early 2025, allows Azure AI Foundry’s custom AI agents to directly connect with Fabric “Data Agents” (previously called AI skills) as a knowledge source[[3]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fblog%2Efabric%2Emicrosoft%2Ecom%2Fen-us%2Fblog%2Fempowering-agentic-ai-by-integrating-fabric-with-azure-ai-foundry%2F&amp;urlhash=bKT7&amp;trk=article-ssr-frontend-pulse_little-text-block)[[2]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Ffabric%2Fdata-science%2Fhow-to-consume-data-agent&amp;urlhash=NElf&amp;trk=article-ssr-frontend-pulse_little-text-block). In practical terms, this means an AI agent can now securely tap into a company’s structured enterprise data (from data warehouses, lakehouses, Power BI datasets, real-time analytics, etc.) stored in Microsoft Fabric’s OneLake, in addition to any unstructured content it knows[[3]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fblog%2Efabric%2Emicrosoft%2Ecom%2Fen-us%2Fblog%2Fempowering-agentic-ai-by-integrating-fabric-with-azure-ai-foundry%2F&amp;urlhash=bKT7&amp;trk=article-ssr-frontend-pulse_little-text-block). The “so what” is that AI assistants are no longer limited to guessing from generalized training data or static documents – they can retrieve actual numbers, records, and facts from live business data, and incorporate those into their responses in real time[[3]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fblog%2Efabric%2Emicrosoft%2Ecom%2Fen-us%2Fblog%2Fempowering-agentic-ai-by-integrating-fabric-with-azure-ai-foundry%2F&amp;urlhash=bKT7&amp;trk=article-ssr-frontend-pulse_little-text-block)[[2]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Ffabric%2Fdata-science%2Fhow-to-consume-data-agent&amp;urlhash=NElf&amp;trk=article-ssr-frontend-pulse_little-text-block). This grounds AI outputs in reality and context, making answers more accurate, relevant, and contextually aware[[3]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fblog%2Efabric%2Emicrosoft%2Ecom%2Fen-us%2Fblog%2Fempowering-agentic-ai-by-integrating-fabric-with-azure-ai-foundry%2F&amp;urlhash=bKT7&amp;trk=article-ssr-frontend-pulse_little-text-block).</p>
 <blockquote><p>“How do we get large-language-model agents to reliably work with our enterprise data?“</p></blockquote>
 <p>From a strategic perspective, this integration addresses the core challenge of data-driven decision making with AI. Many organizations have invested heavily in building rich analytics (e.g., data warehouses, BI dashboards, big data lakes), but until now, harnessing that in a conversational AI required complex custom integration. With Azure AI Foundry + Fabric, it’s seamless: the AI agent can automatically generate SQL, KQL or DAX queries via the Fabric data agent to pull exactly the needed information[[3]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fblog%2Efabric%2Emicrosoft%2Ecom%2Fen-us%2Fblog%2Fempowering-agentic-ai-by-integrating-fabric-with-azure-ai-foundry%2F&amp;urlhash=bKT7&amp;trk=article-ssr-frontend-pulse_little-text-block). For example, Microsoft notes that Fabric’s data agents can decide “when to use specific data, how to combine it, and what insights matter most,” effectively serving as a smart data broker for the AI[[3]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fblog%2Efabric%2Emicrosoft%2Ecom%2Fen-us%2Fblog%2Fempowering-agentic-ai-by-integrating-fabric-with-azure-ai-foundry%2F&amp;urlhash=bKT7&amp;trk=article-ssr-frontend-pulse_little-text-block). This synergy is the answer to the question “How do we get large-language-model agents to reliably work with our enterprise data?” – by combining Fabric’s structured data prowess with Foundry’s generative AI smarts[[3]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fblog%2Efabric%2Emicrosoft%2Ecom%2Fen-us%2Fblog%2Fempowering-agentic-ai-by-integrating-fabric-with-azure-ai-foundry%2F&amp;urlhash=bKT7&amp;trk=article-ssr-frontend-pulse_little-text-block). It ensures that AI agent responses are not just plausible-sounding, but backed by actual enterprise data and calculations.</p>
-<figure><img src="/assets/img/integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-7377bc6e22.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
+<figure><img src="/sebastianselman.ch/assets/img/integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-7377bc6e22.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>A M365 Copilot visualization of a dynamic, interconnected system of machines, data streams, and digital infrastructure.</p>
 <p>Another reason this change is relevant is the emphasis on security and governance. In an enterprise setting, any AI solution must respect data access controls. This integration uses Identity Passthrough (On-Behalf-Of) authentication: when the AI agent queries Fabric on a user’s behalf, it does so under that user’s permissions[[4]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fazure%2Fai-services%2Fagents%2Fhow-to%2Ftools%2Ffabric&amp;urlhash=92ig&amp;trk=article-ssr-frontend-pulse_little-text-block)[[2]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Ffabric%2Fdata-science%2Fhow-to-consume-data-agent&amp;urlhash=NElf&amp;trk=article-ssr-frontend-pulse_little-text-block). In effect, the agent can only retrieve data the person asking is allowed to see, maintaining proper access control and enterprise-grade protection[[4]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fazure%2Fai-services%2Fagents%2Fhow-to%2Ftools%2Ffabric&amp;urlhash=92ig&amp;trk=article-ssr-frontend-pulse_little-text-block)[[2]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Ffabric%2Fdata-science%2Fhow-to-consume-data-agent&amp;urlhash=NElf&amp;trk=article-ssr-frontend-pulse_little-text-block). That directly answers the concern “Can we trust an AI agent with our sensitive data?” – with this design, the agent is governed by the same rules as any employee accessing the data. Additionally, Azure AI Foundry brings responsible AI and content safety features (e.g., filtering or transparency) to the table, so any responses that do utilize data are delivered having been checked for compliance [[3]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fblog%2Efabric%2Emicrosoft%2Ecom%2Fen-us%2Fblog%2Fempowering-agentic-ai-by-integrating-fabric-with-azure-ai-foundry%2F&amp;urlhash=bKT7&amp;trk=article-ssr-frontend-pulse_little-text-block). In short, this integration is relevant because it unlocks powerful new AI capabilities - AI that can “talk” to enterprise data - while ensuring they are delivered safely and within IT’s guardrails. It heralds a new era where conversational AI isn’t a toy on the side of analytics, but an integrated part of the enterprise data ecosystem, potentially transforming how insights are accessed daily[[3]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fblog%2Efabric%2Emicrosoft%2Ecom%2Fen-us%2Fblog%2Fempowering-agentic-ai-by-integrating-fabric-with-azure-ai-foundry%2F&amp;urlhash=bKT7&amp;trk=article-ssr-frontend-pulse_little-text-block).</p>
 <h4>Who benefits?</h4>
@@ -75,9 +76,9 @@
 </ol>
 <p>These user stories showcase the versatility of the integration. Across finance, HR, and operations (and one can imagine many other domains like marketing, customer support, R&amp;D, etc.), the pattern is the same: an AI agent that can intelligently fetch and synthesize data from various enterprise systems to provide timely, contextual answers or alerts. The result is improved decision-making and efficiency, because people can get insights by simply conversing with an AI that understands their data.</p>
 <h3>Recommended by LinkedIn</h3>
-<p><a href="https://www.linkedin.com/pulse/context-isnt-governance-atscale-inc--wbafe" target="_blank" rel="noopener"><img src="/assets/img/integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-78af20ad71.jpg" alt="Context Isn't Governance" loading="lazy"> Context Isn't Governance AtScale 2 weeks ago</a></p>
-<p><a href="https://www.linkedin.com/pulse/what-databricks-reveals-next-phase-enterprise-ai-doug-macwilliams-eeezc" target="_blank" rel="noopener"><img src="/assets/img/integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-a56acd851f.jpg" alt="What Databricks Reveals About the Next Phase of Enterprise AI" loading="lazy"> What Databricks Reveals About the Next Phase of… Doug MacWilliams 1 month ago</a></p>
-<p><a href="https://www.linkedin.com/pulse/dais-2026-databricks-announcements-i-think-clients-should-mou-rakshit-7dcfc" target="_blank" rel="noopener"><img src="/assets/img/integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-2567ea612d.jpg" alt="DAIS 2026: The Databricks Announcements I Think Clients Should Pay Attention To" loading="lazy"> DAIS 2026: The Databricks Announcements I Think… Mou Rakshit 2 months ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/context-isnt-governance-atscale-inc--wbafe" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-78af20ad71.jpg" alt="Context Isn't Governance" loading="lazy"> Context Isn't Governance AtScale 2 weeks ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/what-databricks-reveals-next-phase-enterprise-ai-doug-macwilliams-eeezc" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-a56acd851f.jpg" alt="What Databricks Reveals About the Next Phase of Enterprise AI" loading="lazy"> What Databricks Reveals About the Next Phase of… Doug MacWilliams 1 month ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/dais-2026-databricks-announcements-i-think-clients-should-mou-rakshit-7dcfc" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-2567ea612d.jpg" alt="DAIS 2026: The Databricks Announcements I Think Clients Should Pay Attention To" loading="lazy"> DAIS 2026: The Databricks Announcements I Think… Mou Rakshit 2 months ago</a></p>
 <p>Publicly shared implementations of this technology are, e.g. the #NTT implementation of a data agent allowing them to chat with their HR &amp; Backoffice data: <a href="https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fyoutu%2Ebe%2FpKrWV0s1acY&amp;urlhash=apNP&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">https://youtu.be/pKrWV0s1acY</a></p>
 <h4>What is this change not for? (Limitations and Misconceptions)</h4>
 <p>While the integration of Azure AI Foundry with Microsoft Fabric is powerful, it’s important to set the right expectations about what it does and doesn’t do:</p>
@@ -102,7 +103,7 @@
 </ul>
 <p>[Disclaimer: The views expressed in this post are my own and do not reflect the views of my employer, hence the thoughts and perspectives shared here are entirely my own and should not be interpreted as official statements or positions of the company. This article is co-authored with the Researcher (Frontier) of M365 CoPilot - As the integration between Foundry and Fabric discussed here is still in Preview, please always refer to the official documentation and be aware that facts might change as the service evolves #Microsoftadvocate]</p>
   </div>
-  <p class="back"><a href="/#writing">← All writing</a></p>
+  <p class="back"><a href="/sebastianselman.ch/#writing">← All writing</a></p>
 </article>
 </main>
 <footer>
@@ -115,6 +116,32 @@
     document.documentElement.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
   });
+
+  // Career timeline. Progressive enhancement: with no JS every detail block is
+  // already visible, so the section reads fine — this only adds the focus.
+  (function () {
+    var cv = document.querySelector('.cv');
+    if (!cv) return;
+    var bands = cv.querySelectorAll('.band');
+    var details = cv.querySelectorAll('.cv-detail');
+    if (!bands.length) return;
+    cv.classList.add('interactive');
+
+    function select(key) {
+      bands.forEach(function (b) {
+        var on = b.dataset.org === key;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      details.forEach(function (d) {
+        d.classList.toggle('active', d.dataset.org === key);
+      });
+    }
+    bands.forEach(function (b) {
+      b.addEventListener('click', function () { select(b.dataset.org); });
+    });
+    select(bands[0].dataset.org);
+  })();
 </script>
 </body>
 </html>

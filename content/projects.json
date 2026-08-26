@@ -1,32 +1,43 @@
 [
   {
-    "name": "Slaying Dragons with AI",
-    "kind": "Doctoral research",
-    "period": "2026 – 2029",
-    "status": "active",
-    "url": "https://www.linkedin.com/pulse/slaying-dragons-ai-sebastian-selman-xqome/",
-    "summary": "Formalising a workshop intervention into doctoral research. The hypothesis: a Peterson-style goal-setting programme improves goal attainment not only for university students but for people with far less room to fail — refugees, young people in care and detention, adults in the criminal-justice system.",
-    "highlights": [
-      "Three mediating mechanisms worth isolating: language, the IKEA effect of a self-authored system, and consequences inside criminal-law proceedings",
-      "Developed with Franziska-J. Klebôn out of the Tomorrow University Berlin Immersion",
-      "Delivered as a live workshop before it was a paper — the failure rate is part of the data"
-    ]
-  },
-  {
     "name": "Business Mission Control",
     "kind": "Podcast",
     "period": "2026 –",
-    "status": "in preparation",
-    "url": null,
-    "summary": "A conversation series with Dr. Estera Kot, CTO of Clouds on Mars, on what actually happens when enterprises put AI into production.",
+    "status": "published",
+    "url": "https://www.youtube.com/watch?v=Z8E5aHchpcU&list=PL053kgqQv_fv9K7qPqv84G-rlbudzubzp",
+    "url_label": "Watch the playlist",
+    "summary": "A conversation series with Dr. Estera Kot, CTO of Clouds on Mars, on what actually happens when enterprises put AI into production. Published on the Clouds on Mars TV channel.",
+    "episodes": [
+      { "date": "2026-08-13", "title": "AI Is Not Taking Your Job. It Is Promoting You", "url": "https://youtu.be/Z8E5aHchpcU" },
+      { "date": "2026-07-02", "title": "What Happens When the Cloud Goes Down? Smart Buildings, AWS and Resilience", "url": "https://youtu.be/b7j9M3qlpUk" },
+      { "date": "2026-04-24", "title": "What Leaders Need Before AI Readiness: Data Visibility", "url": "https://youtu.be/WqGvHDi91A8" }
+    ],
+    "links": [
+      { "label": "Full playlist", "url": "https://www.youtube.com/watch?v=Z8E5aHchpcU&list=PL053kgqQv_fv9K7qPqv84G-rlbudzubzp" },
+      { "label": "Clouds on Mars TV", "url": "https://www.youtube.com/@cloudsonmarshq/videos" }
+    ],
     "highlights": []
+  },
+  {
+    "name": "Slaying Dragons with AI",
+    "kind": "Workshop series",
+    "period": "2026 –",
+    "status": "active",
+    "url": "https://www.linkedin.com/pulse/slaying-dragons-ai-sebastian-selman-xqome/",
+    "url_label": "Read the write-up",
+    "summary": "A hands-on session built with Franziska-J. Klebôn: participants build a working local AI agent system on their own laptop inside an hour, then point it at a future-self goal-setting exercise. Run so far with Tomorrow University in Berlin, and next with the WAVE Fellowship and HeadsQuarter in Zurich.",
+    "highlights": [
+      "Berlin Immersion: 60 minutes, 40 attendees, four working prototypes — and a write-up that is honest about the other thirty-six",
+      "Prerequisites are deliberately low: a laptop and any AI tool that can reach local files"
+    ]
   },
   {
     "name": "Writing",
     "kind": "Essays and articles",
     "period": "2019 –",
     "status": "active",
-    "url": "/writing/",
+    "url": "/#writing",
+    "url_label": "Read",
     "summary": "Sixteen pieces, from design-thinking essays written as Sebastian Rappen to recent work on Azure AI Foundry, data mesh and where AI investment actually pays. Everything published on limmatreframe.com and LinkedIn now lives here.",
     "highlights": []
   }

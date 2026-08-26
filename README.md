@@ -48,9 +48,9 @@ Order in the file doesn't matter — entries sort themselves by date.
 - **`tentative`** — **hidden by default.** Nothing unconfirmed goes on a public
   page under your name without you saying so.
 
-Two entries are currently `tentative`: the SWAIS keynote (submission status was
-tentative) and the WAVE Fellowship workshop (date not yet confirmed by Hilda).
-When either firms up, change that entry's `status` to `confirmed` and rebuild.
+One entry is currently `tentative`: the SWAIS 2026 keynote, whose submission
+status was never confirmed. When it firms up, change its `status` to
+`confirmed` and rebuild.
 
 To preview all of them at once without publishing, set `_notes.show_tentative`
 to `true` in `content/profile.json` — but set it back before deploying, or flip
@@ -66,7 +66,8 @@ the individual entries instead.
 | `content/projects.json` | The Projects section |
 | `content/essays/*.md` | The 7 limmatreframe.com essays |
 | `content/articles/*.md` | The 9 LinkedIn articles |
-| `content/reading.md` | The book list |
+| `content/career.json` | The career timeline — employers, roles, month spans |
+| `content/reading.json` | The reading section — books and essays, with optional links |
 | `assets/img/` | Images. Reference them as `/assets/img/name.jpg` |
 
 Essays and articles carry YAML front-matter (`title`, `date`, `slug`, `byline`,
@@ -77,6 +78,23 @@ Slugs are folded to ASCII at build time (`ü` → `ue`, and so on). A raw umlaut
 a URL path 404s on GitHub Pages unless every href percent-encodes it — it works
 locally and breaks live, which is the worst way to find out. Keep new image
 filenames ASCII for the same reason.
+
+---
+
+## The career timeline
+
+`content/career.json` is a list of employers, newest first. Each has a `from`
+and `to` in `YYYY-MM` (`null` for present) and a list of `roles` with their own
+spans.
+
+The chart positions each employer as a band across a year ruler, so overlapping
+stints — the LimmatReframe consultancy ran alongside both BVS St. Gallen and
+Microsoft — sit on their own rows and read as genuinely concurrent. Durations
+are computed, not written: the end month counts as worked, which is the same
+convention LinkedIn uses, so the figures agree with your profile.
+
+Clicking a band opens that employer's roles. With JavaScript off, every detail
+block is simply visible.
 
 ---
 

@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/sebastianselman.ch/assets/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%89%3C/text%3E%3C/svg%3E">
 <script>
   (function(){
@@ -29,12 +29,13 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
-  <a class="wordmark" href="/">Sebastian Selman</a>
+  <a class="wordmark" href="/sebastianselman.ch/">Sebastian Selman</a>
   <nav>
-    <a href="/#now">Now</a>
-    <a href="/#projects">Projects</a>
-    <a href="/#writing">Writing</a>
-    <a href="/reading/">Reading</a>
+    <a href="/sebastianselman.ch/#now">Now</a>
+    <a href="/sebastianselman.ch/#projects">Projects</a>
+    <a href="/sebastianselman.ch/#writing">Writing</a>
+    <a href="/sebastianselman.ch/#career">Career</a>
+    <a href="/sebastianselman.ch/#reading">Reading</a>
   </nav>
   <button id="theme" type="button" aria-label="Switch between light and dark">
     <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
@@ -70,7 +71,7 @@
 <li>Two kinds of identity crisis; Roy F Baumeister, Jeremy P Shapiro, Dianne M Tice; September 1985.</li>
 </ul>
   </div>
-  <p class="back"><a href="/#writing">← All writing</a></p>
+  <p class="back"><a href="/sebastianselman.ch/#writing">← All writing</a></p>
 </article>
 </main>
 <footer>
@@ -83,6 +84,32 @@
     document.documentElement.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
   });
+
+  // Career timeline. Progressive enhancement: with no JS every detail block is
+  // already visible, so the section reads fine — this only adds the focus.
+  (function () {
+    var cv = document.querySelector('.cv');
+    if (!cv) return;
+    var bands = cv.querySelectorAll('.band');
+    var details = cv.querySelectorAll('.cv-detail');
+    if (!bands.length) return;
+    cv.classList.add('interactive');
+
+    function select(key) {
+      bands.forEach(function (b) {
+        var on = b.dataset.org === key;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      details.forEach(function (d) {
+        d.classList.toggle('active', d.dataset.org === key);
+      });
+    }
+    bands.forEach(function (b) {
+      b.addEventListener('click', function () { select(b.dataset.org); });
+    });
+    select(bands[0].dataset.org);
+  })();
 </script>
 </body>
 </html>

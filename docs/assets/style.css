@@ -188,6 +188,79 @@ h2 { font-size: 1.05rem; font-family: var(--mono); font-weight: 500;
 .back { margin-top: 3rem; font: 500 .82rem/1 var(--mono); }
 .back a { text-decoration: none; }
 
+
+/* ── podcast episodes inside a project card ────────────────────────────── */
+.episodes { list-style: none; margin: 1rem 0 0; padding: 0; border-top: 1px solid var(--line); }
+.episodes li { display: flex; gap: .9rem; align-items: baseline; justify-content: space-between;
+               padding: .5rem 0; border-bottom: 1px solid var(--line); }
+.episodes li:last-child { border-bottom: 0; }
+.episodes a { font-size: .95rem; font-weight: 600; color: var(--fg); text-decoration: none; }
+.episodes a:hover { color: var(--accent); }
+.ep-date { font: 400 .72rem/1 var(--mono); color: var(--faint); white-space: nowrap; flex: none; }
+.plinks { margin: .9rem 0 0 !important; display: flex; gap: 1rem; flex-wrap: wrap; }
+.plinks a { font: 500 .78rem/1 var(--mono); text-decoration: none; display: inline-flex; gap: .3rem; }
+.plinks span { font-size: .8em; }
+
+/* ── career timeline ───────────────────────────────────────────────────── */
+.cv-chart { position: relative; margin: 0 0 2rem; }
+.cv-years { position: relative; height: 1.4rem; border-bottom: 1px solid var(--line);
+            margin-bottom: .6rem; }
+.cv-years span { position: absolute; left: var(--x); transform: translateX(-50%);
+                 font: 400 .68rem/1 var(--mono); color: var(--faint); }
+.cv-bands { position: relative; height: calc(var(--rows) * 1.85rem); }
+.band {
+  position: absolute; left: var(--x); width: var(--w); top: calc(var(--row) * 1.85rem);
+  height: 1.5rem; min-width: 2.5rem;
+  display: flex; align-items: center; padding: 0 .5rem;
+  border: 1px solid var(--line); border-radius: 4px;
+  background: var(--surface); color: var(--muted);
+  font: 500 .7rem/1 var(--mono); text-align: left; cursor: default;
+  overflow: hidden; white-space: nowrap;
+}
+.cv.interactive .band { cursor: pointer; }
+.cv.interactive .band:hover { border-color: var(--accent); color: var(--accent); }
+.band.active { background: var(--accent-bg); border-color: transparent; color: var(--accent); }
+.band span { overflow: hidden; text-overflow: ellipsis; }
+
+.cv-detail { padding: 1.25rem 0 0; border-top: 1px solid var(--line); }
+.cv.interactive .cv-detail { display: none; }
+.cv.interactive .cv-detail.active { display: block; }
+.cv-org h3 { font-size: 1.2rem; font-weight: 600; margin: 0 0 .2rem; }
+.cv-meta { font: 400 .76rem/1.5 var(--mono); color: var(--faint); margin: 0 0 1rem; }
+.cv-roles { list-style: none; margin: 0; padding: 0; }
+.cv-roles > li { padding: 0 0 1.1rem 1rem; border-left: 2px solid var(--line); margin-left: .2rem; }
+.cv-roles > li:last-child { padding-bottom: 0; }
+.cv-roles h4 { font-size: 1rem; font-weight: 600; margin: 0 0 .15rem; }
+.cv-when { font: 400 .72rem/1.4 var(--mono); color: var(--faint); margin: 0 0 .45rem; }
+.cv-roles p:last-child { margin: 0; color: var(--muted); font-size: .94rem; }
+@media (max-width: 620px) {
+  .cv-years span:nth-child(even) { display: none; }
+  .band { font-size: .62rem; padding: 0 .3rem; }
+}
+
+/* ── reading ───────────────────────────────────────────────────────────── */
+.epigraph { margin: 0 0 2.25rem; padding: .2rem 0 .2rem 1.3rem;
+            border-left: 2px solid var(--accent); }
+.epigraph p { margin: 0 0 .35rem; font-style: italic; color: var(--fg); }
+.epigraph cite { font: 400 .78rem/1 var(--mono); color: var(--faint); font-style: normal; }
+.reading-list { list-style: none; padding: 0; margin: 0; }
+.reading-list > li { display: grid; grid-template-columns: 62px 1fr; gap: 1.1rem;
+                     padding: 1.1rem 0; border-top: 1px solid var(--line); }
+.reading-list > li:first-child { border-top: 0; padding-top: 0; }
+.read-essay { grid-template-columns: 1fr !important; }
+.reading-list .cover { width: 62px; height: auto; border-radius: 3px;
+                       box-shadow: var(--shadow); align-self: start; }
+.reading-list h3 { font-size: 1.02rem; font-weight: 600; margin: 0 0 .3rem; }
+.reading-list h3 a { color: var(--fg); text-decoration: none; }
+.reading-list h3 a:hover { color: var(--accent); }
+.reading-list .by { display: block; font: 400 .72rem/1.4 var(--mono);
+                    color: var(--faint); margin-top: .15rem; }
+.reading-list p { margin: 0; color: var(--muted); font-size: .93rem; }
+@media (max-width: 620px) {
+  .reading-list > li { grid-template-columns: 48px 1fr; gap: .85rem; }
+  .reading-list .cover { width: 48px; }
+}
+
 /* ── footer ────────────────────────────────────────────────────────────── */
 footer { max-width: 46rem; margin: 0 auto; padding: 2.5rem clamp(1.1rem, 5vw, 3rem) 4rem;
          border-top: 1px solid var(--line); }

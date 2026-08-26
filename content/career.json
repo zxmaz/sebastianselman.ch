@@ -1,0 +1,137 @@
+[
+  {
+    "key": "com",
+    "org": "Clouds On Mars",
+    "location": "Zurich, Switzerland",
+    "from": "2026-01",
+    "to": null,
+    "roles": [
+      {
+        "title": "Consulting Lead",
+        "from": "2026-01",
+        "to": null,
+        "summary": "Advising Swiss enterprises on data engineering and data governance, and on the organisational side of putting AI to work."
+      }
+    ]
+  },
+  {
+    "key": "msft",
+    "org": "Microsoft",
+    "location": "Zurich, Switzerland",
+    "from": "2021-05",
+    "to": "2025-12",
+    "roles": [
+      {
+        "title": "Cloud & AI Platforms Specialist",
+        "from": "2025-07",
+        "to": "2025-12",
+        "summary": "Drove Azure adoption and AI innovation across the territory — modernising infrastructure, unifying data platforms, and scoping cloud-native, analytics and AI workloads with account teams and partners."
+      },
+      {
+        "title": "Data & AI Principal",
+        "from": "2021-05",
+        "to": "2025-06",
+        "summary": "Worked with global key accounts in staffing, services, cybersecurity and process manufacturing to turn data and AI on Azure into business outcomes — bridging executives, IT leaders and subject-matter experts, and designing enterprise data platforms rather than debating AI in the abstract."
+      }
+    ]
+  },
+  {
+    "key": "bvs",
+    "org": "Bildungszentrum BVS St. Gallen",
+    "location": "St. Gallen, Switzerland",
+    "from": "2020-08",
+    "to": "2024-08",
+    "roles": [
+      {
+        "title": "Lecturer for Digital Corporate Culture",
+        "from": "2020-08",
+        "to": "2024-08",
+        "summary": "Taught Digital Corporate Culture on the Dipl. Digital Innovation Manager NDS HF programme: how leadership values shift in a digital future, which role models a digital strategy actually needs, and how mission statements survive contact with it."
+      }
+    ]
+  },
+  {
+    "key": "limmat",
+    "org": "LimmatReframe",
+    "location": "Zurich area, Switzerland",
+    "from": "2019-06",
+    "to": "2022-08",
+    "roles": [
+      {
+        "title": "Independent Consultant, Human-Centered Design",
+        "from": "2019-06",
+        "to": "2022-08",
+        "summary": "Self-employed work with clients in regulated industries — healthcare and finance — sharpening internal and client-facing value propositions through human-centered design. Built a coaching cycle to measurably improve team agility, and delivered Design Thinking, Lean and Agile training. The essays below come from this period."
+      }
+    ]
+  },
+  {
+    "key": "ey",
+    "org": "EY",
+    "location": "Zurich area, Switzerland",
+    "from": "2016-11",
+    "to": "2019-05",
+    "roles": [
+      {
+        "title": "Content Lead, Design Thinking GSA · Consultant TA CH",
+        "from": "2018-07",
+        "to": "2019-05",
+        "summary": "Led Design Thinking content for EY's advisory practices across Germany, Switzerland and Austria. Lead coach on EY's Innovation Journey, training around a thousand colleagues; co-founded EY's global Design Thinking community. Method lead on transformation programmes including the redesign of a DAX-30 automotive group's corporate finance function."
+      },
+      {
+        "title": "Consultant, EMEIA Financial Services Advisory — Risk",
+        "from": "2017-03",
+        "to": "2018-06",
+        "summary": "Compliance and operational risk for financial services clients: financial PMO for a global insurer's audit co-sourcing, FINMA-compliant regulatory audit of a bank's compliance function, and an operational-risk event recording system built to EBA ITS 2017/01."
+      },
+      {
+        "title": "Intern, EMEIA Financial Services Advisory — Risk",
+        "from": "2016-11",
+        "to": "2017-02",
+        "summary": "Supported the regulatory audit of a Swiss bank's compliance function and a new target operating model for a Swiss private bank's risk function."
+      }
+    ]
+  },
+  {
+    "key": "hsg",
+    "org": "University of St.Gallen",
+    "location": "St. Gallen, Switzerland",
+    "from": "2015-01",
+    "to": "2016-10",
+    "roles": [
+      {
+        "title": "Student Assistant, Institute for Business Ethics",
+        "from": "2016-08",
+        "to": "2016-10",
+        "summary": "Helped build an executive programme on corporate social responsibility."
+      },
+      {
+        "title": "Research Assistant, Institute of Technology Management",
+        "from": "2015-03",
+        "to": "2015-10",
+        "summary": "Literature analysis, qualitative and quantitative research design, and editing articles for journal review alongside professors and doctoral students."
+      },
+      {
+        "title": "Working Student, Institute for Systemic Management and Public Governance",
+        "from": "2015-01",
+        "to": "2016-03",
+        "summary": ""
+      }
+    ]
+  },
+  {
+    "key": "luthier",
+    "org": "Luthier Almut Schubert",
+    "location": "Tübingen area, Germany",
+    "from": "2011-09",
+    "to": "2014-04",
+    "roles": [
+      {
+        "title": "Luthier's Assistant",
+        "from": "2011-09",
+        "to": "2014-04",
+        "summary": "Assistant to the violin maker Almut Schubert: setting up and dismantling instruments, preparing them to be played, and handling minor repairs. Later ran my own repair customers and reorganised the workshop's stock and order process."
+      }
+    ]
+  }
+]

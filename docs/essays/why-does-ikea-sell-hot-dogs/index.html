@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/sebastianselman.ch/assets/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%89%3C/text%3E%3C/svg%3E">
 <script>
   (function(){
@@ -29,12 +29,13 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
-  <a class="wordmark" href="/">Sebastian Selman</a>
+  <a class="wordmark" href="/sebastianselman.ch/">Sebastian Selman</a>
   <nav>
-    <a href="/#now">Now</a>
-    <a href="/#projects">Projects</a>
-    <a href="/#writing">Writing</a>
-    <a href="/reading/">Reading</a>
+    <a href="/sebastianselman.ch/#now">Now</a>
+    <a href="/sebastianselman.ch/#projects">Projects</a>
+    <a href="/sebastianselman.ch/#writing">Writing</a>
+    <a href="/sebastianselman.ch/#career">Career</a>
+    <a href="/sebastianselman.ch/#reading">Reading</a>
   </nav>
   <button id="theme" type="button" aria-label="Switch between light and dark">
     <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
@@ -52,17 +53,17 @@
   <div class="prose">
 <p>Have you ever wondered, why they offer hotdogs at the end of an IKEA-trip? The answer is: If they wouldn´t, you would leave the store directly after the emotional all-time-low-moment of the entire IKEA-experience.</p>
 <p>Have a close look at the last few steps in the below illustration of a typical IKEA-Journey:</p>
-<figure><img src="/assets/img/IKEA_Customer_Journey_no_hotdogs-1024x388.jpeg" alt="" loading="lazy"></figure>
+<figure><img src="/sebastianselman.ch/assets/img/IKEA_Customer_Journey_no_hotdogs-1024x388.jpeg" alt="" loading="lazy"></figure>
 <h3>Hot-Dogs from a user-journey point of view:</h3>
 <p>Offering hot-dogs is a simple intervention to increase the customer-satisfaction towards the end of the customer-journey. By offering ridiculously cheap and (relative to price) good hot-dogs, IKEA ensures you leave the door with a broad smile on your face. Have a second look at the customer journey below. Hot-dogs seem to make all the difference in this case:</p>
-<figure><img src="/assets/img/IKEA_Customer_Journey_withhotdogs-1024x388.jpeg" alt="" loading="lazy"></figure>
+<figure><img src="/sebastianselman.ch/assets/img/IKEA_Customer_Journey_withhotdogs-1024x388.jpeg" alt="" loading="lazy"></figure>
 <h3>The difference between experiencing self and remembering self:</h3>
 <p>And as Kahnemann&amp;Co. stressed in “thinking, fast and slow”: Your remembering self tends to blurr out most details of a memory, except for the beginning and end of an episode. Therefore, whilst you experience the ups and down of a IKEA visit, you most likely will only remember the first and last bits of it, when evaluating your experience in hindsight. In the given IKEA example this means: The entire trip would end as a desaster without hot-dogs: With hot-dogs however a much more positive memory is being stimulated. And for anybody chasing the Net-Promoter-Score: This does mean the NPS most probably will rise.</p>
 <p>Let´s compare the hypothetical remembered emotional value of an IKEA trip with &amp; without the hot-dogs:</p>
 <h4>User Journey with Hot-dogs</h4>
-<figure><img src="/assets/img/WhatsApp-Image-2020-01-09-at-05.36.43.jpeg" alt="" loading="lazy"></figure>
+<figure><img src="/sebastianselman.ch/assets/img/WhatsApp-Image-2020-01-09-at-05.36.43.jpeg" alt="" loading="lazy"></figure>
 <h4>User Journey without hot-dogs</h4>
-<figure><img src="/assets/img/WhatsApp-Image-2020-01-09-at-05.36.54-1.jpeg" alt="" loading="lazy"></figure>
+<figure><img src="/sebastianselman.ch/assets/img/WhatsApp-Image-2020-01-09-at-05.36.54-1.jpeg" alt="" loading="lazy"></figure>
 <p>As you can see – if only the very early and very last bits of an episode are remembered – the investment IKEA makes to say “farewell” and “see you soon” to their customers will pay off!</p>
 <h3>Who has learned from this?</h3>
 <p>Sweets with the bill in a restaurant and for children after they were “brave” and visited the doctor? Chocolate whenever you leave a SwissAir flight? Somebody respectfully opening the door for you upon leaving the store? The barbier gifting you a little head-massage or the pleasure of a heated towel towards the end of the service you purchased? Do you see a pattern emerging?</p>
@@ -77,7 +78,7 @@
 </ul>
 <p><a href="https://limmatreframe.com/resources/" target="_blank" rel="noopener"><strong>Have a look at my Bookshelve</strong></a></p>
   </div>
-  <p class="back"><a href="/#writing">← All writing</a></p>
+  <p class="back"><a href="/sebastianselman.ch/#writing">← All writing</a></p>
 </article>
 </main>
 <footer>
@@ -90,6 +91,32 @@
     document.documentElement.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
   });
+
+  // Career timeline. Progressive enhancement: with no JS every detail block is
+  // already visible, so the section reads fine — this only adds the focus.
+  (function () {
+    var cv = document.querySelector('.cv');
+    if (!cv) return;
+    var bands = cv.querySelectorAll('.band');
+    var details = cv.querySelectorAll('.cv-detail');
+    if (!bands.length) return;
+    cv.classList.add('interactive');
+
+    function select(key) {
+      bands.forEach(function (b) {
+        var on = b.dataset.org === key;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      details.forEach(function (d) {
+        d.classList.toggle('active', d.dataset.org === key);
+      });
+    }
+    bands.forEach(function (b) {
+      b.addEventListener('click', function () { select(b.dataset.org); });
+    });
+    select(bands[0].dataset.org);
+  })();
 </script>
 </body>
 </html>

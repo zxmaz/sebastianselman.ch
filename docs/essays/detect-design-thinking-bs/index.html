@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/sebastianselman.ch/assets/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%89%3C/text%3E%3C/svg%3E">
 <script>
   (function(){
@@ -29,12 +29,13 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
-  <a class="wordmark" href="/">Sebastian Selman</a>
+  <a class="wordmark" href="/sebastianselman.ch/">Sebastian Selman</a>
   <nav>
-    <a href="/#now">Now</a>
-    <a href="/#projects">Projects</a>
-    <a href="/#writing">Writing</a>
-    <a href="/reading/">Reading</a>
+    <a href="/sebastianselman.ch/#now">Now</a>
+    <a href="/sebastianselman.ch/#projects">Projects</a>
+    <a href="/sebastianselman.ch/#writing">Writing</a>
+    <a href="/sebastianselman.ch/#career">Career</a>
+    <a href="/sebastianselman.ch/#reading">Reading</a>
   </nav>
   <button id="theme" type="button" aria-label="Switch between light and dark">
     <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
@@ -52,17 +53,17 @@
     <aside class="variant"><p>An earlier version of this piece was published as <a href="https://www.linkedin.com/pulse/detecting-design-thinking-bs-sebastian-rappen/" target="_blank" rel="noopener">“Detecting Design Thinking BS”</a> on 11 October 2019.</p></aside>
   <div class="prose">
 <p>About a year back, the U.S. Department of Defense published their <a href="https://media.defense.gov/2018/Oct/09/2002049591/-1/-1/0/DIB_DETECTING_AGILE_BS_2018.10.05.PDF" target="_blank" rel="noopener">guide for detecting Agile BS</a>. Within their guide they included a graphic I thought was so inspiring that I re-created it:</p>
-<figure><img src="/assets/img/Slide2.jpg" alt="" loading="lazy"></figure>
+<figure><img src="/sebastianselman.ch/assets/img/Slide2.jpg" alt="" loading="lazy"></figure>
 <p>Although I remain sceptical about the explicit language used, I find the graphic to be extremely helpful.</p>
 <p>Nassim N. Taleb once said:</p>
-<figure><img src="/assets/img/Quotation_marks_image_white-opaque.png" alt="" loading="lazy"></figure>
+<figure><img src="/sebastianselman.ch/assets/img/Quotation_marks_image_white-opaque.png" alt="" loading="lazy"></figure>
 <p>“If you see fraud and do not say fraud, you are fraud.”</p>
 <p>Nassim Nicholas Taleb, Author of the Incerto Series</p>
 <p>Encouraged by his words, I am in favour of calling a spade a spade, and calling out BS. So by rephrasing what the DoD said about Agile, I arrived at my own statement for the Design Thinking context. I share it below in written and graphical form to enable detecting Design Thinking BS:</p>
 <h3>Why we need BS detection in the Design Thinking community</h3>
 <p><strong>Design Thinking</strong> is a buzzword of innovation management, and currently many product-, process- and even strategy-development-projects are, almost by default, declared to be using Design Thinking.</p>
-<figure><img src="/assets/img/Rappen-Sebastian-HQ-Colour-1-scaled-e1578906485454.jpg" alt="" loading="lazy"></figure>
-<figure><img src="/assets/img/Quotation_marks_image_03.png" alt="" loading="lazy"></figure>
+<figure><img src="/sebastianselman.ch/assets/img/Rappen-Sebastian-HQ-Colour-1-scaled-e1578906485454.jpg" alt="" loading="lazy"></figure>
+<figure><img src="/sebastianselman.ch/assets/img/Quotation_marks_image_03.png" alt="" loading="lazy"></figure>
 <p>Sebastian Rappen</p>
 <p><em><strong>“design sinking”</strong></em>Running projects using a lot of Design Thinking buzzwords but not reframing the problem to a human centered design perspective and therefore mainly producing sunk costs.</p>
 <p>The following questions and the below graphic provide guidance to program executives and acquisition professionals on <strong>how to detect projects that are really using Design Thinking</strong>versus those that are simply pretending to do so (what I like to call “design sinking”, because it mainly produces sunk costs).</p>
@@ -78,11 +79,11 @@
 </ol>
 <p><strong>For a team working based on Design Thinking, the answer to all of the above questions should be “yes”.</strong>If not – you may be running a successful project, but – you are not doing design thinking and there is a high risk, that you are wasting time &amp; effort on what I call design-sinking.</p>
 <h3>The visual guide to detecting Design Thinking BS</h3>
-<figure><img src="/assets/img/Slide1.jpg" alt="" loading="lazy"></figure>
+<figure><img src="/sebastianselman.ch/assets/img/Slide1.jpg" alt="" loading="lazy"></figure>
 <p>So keep the above questions at hand whenever you enter a negotiation around Design Thinking. While it is totally fine to refrain from doing Design Thinking, let´s be honest about whether or not we are actually doing it.</p>
 <p>Let me know what you think about this and your experiences so far in the comments below.</p>
   </div>
-  <p class="back"><a href="/#writing">← All writing</a></p>
+  <p class="back"><a href="/sebastianselman.ch/#writing">← All writing</a></p>
 </article>
 </main>
 <footer>
@@ -95,6 +96,32 @@
     document.documentElement.setAttribute('data-theme', next);
     try { localStorage.setItem('theme', next); } catch (e) {}
   });
+
+  // Career timeline. Progressive enhancement: with no JS every detail block is
+  // already visible, so the section reads fine — this only adds the focus.
+  (function () {
+    var cv = document.querySelector('.cv');
+    if (!cv) return;
+    var bands = cv.querySelectorAll('.band');
+    var details = cv.querySelectorAll('.cv-detail');
+    if (!bands.length) return;
+    cv.classList.add('interactive');
+
+    function select(key) {
+      bands.forEach(function (b) {
+        var on = b.dataset.org === key;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      details.forEach(function (d) {
+        d.classList.toggle('active', d.dataset.org === key);
+      });
+    }
+    bands.forEach(function (b) {
+      b.addEventListener('click', function () { select(b.dataset.org); });
+    });
+    select(bands[0].dataset.org);
+  })();
 </script>
 </body>
 </html>

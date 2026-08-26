@@ -9,13 +9,23 @@
     "blurb": "Enterprises still measure AI impact by input — prompts written, tokens consumed, hours 'saved'. The research says users systematically overestimate their own gains, anchored on the effort they put in. What to measure instead."
   },
   {
+    "date": "2026-09-09",
+    "title": "Slaying Dragons with AI",
+    "kind": "session",
+    "venue": "HeadsQuarter Stockerstrasse — “The Artistic”, Zurich",
+    "time": "17:30",
+    "url": "https://luma.com/kl7d9f7l",
+    "status": "confirmed",
+    "blurb": "Build your own local AI agent system in the room, then use it on something that matters to you. Bring a laptop and an AI tool that can reach local files."
+  },
+  {
     "date": "2026-09-04",
-    "title": "Slaying Dragons with AI — WAVE Fellowship workshop",
+    "title": "Slaying Dragons with AI — WAVE Fellowship",
     "kind": "workshop",
     "venue": "WeBloom WAVE Fellowship 2026, Zurich",
-    "url": "https://www.linkedin.com/pulse/slaying-dragons-ai-sebastian-selman-xqome/",
-    "status": "tentative",
-    "blurb": "A 90-minute hands-on session for 30 early-career women in STEM: build a working local AI agent system on your own laptop, then use it on a future-self goal-setting exercise. Co-presented with Franziska-J. Klebôn."
+    "url": "https://www.linkedin.com/posts/wave-2026-program-ugcPost-7490119524143366144-Lmdg/",
+    "status": "confirmed",
+    "blurb": "A 90-minute hands-on session for the fellowship cohort: build a working local AI agent system, then point it at a future-self goal-setting exercise. Co-presented with Franziska-J. Klebôn."
   },
   {
     "date": "2026-07-14",

@@ -1,12 +1,13 @@
 {
   "name": "Sebastian Selman",
-  "role": "Consulting Lead Switzerland, Clouds on Mars",
-  "location": "Switzerland",
-  "tagline": "Working at the seam between frontier technology and how organisations actually adopt it.",
+  "role": "Data & AI · Human-Centered Design",
+  "location": "Zurich, Switzerland",
+  "tagline": "I work on the gap between what technology can do and what organisations manage to do with it.",
 
   "intro": [
-    "I advise enterprises on the organisational side of AI adoption — the part that isn't the model. Before Clouds on Mars came ten years at Microsoft Switzerland as a Data & AI Specialist, co-developing analytics and AI solutions with strategic Swiss enterprise accounts. That decade taught me to read enterprise technology decisions from the inside.",
-    "I lecture at Swiss and German universities on organisational development, digital culture, and performance measurement for teams working alongside emerging technology. Most of what I'm thinking about right now sits under one heading: **Slaying Dragons with AI** — taking a goal-setting intervention that works for privileged students and asking whether it also works for people with far less room to fail."
+    "That gap is mostly not technical. It shows up as a data platform nobody trusts, a governance model written for a world that no longer exists, or an AI pilot that works beautifully and changes nothing. I spend my time on the organisational side of that problem — currently in enterprise data engineering and data governance, previously across Microsoft's Azure data and AI portfolio, and before that as a design-thinking consultant working with banks and healthcare on how they actually make decisions.",
+    "I teach some of this: four years lecturing on digital corporate culture at BVS St. Gallen, and a run of workshops and sessions with universities and fellowship programmes. I co-host a podcast about what happens when enterprises put AI into production, and I write — sometimes about Azure and data architecture, sometimes about borders, personas and why IKEA sells hot dogs.",
+    "I grew up in Baden-Baden, was born in Toronto, and started my working life as assistant to a violin maker in Tübingen. Some of that turns out to be more relevant than it sounds."
   ],
 
   "publishing_note": "Earlier essays and articles appear under my former publishing name, Sebastian Rappen.",
@@ -17,22 +18,15 @@
     { "label": "Email", "url": "mailto:sebastianrappen@gmail.com", "primary": false }
   ],
 
-  "career": [
-    { "org": "Clouds on Mars", "role": "Consulting Lead Switzerland", "from": "2026", "to": null },
-    { "org": "Microsoft Switzerland", "role": "Data & AI Specialist", "from": "2016", "to": "2026", "note": "Ten years — my longest role to date." },
-    { "org": "EY", "role": "Consultant", "from": null, "to": null },
-    { "org": "DFB — Deutscher Fußball-Bund", "role": "", "from": null, "to": null }
-  ],
-
   "meta": {
     "title": "Sebastian Selman",
-    "description": "Consulting Lead Switzerland at Clouds on Mars. Data & AI strategy, organisational adoption, and Slaying Dragons with AI.",
+    "description": "Data & AI and human-centered design, from Zurich. Talks, writing, and a podcast on what happens when enterprises put AI into production.",
     "url": "https://sebastianselman.ch"
   },
 
   "_notes": {
     "show_tentative": false,
     "comment": "show_tentative=false keeps engagements marked status:'tentative' off the published page. Flip to true once a date is confirmed, or change that entry's status to 'confirmed'. See README.md.",
-    "source": "Bio text follows the canonical variants approved 2026-08-03 (knowledge entries #425-429). Two claims from the full speaker bio are deliberately NOT reproduced here: the 'stealth-mode start-up' (no matching venture on record) and any present-tense claim that the podcast has published (only the show name is confirmed)."
+    "source": "Career data in career.json follows the LinkedIn experience history supplied by Sebastian on 2026-08-26. Note this corrected a long-standing error: Microsoft was 4 years 8 months (May 2021 - Dec 2025), not the ten years recorded in knowledge entries #23, #24 and #425."
   }
 }

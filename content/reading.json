@@ -1,0 +1,138 @@
+{
+  "intro": "There are books worth sifting through, and there are books worth re-reading again and again. These are the ones I keep coming back to.",
+  "epigraph": {
+    "text": "As complexity rises, precise statements lose meaning and meaningful statements lose precision.",
+    "attribution": "Lotfi Zadeh"
+  },
+  "essays": [
+    {
+      "title": "Maker's Schedule, Manager's Schedule",
+      "author": "Paul Graham",
+      "url": "https://www.paulgraham.com/makersschedule.html",
+      "note": "Why a single meeting dropped into the middle of an afternoon can cost a maker the whole afternoon, while costing the manager who booked it an hour. The clearest short account I know of why calendars and deep work pull against each other."
+    }
+  ],
+  "books": [
+    {
+      "title": "Skin in the Game",
+      "author": "Taleb",
+      "cover": "/assets/img/TalebSkinInTheGame-1.jpg",
+      "note": "On the ethical implications of risk taking and risk distribution relative to decisionmaking. As part of Nassim Nicholas Taleb’s “Incerto Series” it is written not to be summarized, but to be read."
+    },
+    {
+      "title": "Antifragile",
+      "author": "Taleb",
+      "cover": "/assets/img/TalebAntifragile.jpg",
+      "note": "Fragile stuff breaks, when exposed to volatility. Robust stuff doesn´t care aboutvolatility in it´s environment. Antifragile stuff gains (what?) from volatility. The thoughtsTaleb presents here under the heading of barbell-strategies are seminal to mythoughts about innovation management and long term strategies, potentiallyproviding an answer to Christensen´s Innovator´s Dilemma.It is an essayistic collection of reflections and observations on randomness & volatility- and definitely one of my favourite books."
+    },
+    {
+      "title": "The Innovator´s Dilemma",
+      "author": "Christensen",
+      "cover": "/assets/img/ChristensenInnovatorsDilemma.jpg",
+      "note": "Based on the work and research done for his PHD, Christensen sheds light on whylarge companies are hesitant to pursue options in what Taleb (above: Antifragile)would call the fat tails. By studying e.g. Kodak´s demise this book illustrates, howdisruptive innovation as a phenomenon might come into being and why it is sodifficult for incumbents to fight it off."
+    },
+    {
+      "title": "The fourth economy",
+      "author": "Davison",
+      "cover": "/assets/img/DavisonFourthEconomy.jpg",
+      "note": "This book was initially published purely as e-book. After going somewhat viral withincertain circles, it is now aswell available as paperback. It is a very long story,illustrated beautifully by carefully researched examples all along – the basicproposition made within this book is fundamental to my conviction, that the ability todeal with complex problems will be seminal to the success of people andorganizations within the 21st century."
+    },
+    {
+      "title": "Maps of Meaning",
+      "author": "Peterson",
+      "cover": "/assets/img/PetersonMapsOfMeaning.jpg",
+      "note": "How did humanity end up waging unseen wars against one another in the 20thcentury? It is this question that initially got Jordan Peterson thinking and wrtitingabout what came to be “Maps of Meaning” and probably one of the most clickedlectures shared online at the University of Toronto. To me it is a cautionary taleagainst violence and on how humans orient themselves within reality derived fromthe close observation of many civilizations’ tales and myths.",
+      "url": "https://www.jordanbpeterson.com/maps-of-meaning/"
+    },
+    {
+      "title": "Mindset",
+      "author": "Dweck",
+      "cover": "/assets/img/DweckMindset.jpg",
+      "note": "Why would you praise people for what they have achieved? Why would you praise them even if they haven´t achieved what they were aiming for? Based on the research for her PHD Carol Dweck writes a story on the effects of subtle differences in communication that has changed how I converse (with family, friends and in the professional sphere). If I could only give a single book to people as gift for the remainder of my life: I´d pick this one for all of them."
+    },
+    {
+      "title": "Miteinander Reden",
+      "author": "Schulz von Thun",
+      "cover": "/assets/img/vonThunMiteinanderReden.jpg",
+      "note": "Schulz von Thun elaborates over 3 volumes on how we might (mis-)understand what others (are trying to) tell us. This book helped me to differentiate between the factual content and perceived offensiveness of feedback and critique. Together with phenomenological writings from French 20th century philosophy it fundamentally changed how I conceptualize reality."
+    },
+    {
+      "title": "Range",
+      "author": "Epstein",
+      "cover": "/assets/img/EpsteinRange.jpg",
+      "note": "On the question whether hyperspecialization is a reasonable strategy for coping with a complex world. It probably is within tame learning environments, and that is howthe 10´000 hour rule gained its internet-fame – it, probably, is not for those learning to dance with ambiguity."
+    },
+    {
+      "title": "Information Rules",
+      "author": "Shapiro & Varian",
+      "cover": "/assets/img/ShapiroVarianInformationRules.jpg",
+      "note": "Platform Business-Models are ubiquituous nowadays – here is a brilliantly principled disection of their mechanics relative to information technology written towards the end of the last millenium – timeless in its content! If you ever want to do something that ends up producing money in the www – you should read this book. If you want to understand why certain players (google, twitter, facebook) have become so powerfull – read this (or turn to Nir Eyal)."
+    },
+    {
+      "title": "Zero to One",
+      "author": "Thiel",
+      "cover": "/assets/img/ThielZeroToOne.jpeg",
+      "note": "Thiel as part of the “pay-pall mafia” reflects on the difference between autochthonous new value propositions and copy cats in all of their different forms of appearance.I beg your pardon for the comparison, yet: Probably due to Thiel´s experience reading this book was to me as if one switched from a bird’s eye view to ego-shooter mode in one of the good old computer games: You observe the same events, but the relevance for yourself becomes much more tangible. In this case, thankfully, what you observe is the creation of value and not the destruction thereof."
+    },
+    {
+      "title": "Trust Me I’m Lying",
+      "author": "Holiday",
+      "cover": "/assets/img/HolidayTrustMeImLying.jpg",
+      "note": "People ask me why I refuse to read newspapers. It’s partly because I’ve read this book (and the above mentioned by Nassim Nicholas Taleb). It is very helpful to understand how blogging, twittering, and “news” work. And it hints at a possible explanation for why certain topics I would consider interesting will never be headline."
+    },
+    {
+      "title": "Tübinger Einleitung in die Philosphie",
+      "author": "Bloch",
+      "cover": "/assets/img/BlochTuebingerEinleitungIndiePhilosophie.jpg",
+      "note": "I love to recommend this book. Sadly there is no english translation available (yet), however his essays on the philosophy of Music are beautiful and the book “traces”is one I like to read single sections of every now and then, and they may be an entrance to his thoughts for the English reader. Bloch’s introduction to philosophy brings his version of concrete utopianism and his thoughts on hope into context with philosophies long tradition."
+    },
+    {
+      "title": "Sprint",
+      "author": "Knapp",
+      "cover": "/assets/img/sprint-JakeKnapp.jpg",
+      "note": "What Jake Knapp put into writing here literally went viral amongst the workshoppers & design thinkers. People focused on product and service design alike have turned to this book again and again to structure their sessions and get some inspiration. What was born as the google venture sprint now is being re-invented and re-issued under thousands of different names."
+    },
+    {
+      "title": "Designing Your Life",
+      "author": "Burnett & Evans",
+      "cover": "/assets/img/DesigningYourLife.jpg",
+      "note": "Based on the learnings of what some claim to be the most successful course being taught at Stanford, Bill Burnet & Dave Evans present their answers to the question of “How to build a well-lived joyful life”. It is a very practical and actionable volume full of smart and proven ideas on how to “optimize” – it does not provide answers to the question of what is worth being optimized, if the latter question is of more interest to you, I suggest going to Peterson instead."
+    },
+    {
+      "title": "Work the System",
+      "author": "Carpenter",
+      "cover": "/assets/img/WorkTheSystemCarpenter.jpg",
+      "note": "Sam Carpenter describes his “down-trotten-life” prior to reframing what he was doing from “checking of to-do’s” to “working-the-system”. He advocates building systems you can rely on instead of only being the fire brigade in your life that attends to whatever is currently crying for attention the loudest. Goes well with David Allen’s book “Getting Things Done” (below)."
+    },
+    {
+      "title": "Getting things done",
+      "author": "Allen",
+      "cover": "/assets/img/GettingThingsDoneAllen.jpg",
+      "note": "When the above books greatly argue on the meta level about how important it is to build systems you can rely on, this is the proven step-by-step guide to implementing it. The book I talkes about paper-based-filing-systems, but do not let this distract you, the system you need and want to build will be exactly the same if you use apps or slack-channels or whatever your preferred tool for getting things done may currently be."
+    },
+    {
+      "title": "Change by design",
+      "author": "Brown",
+      "cover": "/assets/img/ChangebyDesignBROWN.jpg",
+      "note": "The basics of Design Thinking in practice layed out clearly by one of the founding fathers of Design Thinking as an explicitly described method. This book showcases how Design Thinking can change organizations. If you are more into the practical guidlines and want to change your very personal circumstances, refer to “Designing your Life“."
+    },
+    {
+      "title": "Nine Lies About Work",
+      "author": "Buckingham & Goodall",
+      "cover": "/assets/img/9liesaboutwork.jpg",
+      "note": "A beautiful book, that is especially enjoyable to read, because the single lies it uncovers (9 of them, as you correctly guessed) are very well rounded stories and chapters of their own. It does go against the grain of common misconceptions – or at least points out the important exceptions to what appears to be rules according to common wisdom. Get ready for 9 powerful reframes, that will change how you think about work."
+    },
+    {
+      "title": "Hooked",
+      "author": "Eyal",
+      "cover": "/assets/img/HookedNIREYAL.jpg",
+      "note": "Nir Eyal’s book “Hooked” carefully disects how Facebook, LinkedIn and co are able to lure us onto their platform yet again and again. The hook-model he presents and illustrates allows you not only to understand how social platforms are tuning into your brain’s way of establishing habits but – in reverse – also is insightful if you yourself are aiming to create a habit forming product yourself. It does however not clearly provide an antidote to this cycle. For this you’d need to turn to the volume mentioned below: “Indistractable“."
+    },
+    {
+      "title": "Indistractable",
+      "author": "Eyal",
+      "cover": "/assets/img/indistractableNIREYAL.jpg",
+      "note": "With increasing distractions being described precisely at book length – the power not to be distracted seems to become a superpower. After initially describing how digital products actually create their habit-forming-powers (see “Hooked” above) this book is the antidote: How to keep yourself focused on whatever you deem to be relevant and worth your time & effort."
+    }
+  ]
+}
