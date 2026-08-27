@@ -47,6 +47,18 @@ const BASE = (() => {
   }
   return '/' + v.replace(/^\/+/, '').replace(/\/+$/, '');
 })();
+
+// --base was only ever meant for the window before DNS pointed at GitHub. DNS
+// cut over on 2026-08-26; deploying a --base build after that omits the CNAME and
+// makes GitHub serve 404 for the custom domain, which is exactly what happened on
+// the 26th. Warn loudly rather than let it pass silently again.
+if (BASE) {
+  console.warn(
+    `\n  ! --base builds omit docs/CNAME and prefix every internal link with "${BASE}".\n` +
+    `    That is correct ONLY while the custom domain does not yet point at GitHub.\n` +
+    `    sebastianselman.ch has pointed at GitHub since 2026-08-26 — deploying this\n` +
+    `    build will take the live site down. Use a plain \`node build.mjs\` to deploy.\n`);
+}
 /** Prefix an internal absolute path. External URLs and anchors pass through. */
 const u = (href) => (BASE && typeof href === 'string' && href.startsWith('/'))
   ? BASE + href : href;
