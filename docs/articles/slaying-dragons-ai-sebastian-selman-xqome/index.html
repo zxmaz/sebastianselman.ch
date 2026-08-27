@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/sebastianselman.ch/assets/style.css">
+<link rel="stylesheet" href="/assets/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%89%3C/text%3E%3C/svg%3E">
 <script>
   (function(){
@@ -29,13 +29,13 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
-  <a class="wordmark" href="/sebastianselman.ch/">Sebastian Selman</a>
+  <a class="wordmark" href="/">Sebastian Selman</a>
   <nav>
-    <a href="/sebastianselman.ch/#now">Now</a>
-    <a href="/sebastianselman.ch/#projects">Projects</a>
-    <a href="/sebastianselman.ch/#writing">Writing</a>
-    <a href="/sebastianselman.ch/#career">Career</a>
-    <a href="/sebastianselman.ch/#reading">Reading</a>
+    <a href="/#now">Now</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#writing">Writing</a>
+    <a href="/#career">Career</a>
+    <a href="/#reading">Reading</a>
   </nav>
   <button id="theme" type="button" aria-label="Switch between light and dark">
     <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
@@ -58,14 +58,14 @@
 <p>I was a little disappointed about my low successrate of conveying what I had prepared, but: 4/40 It is the honest count, and it is the reason this article exists. The material is dense. The tooling is rough at the edges. The blockers that stopped the other 36 are real, specific, and once you know them, might be pre-empted. The prompts below are the ones we should have handed out on the day — every workaround the in-room audience hit the hard way is baked in.</p>
 <p>If you were in the room and didn't finish: this is for you. If you weren't: even better — you get the polished version.</p>
 <h4>1. The Dragon Frame</h4>
-<figure><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-ebcbb60b7f.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
+<figure><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-ebcbb60b7f.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>Dragons are an exquisite representation of all we should fear, but also: Worth being faced straightforward, as they always hoard lots of loot in their lair.</p>
 <p>If a meaningful human life is goal-directed: everything you meet on the way is either help or obstacle. The mythological imagination has a name for the obstacle that contains every kind of trouble at once: the dragon. Scales make the obvious attack bounce off. Fire makes engagement costly. Flight and swim mean it moves in dimensions you don't. And yet: it hoards gold. The thing worth having is guarded by the thing you'd rather avoid.</p>
 <p>Meaning isn't found by walking around the dragon. It's found by voluntarily picking up the challenge in service of a goal you actually chose, and ideally: coming back with some of the gold.</p>
 <p>Your dragons are personal: the skill you've postponed learning because it would expose how little you know; the conversation you've avoided because you might lose status in it; the decision you keep deferring because either branch costs something. You can tell it's a dragon when you keep walking around it.</p>
 <p>This workshop explored — among other things — whether AI agents lend themselves as helpful tools (swords, if you want) for the slaying. And opened a discussion on repsonsible AI since tools may be abused or at least involuntarily ill-used.</p>
 <h4>2. What an AI agent actually is</h4>
-<figure><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-c2b9273d9b.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
+<figure><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-c2b9273d9b.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>Basic definition of an AI agent, and an attempt to illustrate how to set up a local system that does NOT lock the user into specific provider's stack.</p>
 <p>Working definition for the rest of this article:</p>
 <blockquote><p>An AI agent is an AI system that is grounded in knowledge, can make decisions, and has tools to execute those decisions on its environment.</p></blockquote>
@@ -86,24 +86,24 @@
 <p>Launcher (matching the OS I gave you):</p>
 <p>Windows → Start-Dashboard.bat at project root. Double-click → opens a cmd window titled &quot;Personal Agents – server&quot; running node dashboard\server.js (stays open for logs); polls for .runtime-url; opens default browser via start &quot;&quot;. macOS → start-dashboard.command at project root, chmod +x. Uses osascript to open Terminal.app running the server; polls for .runtime-url; opens browser via open. Linux → start-dashboard.sh at project root, chmod +x. Detects gnome-terminal/konsole/xterm; opens browser via xdg-open. Root README.md: install (npm install), init DB (npm run init-db), start (double-click the launcher), how to talk to the Head agent, the hard rule &quot;Head is the only interface — never bypass it.&quot; Document npm run dashboard as the no-launcher alternative.</p>
 <p>No Docker, no LangChain, no vector DB. Just files, SQLite, Express, charters. Go. ```</p>
-<figure><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-210a799a1d.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
+<figure><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-210a799a1d.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>An empty root folder on a local drive + paste of Prompt 1 in Claude Code, just before the model starts writing files (Example of this working with Claude Code)</p>
 <p>While it runs, three things to notice. One: no framework. The agent system is the folder plus a few charters. The leverage is in the discipline, not the dependency tree. Two: the Head agent is a bottleneck on purpose — every request through one place, every decision logged. You'll thank yourself in a month. Three: there's a database, not a chat history. Your knowledge accrues. The agent that helps you next week starts where today's agent left off - but that knowledge accrues in your harddrive and not with a single LLM vendor or re-seller.</p>
-<figure><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-9633ac18f4.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
+<figure><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-9633ac18f4.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>VS Code file tree after Prompt 1 finishes — agents/, db/, dashboard/, owner_inbox/, team_inbox/, README, launcher called &quot;Start Dashboard&quot; (as an example of this working with Github Copilot in VS Code)</p>
 <p>Double-click the launcher. Terminal opens, server starts, browser opens to the dashboard. If anything fails, the red banner tells you exactly what — that line in the prompt is doing more work than it looks like.</p>
 <h4>5. Block B — Make it do something personal</h4>
 <p>Now in order to make this relevant to the students we wanted them to have them work on something deeply personal (this is setting the scene for the discussion of Responsible AI later) - but also I wanted for them, even if technically not interested, to take something away with them: A better chance at academic success.</p>
 <p>An agent system that doesn't do anything is a folder with opinions. So we pointed it at something worth doing: Future Authoring — the structured-writing protocol from Peterson's Self Authoring Suite, validated by Morisano, Hirsh, Peterson, Pihl &amp; Shore (2010), Journal of Applied Psychology 95(2), 255–264 (<a href="https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fdoi%2Eorg%2F10%2E1037%2Fa0018478&amp;urlhash=FFhe&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">DOI 10.1037/a0018478</a>). <a href="https://www.linkedin.com/redir/redirect?url=http%3A%2F%2Fselfauthoring%2Ecom&amp;urlhash=fM-o&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">Anybody who wants to get the benefits, without running this on their own machine: [selfauthoring.com</a> offers this kind of program, and some more, for a few dollars]</p>
 <p>85 struggling undergraduates, GPA &lt; 3.0, randomised to the writing program or a face-valid control. Four months later, the writing group's GPA jumped 2.25 → 2.91; control barely moved (2.26 → 2.46). Zero writers dropped below a full course load; eight controls did, two withdrew entirely.</p>
-<figure><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-56dd628269.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
+<figure><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-56dd628269.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>What we want this system to emulate is research from 2010, which showed for students who ran something similar: Grades moved up, nobody dropped out of class and the single most correlated parameter to success was: their wordcount.</p>
 <p>The killer finding: of every content variable the researchers measured, only one significantly predicted grade improvement — the number of words written about the ideal future (mean 347, r = .30, p &lt; .05). Not goals set. Not obstacles identified. Volume of concrete writing about the desired future. Writing about what you want, at length, does work that thinking does not.</p>
 <p>The second prompt rewrites the dashboard into a writing instrument. Same agent system, same database, new front door:</p>
 <h3>Recommended by LinkedIn</h3>
-<p><a href="https://www.linkedin.com/pulse/far-best-ai-conference-i-ever-attended-imagination-action-dirk-jonker-miq8e" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-a4c89568b9.jpg" alt="By far the best AI conference I ever attended: Imagination in Action at MIT. My notes and thoughts." loading="lazy"> By far the best AI conference I ever attended:… Dirk Jonker 4 months ago</a></p>
-<p><a href="https://www.linkedin.com/pulse/moonshot-2030-stepping-stones-ai-powered-future-owkke" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-5e91b7ce89.jpg" alt="Moonshot 2030 – Stepping Stones into an AI-Powered Future" loading="lazy"> Moonshot 2030 – Stepping Stones into an AI-Powered… Transatlantic AI eXchange 1 year ago</a></p>
-<p><a href="https://www.linkedin.com/pulse/master-ai-tool-understand-through-its-material-morten-rand-hendriksen-p6qtc" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-85a9f9480e.jpg" alt="The Shift: Master AI as a tool and understand the materials behind it" loading="lazy"> The Shift: Master AI as a tool and understand the… Morten Rand-Hendriksen 1 year ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/far-best-ai-conference-i-ever-attended-imagination-action-dirk-jonker-miq8e" target="_blank" rel="noopener"><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-a4c89568b9.jpg" alt="By far the best AI conference I ever attended: Imagination in Action at MIT. My notes and thoughts." loading="lazy"> By far the best AI conference I ever attended:… Dirk Jonker 4 months ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/moonshot-2030-stepping-stones-ai-powered-future-owkke" target="_blank" rel="noopener"><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-5e91b7ce89.jpg" alt="Moonshot 2030 – Stepping Stones into an AI-Powered Future" loading="lazy"> Moonshot 2030 – Stepping Stones into an AI-Powered… Transatlantic AI eXchange 1 year ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/master-ai-tool-understand-through-its-material-morten-rand-hendriksen-p6qtc" target="_blank" rel="noopener"><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-85a9f9480e.jpg" alt="The Shift: Master AI as a tool and understand the materials behind it" loading="lazy"> The Shift: Master AI as a tool and understand the… Morten Rand-Hendriksen 1 year ago</a></p>
 <pre><code>Rewrite dashboard/index.html and dashboard/server.js to host a single-user, in-browser Future Authoring writing exercise, replacing the Quick-Capture dashboard. Keep the rest of the agent system intact.</code></pre>
 <p>If you want further details: Morisano, D., Hirsh, J. B., Peterson, J. B., Pihl, R. O., &amp; Shore, B. M. (2010). Setting, elaborating, and reflecting on personal goals improves academic performance. Journal of Applied Psychology, 95(2), 255–264. DOI: 10.1037/a0018478. — The &quot;JAP2010&quot; paper. The Appendix (p. 263–264) holds the canonical 8-step instrument which I want you to implement here.</p>
 <p>Rewrite dashboard/index.html and dashboard/server.js as a single-user Future Authoring tool with TWO modes selectable on the intro screen: Classroom (≈13 min, default) Full (≈50 min)</p>
@@ -114,13 +114,13 @@
 <p>Agent NEVER comments on the writing. Never 'improves' it. The user's words are the artifact.</p>
 <p>After the last prompt → summary screen → Download as Markdown + 'Open in owner_inbox/'.</p>
 <p>Styling: dark bg, monochrome, generous line-height. No chrome. The page is a writing instrument. Routing: 127.0.0.1:3000 only. Single user, local, private. Done. ```</p>
-<figure><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-152a0fea4b.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
+<figure><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-152a0fea4b.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>The evolution of the dashboard from prompt 1 to prompt 2 (here executed with Qoder Work from Alibaba Cloud as third tooling example)</p>
 <p>Two design choices doing the heavy lifting. The timer-locked auto-advance — the mechanism only works if users write past the moment they'd normally stop, and the software enforces what willpower won't. The &quot;Time's up in the workshop&quot; button — honest classroom timeboxes can't always accommodate a 13-minute writing slot, and shame around early-exit is the wrong design. One click, partial state to disk, on with the workshop.</p>
-<figure><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-563c050b56.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
+<figure><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-563c050b56.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>Using the self built tool - all answers will be stored locally in your file system.</p>
 <h4>6. Block C — Responsible AI: what stays local, what the agent must not do</h4>
-<figure><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-366f960168.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
+<figure><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-366f960168.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>Responsible AI principles as e.g. formulated by Microsoft (https://www.microsoft.com/en-us/ai/principles-and-approach)</p>
 <p>Once an agent has tools, &quot;who is responsible when it does the wrong thing?&quot; gets concrete fast. Three constraints in the design above are Responsible-AI choices in disguise:</p>
 <p>Local only. The server binds 127.0.0.1. Your writing, tasks, knowledge — all in a SQLite file on your laptop, sent nowhere. The LLM provider sees only what you paste in a given session. Pull the laptop off the network and the dashboard keeps working. Local-by-default is the easiest privacy decision you'll ever make.</p>
@@ -128,7 +128,7 @@
 <p>The Head agent is the only interface. Every request through one place. Every decision logged. When something goes wrong, you can read the audit trail. This is what the EU AI Act and NIST AI RMF (Govern / Map / Measure / Manage) ask for at organisational scale; baking the discipline in at the personal scale means the org version is just more of the same.</p>
 <p>The moment your system can write to disk, send a message, hit an API, accountability isn't optional. Local-by-default, audit-by-default, no-silent-edits-by-default. Not constraints that make it worse — what makes it trustworthy enough to keep using.</p>
 <h4>7. Why 4 of 40 — and how to be one of them this time</h4>
-<figure><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-768bcc2f31.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
+<figure><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-768bcc2f31.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>Me facing the (very precise) questions of students after the lexture in which I failed to deliver the above to 9 out of 10 people.</p>
 <p>Five blockers stopped almost everyone in the room. Each is fixed in the prompts above. The first one is the one we didn't see coming.</p>
 <ol>
@@ -140,7 +140,7 @@
 </ol>
 <p>The original prompts assumed all of this would just work. It didn't. The prompts here assume the opposite, and tell the model to engineer around each blocker upfront. If you hit a sixth we haven't covered, write back — that's how we find out what to add to v3.</p>
 <h4>8. Try it. Tell us what broke and what might have worked</h4>
-<figure><img src="/sebastianselman.ch/assets/img/slaying-dragons-ai-sebastian-selman-xqome-27ee945bc2.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
+<figure><img src="/assets/img/slaying-dragons-ai-sebastian-selman-xqome-27ee945bc2.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>Facing the dragon and explaining the dragon - open for critique, which definitely was due</p>
 <p>Two prompts. Two pastes. One double-click. About 30 minutes of patience.</p>
 <p>If you build it: post a screenshot of your dashboard intro screen and tag us ( <a href="https://ch.linkedin.com/in/fjklebon?trk=article-ssr-frontend-pulse_little-mention" target="_blank" rel="noopener">Franziska-J. Klebôn</a> &amp; <a href="https://ch.linkedin.com/in/humancentereddesign?trk=article-ssr-frontend-pulse_little-mention" target="_blank" rel="noopener">Sebastian Selman</a> ) . If you make it through the writing: don't share what you wrote — that's for you — but tell us whether the auto-advance felt right, whether the &quot;Time's up&quot; button felt like permission rather than shame, whether your laptop is now a slightly more honest tool than it was yesterday.</p>
@@ -196,7 +196,7 @@
 <li>&quot;Claude just killed ALL Note-Taking Apps. Here is proof.&quot; YouTube, 2026. <a href="https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fyoutu%2Ebe%2FgeIKyDaXwGg%3Fsi%3DtxLLXF3M_XdPBAUs&amp;urlhash=P_Nu&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">https://youtu.be/geIKyDaXwGg?si=txLLXF3M_XdPBAUs</a> — Seeded the local-folder-as-agent-system pattern this article builds on.</li>
 </ol>
   </div>
-  <p class="back"><a href="/sebastianselman.ch/#writing">← All writing</a></p>
+  <p class="back"><a href="/#writing">← All writing</a></p>
 </article>
 </main>
 <footer>

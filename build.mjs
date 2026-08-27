@@ -645,12 +645,23 @@ async function main() {
     await writeFile(path.join(dir, 'index.html'), articlePage(d, profile), 'utf8');
   }
 
-  // /writing/ → home anchor, so the projects.json link resolves.
-  await mkdir(path.join(DOCS, 'writing'), { recursive: true });
-  await writeFile(path.join(DOCS, 'writing', 'index.html'),
-    `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=/#writing">` +
-    `<link rel="canonical" href="${profile.meta.url}/#writing"><title>Writing</title>` +
-    `<p><a href="/#writing">All writing</a></p>\n`, 'utf8');
+  // Section stubs. /writing/ backs the projects.json link; /reading/ exists
+  // because limmatreframe.com/resources/ 301s to it — that redirect was set up
+  // while Reading was still a standalone page, and removing the page silently
+  // turned a working inbound link into a 404. Keep the stub for as long as the
+  // .htaccess on limmatreframe.com points here.
+  for (const [dir, anchor, label] of [
+    ['writing', '#writing', 'All writing'],
+    ['reading', '#reading', 'Reading list'],
+  ]) {
+    await mkdir(path.join(DOCS, dir), { recursive: true });
+    await writeFile(path.join(DOCS, dir, 'index.html'),
+      `<!doctype html><meta charset="utf-8">` +
+      `<meta http-equiv="refresh" content="0; url=${u('/')}${anchor}">` +
+      `<link rel="canonical" href="${profile.meta.url}/${anchor}">` +
+      `<title>${label}</title>` +
+      `<p><a href="${u('/')}${anchor}">${label}</a></p>\n`, 'utf8');
+  }
 
   // Static assets
   await cp(ASSETS, path.join(DOCS, 'assets'), { recursive: true });

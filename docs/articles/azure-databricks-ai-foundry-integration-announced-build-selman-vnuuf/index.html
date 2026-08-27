@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="/sebastianselman.ch/assets/style.css">
+<link rel="stylesheet" href="/assets/style.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%89%3C/text%3E%3C/svg%3E">
 <script>
   (function(){
@@ -29,13 +29,13 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
-  <a class="wordmark" href="/sebastianselman.ch/">Sebastian Selman</a>
+  <a class="wordmark" href="/">Sebastian Selman</a>
   <nav>
-    <a href="/sebastianselman.ch/#now">Now</a>
-    <a href="/sebastianselman.ch/#projects">Projects</a>
-    <a href="/sebastianselman.ch/#writing">Writing</a>
-    <a href="/sebastianselman.ch/#career">Career</a>
-    <a href="/sebastianselman.ch/#reading">Reading</a>
+    <a href="/#now">Now</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#writing">Writing</a>
+    <a href="/#career">Career</a>
+    <a href="/#reading">Reading</a>
   </nav>
   <button id="theme" type="button" aria-label="Switch between light and dark">
     <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
@@ -70,9 +70,9 @@
 <h4>Use Cases – Three (hypothetical) User Stories</h4>
 <p>To illustrate how this integration can be used, here are three hypothetical user stories in an enterprise setting:</p>
 <h3>Recommended by LinkedIn</h3>
-<p><a href="https://www.linkedin.com/pulse/enterprise-ai-insights-control-plane-moment-anis-rahaman-sqhue" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/azure-databricks-ai-foundry-integration-announced-build-selman-vnuuf-cc0c4b2947.jpg" alt="Enterprise AI Insights: The Control Plane Moment" loading="lazy"> Enterprise AI Insights: The Control Plane Moment Anis Rahaman 6 months ago</a></p>
-<p><a href="https://www.linkedin.com/pulse/enterprise-ai-stack-we-building-wrong-how-fix-rajeev-barnwal-ogqrc" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/azure-databricks-ai-foundry-integration-announced-build-selman-vnuuf-388e399500.jpg" alt="The Enterprise AI Stack We Are Building Wrong And How to Fix It." loading="lazy"> The Enterprise AI Stack We Are Building Wrong And How… Rajeev Barnwal 4 months ago</a></p>
-<p><a href="https://www.linkedin.com/pulse/i-spent-three-days-looking-wrong-azure-tables-so-you-dont-kaduskar-xsqef" target="_blank" rel="noopener"><img src="/sebastianselman.ch/assets/img/azure-databricks-ai-foundry-integration-announced-build-selman-vnuuf-7ff511f472.jpg" alt="I Spent Three Days Looking in the Wrong Azure Tables (So You Don't Have To)" loading="lazy"> I Spent Three Days Looking in the Wrong Azure Tables… Siddharth Kaduskar 4 months ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/enterprise-ai-insights-control-plane-moment-anis-rahaman-sqhue" target="_blank" rel="noopener"><img src="/assets/img/azure-databricks-ai-foundry-integration-announced-build-selman-vnuuf-cc0c4b2947.jpg" alt="Enterprise AI Insights: The Control Plane Moment" loading="lazy"> Enterprise AI Insights: The Control Plane Moment Anis Rahaman 6 months ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/enterprise-ai-stack-we-building-wrong-how-fix-rajeev-barnwal-ogqrc" target="_blank" rel="noopener"><img src="/assets/img/azure-databricks-ai-foundry-integration-announced-build-selman-vnuuf-388e399500.jpg" alt="The Enterprise AI Stack We Are Building Wrong And How to Fix It." loading="lazy"> The Enterprise AI Stack We Are Building Wrong And How… Rajeev Barnwal 4 months ago</a></p>
+<p><a href="https://www.linkedin.com/pulse/i-spent-three-days-looking-wrong-azure-tables-so-you-dont-kaduskar-xsqef" target="_blank" rel="noopener"><img src="/assets/img/azure-databricks-ai-foundry-integration-announced-build-selman-vnuuf-7ff511f472.jpg" alt="I Spent Three Days Looking in the Wrong Azure Tables (So You Don't Have To)" loading="lazy"> I Spent Three Days Looking in the Wrong Azure Tables… Siddharth Kaduskar 4 months ago</a></p>
 <p>User Story 1: Real-Time Sales Insights – Maria is a regional sales manager. She wants to quickly get insights on sales performance without learning complex BI tools. Her company’s data team has all sales data in Azure Databricks. Thanks to the new Foundry-Databricks integration, the company’s AI assistant (built with Azure AI Foundry) can answer Maria’s questions directly. Maria opens Microsoft Teams and asks the agent: “What were my region’s sales this week and which product category performed best?” The agent uses Databricks’ AI/BI Genie to run a live natural language query on the sales data[[2]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fwww%2Edatabricks%2Ecom%2Fblog%2Fannouncing-azure-databricks-native-connector-azure-ai-foundry&amp;urlhash=x2z9&amp;trk=article-ssr-frontend-pulse_little-text-block). Within seconds, it replies with a summary: “Your region sold £500k, up 5% from last week, with Product X being the top category.” It even offers to break down the numbers by product or generate a chart. Maria gets the answer immediately, in conversation form, without waiting for an analyst. This story shows how a business user can get real-time analytics through a simple question, leveraging Databricks data via the AI agent. It highlights the power of natural language access to data for faster decision-making.</p>
 <p>User Story 2: Augmenting Customer Support with Data – Contoso Ltd. has a customer support chatbot on their website built using Azure AI Foundry. Before the integration, the bot could answer only basic FAQs. Now, Contoso connects it to Azure Databricks where detailed customer data and order history are stored. When a customer asks the chatbot: “Where is my order #12345 and has it shipped?”, the AI agent can retrieve that information live from Databricks. Behind the scenes, it runs a Spark job or query against the order database on Databricks (through the connector) to find the latest status[[1]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fnews%2Emicrosoft%2Ecom%2Fbuild-2025-book-of-news%2F&amp;urlhash=2xHF&amp;trk=article-ssr-frontend-pulse_little-text-block). It then responds: “Your order #12345 is currently in transit and is expected to be delivered by Friday.” In another scenario, a customer might ask, “I had an issue with my last purchase, what refund can I get?” The agent, through Databricks, accesses the customer’s past purchase records and the company’s refund policy data to give a personalised answer. This user story shows an AI-powered customer service agent that can handle complex, account-specific queries by fetching data in real time. It improves customer experience by providing accurate, up-to-date answers (which previously required a support rep to pull up several systems). The integration makes the chatbot truly data-driven and context-aware, rather than just a static Q&amp;A bot.</p>
 <p>User Story 3: Data Scientist’s Analytics as a Service – Lee is a data scientist at Fabrikam Corp. Lee has developed a sophisticated predictive maintenance model that runs as a Spark job on Azure Databricks. It analyses IoT sensor data and predicts equipment failures. Normally, only data scientists or engineers would run this job and then share results. With the new integration, Lee’s team wraps this model execution into an Azure AI Foundry agent. An operations manager can now ask the agent: “Which machines are at risk of failure in the next 7 days?” The agent triggers Lee’s Databricks Spark job via the connector[[1]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fnews%2Emicrosoft%2Ecom%2Fbuild-2025-book-of-news%2F&amp;urlhash=2xHF&amp;trk=article-ssr-frontend-pulse_little-text-block). The Spark job crunches the latest sensor data and returns a list of, say, three machines with high failure probability. The AI agent then translates that into a user-friendly response: “Machines A, B, and C have high risk of failure within a week. It’s recommended to service Machine A immediately.” This story demonstrates how the integration lets a non-technical user call complex analytics on-demand through a simple question. Lee’s advanced data pipeline is now accessible through an AI agent interface. The benefit is twofold: the data science work has greater impact, and the operations team gets timely insights without needing data science knowledge. It’s like providing analytics-as-a-service through an AI agent. The heavy lifting (Spark jobs, ML algorithms) runs on Databricks, but the interaction is in natural language via Foundry. This also underscores the multi-agent workflow potential – the Foundry agent can coordinate with Databricks (and even other agents) to fulfill a request[[1]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fnews%2Emicrosoft%2Ecom%2Fbuild-2025-book-of-news%2F&amp;urlhash=2xHF&amp;trk=article-ssr-frontend-pulse_little-text-block).</p>
@@ -100,7 +100,7 @@
 </ol>
 <p>[Disclaimer: The views expressed in this post are my own and do not reflect the views of my employer, hence the thoughts and perspectives shared here are my attempt to work out what the Build 2025 announcements mean and should not be interpreted as official statement or position of the company. This article is co-authored with the Researcher (Frontier) of M365 CoPilot - #Microsoftadvocate. As the integration between Foundry and Databricks discussed here is still in Preview, please always refer to the official documentation and be aware that facts might change as the service evolves]</p>
   </div>
-  <p class="back"><a href="/sebastianselman.ch/#writing">← All writing</a></p>
+  <p class="back"><a href="/#writing">← All writing</a></p>
 </article>
 </main>
 <footer>
