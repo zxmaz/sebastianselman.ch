@@ -46,14 +46,6 @@ To make this more concrete, here are three imagined user stories that illustrate
 
 These user stories showcase the versatility of the integration. Across finance, HR, and operations (and one can imagine many other domains like marketing, customer support, R&D, etc.), the pattern is the same: an AI agent that can intelligently fetch and synthesize data from various enterprise systems to provide timely, contextual answers or alerts. The result is improved decision-making and efficiency, because people can get insights by simply conversing with an AI that understands their data.
 
-## Recommended by LinkedIn
-
-[![Context Isn't Governance](/assets/img/integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-78af20ad71.jpg) Context Isn't Governance AtScale 2 weeks ago](https://www.linkedin.com/pulse/context-isnt-governance-atscale-inc--wbafe)
-
-[![What Databricks Reveals About the Next Phase of Enterprise AI](/assets/img/integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-a56acd851f.jpg) What Databricks Reveals About the Next Phase of… Doug MacWilliams 1 month ago](https://www.linkedin.com/pulse/what-databricks-reveals-next-phase-enterprise-ai-doug-macwilliams-eeezc)
-
-[![DAIS 2026: The Databricks Announcements I Think Clients Should Pay Attention To](/assets/img/integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-2567ea612d.jpg) DAIS 2026: The Databricks Announcements I Think… Mou Rakshit 2 months ago](https://www.linkedin.com/pulse/dais-2026-databricks-announcements-i-think-clients-should-mou-rakshit-7dcfc)
-
 Publicly shared implementations of this technology are, e.g. the #NTT implementation of a data agent allowing them to chat with their HR & Backoffice data: [https://youtu.be/pKrWV0s1acY](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fyoutu%2Ebe%2FpKrWV0s1acY&urlhash=apNP&trk=article-ssr-frontend-pulse_little-text-block)
 
 ### What is this change not for? (Limitations and Misconceptions)

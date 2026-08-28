@@ -123,14 +123,6 @@ The killer finding: of every content variable the researchers measured, only one
 
 The second prompt rewrites the dashboard into a writing instrument. Same agent system, same database, new front door:
 
-## Recommended by LinkedIn
-
-[![By far the best AI conference I ever attended: Imagination in Action at MIT. My notes and thoughts.](/assets/img/slaying-dragons-ai-sebastian-selman-xqome-a4c89568b9.jpg) By far the best AI conference I ever attended:… Dirk Jonker 4 months ago](https://www.linkedin.com/pulse/far-best-ai-conference-i-ever-attended-imagination-action-dirk-jonker-miq8e)
-
-[![Moonshot 2030 – Stepping Stones into an AI-Powered Future](/assets/img/slaying-dragons-ai-sebastian-selman-xqome-5e91b7ce89.jpg) Moonshot 2030 – Stepping Stones into an AI-Powered… Transatlantic AI eXchange 1 year ago](https://www.linkedin.com/pulse/moonshot-2030-stepping-stones-ai-powered-future-owkke)
-
-[![The Shift: Master AI as a tool and understand the materials behind it](/assets/img/slaying-dragons-ai-sebastian-selman-xqome-85a9f9480e.jpg) The Shift: Master AI as a tool and understand the… Morten Rand-Hendriksen 1 year ago](https://www.linkedin.com/pulse/master-ai-tool-understand-through-its-material-morten-rand-hendriksen-p6qtc)
-
 ```
 Rewrite dashboard/index.html and dashboard/server.js to host a single-user, in-browser Future Authoring writing exercise, replacing the Quick-Capture dashboard. Keep the rest of the agent system intact.
 

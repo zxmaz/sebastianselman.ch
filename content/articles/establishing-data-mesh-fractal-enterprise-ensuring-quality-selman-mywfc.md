@@ -195,14 +195,6 @@ Moreover, Purview’s insight reports can highlight if any data product is not m
 
 While Purview is great for cataloging and monitoring, it is not itself an MDM or data cleaning tool. This is where integration with the earlier mentioned MDM solutions comes in:
 
-## Recommended by LinkedIn
-
-[![Keeping An Eye On Your Data](/assets/img/establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-6e94ddeb1d.jpg) Keeping An Eye On Your Data Jonathan Reichental, PhD 3 years ago](https://www.linkedin.com/pulse/keeping-eye-your-data-jonathan-reichental-ph-d-)
-
-[![Shadow IT & Dark Data](/assets/img/establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-2711ce9b3b.jpg) Shadow IT & Dark Data Heiko Specht 5 months ago](https://www.linkedin.com/pulse/shadow-dark-data-heiko-specht-kkhdf)
-
-[![Data Governance: Why Data Mesh and Microsoft Fabric are a good fit.](/assets/img/establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-073f281c04.jpg) Data Governance: Why Data Mesh and Microsoft Fabric… Ali Nadre, MSc 3 years ago](https://www.linkedin.com/pulse/data-governance-why-mesh-microsoft-fabric-good-fit-ali-nadre)
-
 - Microsoft provides integration between Purview and these MDM ISVs (Independent Software Vendors for Master Data Management). For example, Purview + Profisee integration (available via Purview’s partner connectors) allows mastered data from Profisee to be visible in the Purview catalog. So, if Your company uses Profisee to master customer data, Purview can list the “Customer” entity and show which source systems feed it and which domain owns it. Data stewards can even initiate actions in Profisee from Purview’s interface, establishing a governance workflow.
 - Similarly, Purview + CluedIn integration is offered. CluedIn can push its discovered metadata and lineage into Purview, and vice versa. In effect, CluedIn could serve as the backend that does the heavy lifting of data unification and cleaning, and Purview as the frontend to view the results and govern them. If CluedIn is detecting data quality issues or duplicates, those could surface as alerts in Purview.
 

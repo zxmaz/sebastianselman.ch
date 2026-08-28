@@ -33,14 +33,6 @@ Screenshot taken from Microsoft Build 2025 - Breakout session BRK 178 [4]
 
 The screenshot above was taken from Build 2025 which I really recommend you have a look at the first 15 minutes of, if you are curious how it works? The session breaks it down beautifully in my opinion[[4]](https://www.youtube.com/watch?v=N6SYd1y3e4g&trk=article-ssr-frontend-pulse_little-text-block).
 
-## Recommended by LinkedIn
-
-[![Google IO 2026: The AI Future is Now ](/assets/img/azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf-59e8400979.jpg) Google IO 2026: The AI Future is Now Richard Lee 3 months ago](https://www.linkedin.com/pulse/google-io-2026-ai-future-now-richard-lee-rtifc)
-
-[![Deepseek: Is the Data Center Industry Deep Sunk?](/assets/img/azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf-87f5ab10fa.jpg) Deepseek: Is the Data Center Industry Deep Sunk? Daniel Golding 1 year ago](https://www.linkedin.com/pulse/deepseek-data-center-industry-deep-sunk-daniel-golding-ppfwc)
-
-[![The Fallacy of Cloud-Only AI: Why Enterprises Must Adopt On-Premise LLMs for True Data Governance](/assets/img/azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf-be3a8572c1.jpg) The Fallacy of Cloud-Only AI: Why Enterprises Must… Bibin Prathap 3 months ago](https://www.linkedin.com/pulse/fallacy-cloud-only-ai-why-enterprises-must-adopt-llms-bibin-prathap-dflxf)
-
 ### Business Benefits of Model Router
 
 - Lower AI Usage Costs: By automatically using smaller-capacity models for easy tasks and only calling on big models when absolutely needed, Model Router saves your business money on AI compute costs[[1]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fgithub%2Ecom%2Fguygregory%2FModelRouter&urlhash=CMrH&trk=article-ssr-frontend-pulse_little-text-block). You’re no longer overpaying for top-tier model performance when it’s not necessary.

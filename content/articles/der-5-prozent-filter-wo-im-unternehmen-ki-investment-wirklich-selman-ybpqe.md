@@ -76,14 +76,6 @@ Das ist eine schöne Rechnung. Sie widerspricht meiner These nicht — sie quali
 
 Die Rendite auf Investitionen in den Kern des eigenen Wertversprechens ist deshalb am nachhaltigsten — weil dort niemand anders je zu einem besseren Anbieter werden kann als Du selbst.
 
-## Recommended by LinkedIn
-
-[![Warum scheitern so viele AI‑Initiativen, aber "Babysteps" funktionieren?](/assets/img/der-5-prozent-filter-wo-im-unternehmen-ki-investment-wirklich-selman-ybpqe-3da7fcb2e0.jpg) Warum scheitern so viele AI‑Initiativen, aber… Michael Moser 4 months ago](https://de.linkedin.com/pulse/warum-scheitern-so-viele-aiinitiativen-aber-babysteps-michael-moser-vpl1f)
-
-[!["Wir wollen etwas mit KI machen"​](/assets/img/der-5-prozent-filter-wo-im-unternehmen-ki-investment-wirklich-selman-ybpqe-46b7997391.jpg) "Wir wollen etwas mit KI machen" Kenza Ait Si Abbou 3 years ago](https://de.linkedin.com/pulse/wir-wollen-etwas-mit-ki-machen-kenza-ait-si-abbou)
-
-[![Let’s Get Started: Warum viele Organisationen beim Thema KI falsch abbiegen](/assets/img/der-5-prozent-filter-wo-im-unternehmen-ki-investment-wirklich-selman-ybpqe-8ba4de6837.jpg) Let’s Get Started: Warum viele Organisationen beim… Claudio S. 10 months ago](https://de.linkedin.com/pulse/lets-get-started-warum-viele-organisationen-beim-ki-scicchitano-cxvie)
-
 ### Die eigentlich richtige Frage nach dem BPMN-Winkel
 
 Wenn Du die 5% Deiner Prozesse identifiziert hast, die Deine Differenzierung tragen — dann fange bitte nicht damit an zu fragen: "Welche Schritte in diesem Prozess lassen sich mit KI automatisieren?" Ich halte das für die falsche Frage. Sie führt zu einer Kette leicht optimierter Alt-Prozesse.
