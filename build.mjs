@@ -336,13 +336,23 @@ function nowSection(activities, showTentative) {
     a.status !== 'tentative' || showTentative);
   const held = activities.length - visible.length;
 
-  const upcoming = visible.filter(a => a.status !== 'past')
+  // An activity is past once its date has gone by — no manual status flip
+  // needed. "Today" is the Europe/Zurich calendar date (en-CA formats as
+  // YYYY-MM-DD, comparable to activity dates as strings), so an evening
+  // event doesn't demote early when the build runs in UTC. A same-day event
+  // stays upcoming for its whole day; an explicit status "past" is still
+  // honoured.
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Zurich' })
+    .format(new Date());
+  const isPast = (a) => a.status === 'past' || a.date < today;
+
+  const upcoming = visible.filter(a => !isPast(a))
     .sort((a, b) => a.date.localeCompare(b.date));
-  const past = visible.filter(a => a.status === 'past')
+  const past = visible.filter(isPast)
     .sort((a, b) => b.date.localeCompare(a.date));
 
   const card = (a) => `
-    <li class="activity${a.status === 'past' ? ' past' : ''}">
+    <li class="activity${isPast(a) ? ' past' : ''}">
       <div class="when">
         <span class="day">${esc(humanDate(a.date))}</span>
         <span class="kind">${esc(KIND_LABEL[a.kind] || a.kind)}</span>
