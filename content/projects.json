@@ -4,16 +4,19 @@
     "kind": "Podcast",
     "period": "2026 –",
     "status": "published",
-    "url": "https://www.youtube.com/watch?v=Z8E5aHchpcU&list=PL053kgqQv_fv9K7qPqv84G-rlbudzubzp",
+    "url": "https://www.youtube.com/playlist?list=PL053kgqQv_fv9K7qPqv84G-rlbudzubzp",
     "url_label": "Watch the playlist",
     "summary": "A conversation series with Dr. Estera Kot, CTO of Clouds on Mars, on what actually happens when enterprises put AI into production. Published on the Clouds on Mars TV channel.",
     "episodes": [
+      { "date": "2026-10-01", "title": "AI Pilots Are Designed To Pass. Production Is Not A Vacuum", "url": "https://youtu.be/roPl_afwZfw" },
+      { "date": "2026-09-10", "title": "The Fabric Toggle That Is GA, Free, And Off By Default", "url": "https://youtu.be/I9UWOuc8MKA" },
+      { "date": "2026-08-27", "title": "Clean The Data Estate First, Or The Agent Guesses", "url": "https://youtu.be/iOWL8ELLX8o" },
       { "date": "2026-08-13", "title": "AI Is Not Taking Your Job. It Is Promoting You", "url": "https://youtu.be/Z8E5aHchpcU" },
       { "date": "2026-07-02", "title": "What Happens When the Cloud Goes Down? Smart Buildings, AWS and Resilience", "url": "https://youtu.be/b7j9M3qlpUk" },
       { "date": "2026-04-24", "title": "What Leaders Need Before AI Readiness: Data Visibility", "url": "https://youtu.be/WqGvHDi91A8" }
     ],
     "links": [
-      { "label": "Full playlist", "url": "https://www.youtube.com/watch?v=Z8E5aHchpcU&list=PL053kgqQv_fv9K7qPqv84G-rlbudzubzp" },
+      { "label": "Full playlist", "url": "https://www.youtube.com/playlist?list=PL053kgqQv_fv9K7qPqv84G-rlbudzubzp" },
       { "label": "Clouds on Mars TV", "url": "https://www.youtube.com/@cloudsonmarshq/videos" }
     ],
     "highlights": []
