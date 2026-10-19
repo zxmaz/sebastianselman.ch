@@ -1,12 +1,21 @@
 [
   {
     "date": "2026-11-16",
-    "title": "The Effort Illusion: Why Your AI Users Feel More Productive Than They Are",
-    "kind": "talk",
-    "venue": "Swiss AI Summit (SWAIS) 2026, Kunsthaus Zürich",
-    "url": null,
-    "status": "tentative",
-    "blurb": "Enterprises still measure AI impact by input — prompts written, tokens consumed, hours 'saved'. The research says users systematically overestimate their own gains, anchored on the effort they put in. What to measure instead."
+    "title": "Swiss AI Summit 2026",
+    "kind": "attending",
+    "venue": "Kunsthaus Zürich",
+    "url": "https://swissaisummit.com",
+    "status": "confirmed"
+  },
+  {
+    "date": "2026-10-20",
+    "date_end": "2026-10-21",
+    "title": "St. Galler Produktionsmanagement-Tagung",
+    "kind": "attending",
+    "venue": "University of St. Gallen — Hotel Einstein, St. Gallen",
+    "url": "https://pscm.unisg.ch/en/events/production-management-conference",
+    "status": "confirmed",
+    "blurb": "This year's theme: “Shaping the Future: The New Rules of Industrial Competitiveness”."
   },
   {
     "date": "2026-09-09",

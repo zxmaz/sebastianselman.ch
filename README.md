@@ -36,7 +36,8 @@ Order in the file doesn't matter — entries sort themselves by date.
 | Field | Notes |
 |---|---|
 | `date` | `YYYY-MM-DD`. Drives sorting and the "Previously" split. |
-| `kind` | `talk`, `workshop`, `session` or `podcast`. |
+| `date_end` | Optional. `YYYY-MM-DD`, last day of a multi-day event. The card shows the range ("20–21 October 2026") and the entry stays upcoming until this date has passed. |
+| `kind` | `talk`, `workshop`, `session`, `podcast` or `attending`. `attending` is for events you go to but don't speak at — labelled *Attending*, never *Talk*. |
 | `url` | Link to the programme, write-up or recording. `null` if there isn't one. |
 | `status` | `confirmed`, `tentative` or `past`. **See below.** |
 | `blurb` | Optional. Markdown links and `**bold**` work. |
@@ -47,10 +48,6 @@ Order in the file doesn't matter — entries sort themselves by date.
 - **`past`** — shown under *Previously*.
 - **`tentative`** — **hidden by default.** Nothing unconfirmed goes on a public
   page under your name without you saying so.
-
-One entry is currently `tentative`: the SWAIS 2026 keynote, whose submission
-status was never confirmed. When it firms up, change its `status` to
-`confirmed` and rebuild.
 
 To preview all of them at once without publishing, set `_notes.show_tentative`
 to `true` in `content/profile.json` — but set it back before deploying, or flip

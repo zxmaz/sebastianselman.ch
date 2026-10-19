@@ -63,7 +63,8 @@ if (BASE) {
 const u = (href) => (BASE && typeof href === 'string' && href.startsWith('/'))
   ? BASE + href : href;
 
-const KIND_LABEL = { talk: 'Talk', workshop: 'Workshop', session: 'Session', podcast: 'Podcast' };
+const KIND_LABEL = { talk: 'Talk', workshop: 'Workshop', session: 'Session', podcast: 'Podcast',
+                     attending: 'Attending' };
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -78,6 +79,21 @@ function humanDate(iso) {
   const m = String(iso || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
   if (!m) return iso || '';
   return `${Number(m[3])} ${MONTHS[Number(m[2]) - 1]} ${m[1]}`;
+}
+/**
+ * A multi-day span in humanDate's style, sharing whatever the ends have in
+ * common: "20–21 October 2026", "30 October – 2 November 2026",
+ * "30 December 2026 – 2 January 2027". No usable end → the single start date.
+ */
+function humanRange(start, end) {
+  const a = String(start || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  const b = String(end || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!a || !b || end <= start) return humanDate(start);
+  const [ad, am, ay] = [Number(a[3]), MONTHS[Number(a[2]) - 1], a[1]];
+  const [bd, bm, by] = [Number(b[3]), MONTHS[Number(b[2]) - 1], b[1]];
+  if (ay !== by) return `${ad} ${am} ${ay} – ${bd} ${bm} ${by}`;
+  if (am !== bm) return `${ad} ${am} – ${bd} ${bm} ${by}`;
+  return `${ad}–${bd} ${bm} ${by}`;
 }
 const year = (iso) => String(iso || '').slice(0, 4);
 
@@ -340,11 +356,11 @@ function nowSection(activities, showTentative) {
   // needed. "Today" is the Europe/Zurich calendar date (en-CA formats as
   // YYYY-MM-DD, comparable to activity dates as strings), so an evening
   // event doesn't demote early when the build runs in UTC. A same-day event
-  // stays upcoming for its whole day; an explicit status "past" is still
-  // honoured.
+  // stays upcoming for its whole day; a multi-day event stays upcoming through
+  // its date_end. An explicit status "past" is still honoured.
   const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Zurich' })
     .format(new Date());
-  const isPast = (a) => a.status === 'past' || a.date < today;
+  const isPast = (a) => a.status === 'past' || (a.date_end ?? a.date) < today;
 
   const upcoming = visible.filter(a => !isPast(a))
     .sort((a, b) => a.date.localeCompare(b.date));
@@ -354,7 +370,7 @@ function nowSection(activities, showTentative) {
   const card = (a) => `
     <li class="activity${isPast(a) ? ' past' : ''}">
       <div class="when">
-        <span class="day">${esc(humanDate(a.date))}</span>
+        <span class="day">${esc(humanRange(a.date, a.date_end))}</span>
         <span class="kind">${esc(KIND_LABEL[a.kind] || a.kind)}</span>
         ${a.status === 'tentative' ? '<span class="badge">tentative</span>' : ''}
       </div>
@@ -367,7 +383,7 @@ function nowSection(activities, showTentative) {
 
   return `<section id="now">
   <h2>Now</h2>
-  <p class="section-note">Talks, workshops and sessions — what's coming up and what's been.</p>
+  <p class="section-note">Talks, workshops, sessions and events I'm attending — what's coming up and what's been.</p>
   ${upcoming.length ? `<ul class="activities">${upcoming.map(card).join('')}\n  </ul>`
     : `<p class="empty">Nothing publicly scheduled at the moment.</p>`}
   ${past.length ? `<h3 class="sub">Previously</h3>\n  <ul class="activities">${past.map(card).join('')}\n  </ul>` : ''}
