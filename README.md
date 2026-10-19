@@ -55,12 +55,43 @@ the individual entries instead.
 
 ---
 
+## Podcast episodes
+
+The *Business Mission Control* episode list in `content/projects.json` keeps
+itself current. Every night the rebuild workflow runs `sync-episodes.mjs`, which
+reads the YouTube playlist feed and adds any episode the list doesn't have yet,
+newest first, then the build and commit run as usual.
+
+To run it yourself:
+
+```bash
+node sync-episodes.mjs --dry-run   # show what would be added, write nothing
+node sync-episodes.mjs             # add new episodes to content/projects.json
+```
+
+- **It only ever adds.** Episodes are matched by YouTube video ID, and one that
+  is already listed is never overwritten or removed, so hand edits stick: tidy a
+  title or fix a date and it stays that way.
+- **To drop an episode**, remove it from the playlist first, then delete its line
+  from `projects.json`. Otherwise the next nightly sync adds it straight back.
+- If YouTube is down or the feed changes shape, the sync prints a warning, leaves
+  the file alone and the rebuild carries on. On GitHub the warning shows on the
+  run's summary page.
+
+New entries get the Zurich publish date, and the title without the
+" | Business Mission Control" suffix YouTube puts on some of them.
+
+The tests (`node --test`) use a local fixture feed and a temp copy of the file;
+they never touch YouTube or the real `projects.json`.
+
+---
+
 ## Everything else you might change
 
 | File | Holds |
 |---|---|
 | `content/profile.json` | Name, role, bio paragraphs, the LinkedIn/GitHub/email links |
-| `content/projects.json` | The Projects section |
+| `content/projects.json` | The Projects section. Podcast episodes sync themselves, see above |
 | `content/essays/*.md` | The 7 limmatreframe.com essays |
 | `content/articles/*.md` | The 9 LinkedIn articles |
 | `content/career.json` | The career timeline — employers, roles, month spans |

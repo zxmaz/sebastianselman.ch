@@ -1,7 +1,9 @@
 # Rebuilds the site every night so date-dependent output stays current
 # without a manual push: activities demote to "Previously" once their date
 # passes (build.mjs computes "today" in Europe/Zurich), and the CV tenure
-# months tick over. Commits only when the generated output actually changed.
+# months tick over. Before building, new Business Mission Control episodes
+# are pulled from the YouTube playlist into content/projects.json. Commits
+# only when the content or the generated output actually changed.
 name: Daily rebuild
 
 on:
@@ -22,6 +24,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Sync podcast episodes from the playlist feed
+        # The script already exits 0 on any feed problem and leaves the file
+        # untouched; continue-on-error and the timeout are the backstop. A
+        # YouTube outage can only ever cost tonight's new episodes, never the
+        # rebuild. Problems show as a warning on the run's summary page.
+        run: node sync-episodes.mjs
+        continue-on-error: true
+        timeout-minutes: 2
       - run: node build.mjs
       - name: Commit and push if output changed
         run: |
@@ -29,8 +39,12 @@ jobs:
             echo "No changes - nothing to publish."
             exit 0
           fi
+          msg="Daily rebuild: refresh generated site"
+          if ! git diff --quiet -- content/projects.json; then
+            msg="Daily rebuild: add new podcast episodes"
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Daily rebuild: refresh generated site"
+          git commit -m "$msg"
           git push
