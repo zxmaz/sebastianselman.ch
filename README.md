@@ -15,10 +15,10 @@ one entry to the list:
 
 ```json
 {
-  "date": "2026-11-16",
-  "title": "The Effort Illusion",
+  "date": "2027-03-15",
+  "title": "Title of the Talk",
   "kind": "talk",
-  "venue": "Swiss AI Summit, Kunsthaus Zürich",
+  "venue": "Name of the Event, City",
   "url": "https://example.com/programme",
   "status": "confirmed",
   "blurb": "One or two sentences on what the session is about."
@@ -98,19 +98,15 @@ block is simply visible.
 ## Commands
 
 ```bash
-node build.mjs --base sebastianselman.ch
-```
-
-**Use `--base` for now.** Until DNS points the domain at GitHub, the site is
-served from a subpath (`zxmaz.github.io/sebastianselman.ch/`), where
-root-absolute links would 404. The flag prefixes internal links and skips the
-CNAME, because a custom domain and a subpath cannot both apply.
-
-Once the DNS cutover lands (Work Item #190), drop the flag permanently:
-
-```bash
 node build.mjs
 ```
+
+That's the build, every time. It writes `docs/` for the custom domain,
+`CNAME` included.
+
+`--base` exists only to preview the site under a GitHub Pages subpath. It drops
+the CNAME, so **never deploy a `--base` build** — that took the site down on
+26 August 2026.
 
 To preview locally:
 
@@ -119,10 +115,6 @@ node build.mjs --serve
 ```
 
 `--serve` builds and then serves `docs/` on <http://localhost:4173>.
-
-> On Git Bash, pass the base **without** a leading slash. Git Bash rewrites
-> `/sebastianselman.ch` into a Windows filesystem path; the build detects that
-> and warns, but the clean form avoids the noise.
 
 After adding large images:
 
@@ -141,17 +133,16 @@ run it as often as you like.
 GitHub Pages serves `docs/` from `main`, on repo `zxmaz/sebastianselman.ch`.
 Push to `main` and the site updates within a minute or two.
 
-**Live now:** <https://zxmaz.github.io/sebastianselman.ch/>
+**Live:** <https://sebastianselman.ch>, on the custom domain.
 
 `docs/CNAME` holds the custom domain. `docs/.nojekyll` stops GitHub trying to run
 Jekyll over the output.
 
-**DNS:** `sebastianselman.ch` must point its apex `A` records at GitHub Pages
-(`185.199.108.153`, `.109.153`, `.110.153`, `.111.153`) and `www` at
-`zxmaz.github.io.`. That change happens at all-inkl and is tracked as Work Item
-#190 — until it lands, the site is only reachable at `zxmaz.github.io`.
+**DNS:** the apex `A` records point at GitHub Pages (`185.199.108.153`,
+`.109.153`, `.110.153`, `.111.153`) and `www` at `zxmaz.github.io.`, both set
+at all-inkl. The cutover is done (Work Item #190, 26 August 2026).
 
-The `MX` record stays on all-inkl. Mail is unaffected by the switch.
+The `MX` record stays on all-inkl. Mail is unaffected.
 
 ---
 
