@@ -261,6 +261,26 @@ h2 { font-size: 1.05rem; font-family: var(--mono); font-weight: 500;
   .reading-list .cover { width: 48px; }
 }
 
+/* ── certifications ────────────────────────────────────────────────────── */
+.certs { list-style: none; padding: 0; margin: 0; display: grid; gap: 2rem 1.25rem;
+         grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); }
+.cert { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.cert-img { display: block; width: 7rem; margin: 0 0 .8rem; }
+.cert-img img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; }
+.cert h3 { font-size: .95rem; font-weight: 600; line-height: 1.3; margin: 0 0 .3rem; }
+.cert h3 a { color: var(--fg); text-decoration: none; }
+.cert h3 a:hover { color: var(--accent); }
+.cert-meta { font: 400 .7rem/1.45 var(--mono); color: var(--faint); margin: 0; }
+.cert.expired .cert-img img { opacity: .5; filter: grayscale(1); }
+.cert-more { margin: 2.5rem 0 0; }
+.cert-more a { font: 500 .78rem/1 var(--mono); text-decoration: none; display: inline-flex; gap: .3rem; }
+.cert-more span { font-size: .8em; }
+@media (max-width: 620px) {
+  .certs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem 1rem; }
+  .cert-img { width: 5.75rem; }
+  .cert h3 { font-size: .9rem; }
+}
+
 /* ── footer ────────────────────────────────────────────────────────────── */
 footer { max-width: 46rem; margin: 0 auto; padding: 2.5rem clamp(1.1rem, 5vw, 3rem) 4rem;
          border-top: 1px solid var(--line); }

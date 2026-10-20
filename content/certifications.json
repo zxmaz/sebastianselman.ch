@@ -1,0 +1,44 @@
+{
+  "intro": "Certifications and badges issued through Credly, newest first. Each one links to its Credly page, where it can be verified.",
+  "profile_url": "https://www.credly.com/users/sebastian-selman",
+
+  "badges": [
+    { "name": "Generative AI Leader Certification", "issuer": "Google Cloud", "date": "2026-10-16", "expires": "2029-10-16",
+      "url": "https://www.credly.com/badges/42706880-40c2-4e2a-8782-d61f73412f58",
+      "image": "/assets/img/credly/generative-ai-leader-certification.png" },
+    { "name": "Cloud Digital Leader Certification", "issuer": "Google Cloud", "date": "2026-10-16", "expires": "2029-10-16",
+      "url": "https://www.credly.com/badges/d6d93477-25b7-4cba-91af-9c6d651d65c8",
+      "image": "/assets/img/credly/cloud-digital-leader-certification.png" },
+    { "name": "Microsoft Global Hackathon 2025", "issuer": "The Microsoft Garage", "date": "2025-08-28", "expires": null,
+      "url": "https://www.credly.com/badges/f26d9739-d44c-46f7-84ce-2dbf644889d6",
+      "image": "/assets/img/credly/microsoft-global-hackathon-2025.png" },
+    { "name": "Data & AI for Sustainable Business Transformation Badge", "issuer": "Microsoft Employee Learning", "date": "2025-02-07", "expires": null,
+      "url": "https://www.credly.com/badges/49f697cb-afcf-4adc-8513-1bd31c940efc",
+      "image": "/assets/img/credly/data-ai-for-sustainable-business-transformation.png" },
+    { "name": "Akkodis AI Hackathon: Challenge Completed", "issuer": "Microsoft Switzerland", "date": "2025-01-17", "expires": null,
+      "url": "https://www.credly.com/badges/ae704ae4-8895-4190-820d-d40cea52959f",
+      "image": "/assets/img/credly/akkodis-ai-hackathon-challenge-completed.png" },
+    { "name": "Microsoft AI Navigator [Azure]", "issuer": "Microsoft MCAPS Academy", "date": "2025-01-07", "expires": null,
+      "url": "https://www.credly.com/badges/c55a5ce2-0b57-442f-8655-199c8d0a559d",
+      "image": "/assets/img/credly/microsoft-ai-navigator-azure.png" },
+    { "name": "Microsoft Certified: Security, Compliance, and Identity Fundamentals", "issuer": "Microsoft", "date": "2023-01-06", "expires": null,
+      "url": "https://www.credly.com/badges/931b3899-a7cb-4fdb-b93f-83a096db7692",
+      "image": "/assets/img/credly/security-compliance-identity-fundamentals.png" },
+    { "name": "Microsoft Certified: Azure Fundamentals", "issuer": "Microsoft", "date": "2023-01-05", "expires": null,
+      "url": "https://www.credly.com/badges/bf8c27f2-cfe0-4de1-97d0-6b8c1c9d8b7e",
+      "image": "/assets/img/credly/azure-fundamentals.png" },
+    { "name": "Microsoft Global Hackathon 2022", "issuer": "The Microsoft Garage", "date": "2022-08-25", "expires": null,
+      "url": "https://www.credly.com/badges/7fda0618-4c98-4271-b38f-92c16ec33704",
+      "image": "/assets/img/credly/microsoft-global-hackathon-2022.png" },
+    { "name": "Microsoft Certified: Azure Data Fundamentals", "issuer": "Microsoft", "date": "2022-05-31", "expires": null,
+      "url": "https://www.credly.com/badges/715c51f7-1005-4e6d-b577-d3ec96771a70",
+      "image": "/assets/img/credly/azure-data-fundamentals.png" },
+    { "name": "Microsoft Certified: Azure AI Fundamentals", "issuer": "Microsoft", "date": "2022-05-24", "expires": null,
+      "url": "https://www.credly.com/badges/41bfe2aa-2dce-4339-a513-c682ce30153c",
+      "image": "/assets/img/credly/azure-ai-fundamentals.png" }
+  ],
+
+  "_notes": {
+    "comment": "Order in the file doesn't matter: the page sorts newest first by date. An entry whose expires date has passed stays listed, marked expired, as Credly shows it. EY badges are left off on purpose. See README.md, 'Adding a certification'."
+  }
+}

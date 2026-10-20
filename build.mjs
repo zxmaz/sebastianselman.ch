@@ -544,6 +544,42 @@ function readingSection(reading) {
 </section>`;
 }
 
+/**
+ * Certifications: one tile per Credly badge, newest first. Each tile links to
+ * the badge's public Credly page, which is where it gets verified; the PNGs
+ * themselves carry no baked credential (strip-badge.mjs removes it).
+ *
+ * The image link is a mouse target only (aria-hidden, out of the tab order) so
+ * a screen reader hears each badge once, through the heading link. A badge
+ * past its `expires` date stays listed and is marked expired, as Credly shows
+ * it; "today" is the Zurich calendar date, the same rule nowSection uses.
+ */
+function certificationsSection(certs) {
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Zurich' })
+    .format(new Date());
+  const ext = ' target="_blank" rel="noopener"';
+  const tile = (c) => {
+    const expired = Boolean(c.expires) && c.expires < today;
+    return `
+    <li class="cert${expired ? ' expired' : ''}">
+      <a class="cert-img" href="${esc(c.url)}"${ext} tabindex="-1" aria-hidden="true">
+        <img src="${esc(u(c.image))}" alt="${esc(c.name)}" loading="lazy">
+      </a>
+      <h3><a href="${esc(c.url)}"${ext}>${esc(c.name)}</a></h3>
+      <p class="cert-meta">${esc(c.issuer)} · ${esc(year(c.date))}${expired ? ' · expired' : ''}</p>
+    </li>`;
+  };
+
+  return `<section id="certifications">
+  <h2>Certifications</h2>
+  <p class="section-note">${inline(certs.intro)}</p>
+  <ul class="certs">${certs.badges.slice()
+    .sort((a, b) => b.date.localeCompare(a.date)).map(tile).join('')}
+  </ul>
+  <p class="cert-more"><a href="${esc(certs.profile_url)}"${ext}>All badges on Credly<span aria-hidden="true">↗</span></a></p>
+</section>`;
+}
+
 function writingSection(docs) {
   const byYear = new Map();
   for (const d of docs) {
@@ -651,6 +687,14 @@ async function main() {
   const projects = JSON.parse(await readFile(path.join(CONTENT, 'projects.json'), 'utf8'));
   const career = JSON.parse(await readFile(path.join(CONTENT, 'career.json'), 'utf8'));
   const reading = JSON.parse(await readFile(path.join(CONTENT, 'reading.json'), 'utf8'));
+  const certs = JSON.parse(await readFile(path.join(CONTENT, 'certifications.json'), 'utf8'));
+
+  // A badge whose PNG isn't in assets/ would publish as a broken image. Say so
+  // rather than ship it quietly.
+  for (const c of certs.badges) {
+    try { await stat(path.join(ROOT, c.image)); }
+    catch { console.warn(`  ! certification image missing: ${c.image}`); }
+  }
 
   const essays = await loadDocs('essays', 'limmatreframe');
   const articles = await loadDocs('articles', 'linkedin');
@@ -673,6 +717,7 @@ async function main() {
       writingSection(docs),
       careerSection(career),
       readingSection(reading),
+      certificationsSection(certs),
     ].join('\n\n'),
   }), 'utf8');
 
@@ -724,7 +769,7 @@ async function main() {
   console.log(`built  ${docs.length} pieces (${essays.length} essays, ${articles.length} articles)`);
   console.log(`       ${activities.length} activities` +
     (heldBack && !showTentative ? `, ${heldBack} tentative held back from the page` : ''));
-  console.log(`       ${projects.length} projects, ${urls.length} URLs in sitemap`);
+  console.log(`       ${projects.length} projects, ${certs.badges.length} certifications, ${urls.length} URLs in sitemap`);
   console.log(`       → ${path.relative(process.cwd(), DOCS)}`);
 
   if (process.argv.includes('--serve')) serve();
@@ -1011,6 +1056,26 @@ h2 { font-size: 1.05rem; font-family: var(--mono); font-weight: 500;
 @media (max-width: 620px) {
   .reading-list > li { grid-template-columns: 48px 1fr; gap: .85rem; }
   .reading-list .cover { width: 48px; }
+}
+
+/* ── certifications ────────────────────────────────────────────────────── */
+.certs { list-style: none; padding: 0; margin: 0; display: grid; gap: 2rem 1.25rem;
+         grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); }
+.cert { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.cert-img { display: block; width: 7rem; margin: 0 0 .8rem; }
+.cert-img img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain; }
+.cert h3 { font-size: .95rem; font-weight: 600; line-height: 1.3; margin: 0 0 .3rem; }
+.cert h3 a { color: var(--fg); text-decoration: none; }
+.cert h3 a:hover { color: var(--accent); }
+.cert-meta { font: 400 .7rem/1.45 var(--mono); color: var(--faint); margin: 0; }
+.cert.expired .cert-img img { opacity: .5; filter: grayscale(1); }
+.cert-more { margin: 2.5rem 0 0; }
+.cert-more a { font: 500 .78rem/1 var(--mono); text-decoration: none; display: inline-flex; gap: .3rem; }
+.cert-more span { font-size: .8em; }
+@media (max-width: 620px) {
+  .certs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem 1rem; }
+  .cert-img { width: 5.75rem; }
+  .cert h3 { font-size: .9rem; }
 }
 
 /* ── footer ────────────────────────────────────────────────────────────── */

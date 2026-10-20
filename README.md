@@ -90,13 +90,15 @@ they never touch YouTube or the real `projects.json`.
 
 | File | Holds |
 |---|---|
-| `content/profile.json` | Name, role, bio paragraphs, the LinkedIn/GitHub/email links |
+| `content/profile.json` | Name, role, bio paragraphs, the LinkedIn/GitHub/Credly/email links |
 | `content/projects.json` | The Projects section. Podcast episodes sync themselves, see above |
 | `content/essays/*.md` | The 7 limmatreframe.com essays |
 | `content/articles/*.md` | The 9 LinkedIn articles |
 | `content/career.json` | The career timeline — employers, roles, month spans |
 | `content/reading.json` | The reading section — books and essays, with optional links |
+| `content/certifications.json` | The Certifications section — Credly badges, newest first, last on the page. To add one, see *Adding a certification* below |
 | `assets/img/` | Images. Reference them as `/assets/img/name.jpg` |
+| `assets/img/credly/` | The badge PNGs for the Certifications section |
 
 Essays and articles carry YAML front-matter (`title`, `date`, `slug`, `byline`,
 `source`). The `slug` becomes the URL, so changing it breaks existing links —
@@ -106,6 +108,32 @@ Slugs are folded to ASCII at build time (`ü` → `ue`, and so on). A raw umlaut
 a URL path 404s on GitHub Pages unless every href percent-encodes it — it works
 locally and breaks live, which is the worst way to find out. Keep new image
 filenames ASCII for the same reason.
+
+### Adding a certification
+
+1. On Credly, open the badge's share page
+   (`https://www.credly.com/earner/earned/share/<badge id>`), choose
+   **Download Badge**, then **Download Image**. If the dialog says the original
+   is larger than 600 px, move the slider down to 600 first.
+2. Save it as `assets/img/credly/<name>.png`, with an ASCII name.
+3. Run `node strip-badge.mjs`. Credly bakes the full signed credential into the
+   PNG; this drops it and leaves the artwork untouched. Visitors verify the
+   badge on Credly instead, which is what the link is for. It also warns about
+   anything over 600 px or 300 KB.
+4. Add an entry to `content/certifications.json`:
+
+   ```json
+   { "name": "Badge Name", "issuer": "Issuer", "date": "2027-03-15", "expires": null,
+     "url": "https://www.credly.com/badges/<badge id>",
+     "image": "/assets/img/credly/<name>.png" }
+   ```
+
+5. `node build.mjs`.
+
+Order in the file doesn't matter — badges sort newest first by `date`. Set
+`expires` (`YYYY-MM-DD`) for badges that lapse: once it has passed, the badge
+stays listed and is marked *expired*, the same way Credly shows it. The build
+warns if an entry's image is missing. EY badges are left off on purpose.
 
 ---
 

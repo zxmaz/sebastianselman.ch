@@ -15,6 +15,7 @@
   "links": [
     { "label": "LinkedIn", "url": "https://www.linkedin.com/in/humancentereddesign/", "primary": true },
     { "label": "GitHub", "url": "https://github.com/zxmaz", "primary": true },
+    { "label": "Credly", "url": "https://www.credly.com/users/sebastian-selman", "primary": false },
     { "label": "Email", "url": "mailto:sebastianrappen@gmail.com", "primary": false }
   ],
 
