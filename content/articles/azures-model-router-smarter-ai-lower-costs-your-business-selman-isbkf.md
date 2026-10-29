@@ -5,14 +5,11 @@ date: 2025-05-28
 byline: Sebastian Selman
 lang: en
 source: https://www.linkedin.com/pulse/azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf/
-summary: "[Disclaimer: The views expressed in this post are my own and do not reflect the views of my employer, hence the thoughts and perspectives shared here are entirely my own and should not be interpreted as official statements or positions of the company. This article is co-authored with the Researcher "
 cover_image: "https://media.licdn.com/dms/image/v2/D4D12AQEqzvyXaKzoaw/article-cover_image-shrink_423_752/B4DZcUCUXVGkAU-/0/1748387842496?e=2147483647&v=beta&t=FADj0Oau_Dlmp4vPqDtmkk29-wqaT-PJPjE2-ZZf5DE"
 images: [azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf-ca021f006e.jpg, azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf-59e8400979.jpg, azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf-87f5ab10fa.jpg, azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf-be3a8572c1.jpg]
 captured_at: 2026-08-26T10:37:14.170Z
 origin: linkedin
 ---
-[Disclaimer: The views expressed in this post are my own and do not reflect the views of my employer, hence the thoughts and perspectives shared here are entirely my own and should not be interpreted as official statements or positions of the company. This article is co-authored with the Researcher (Frontier) of M365 CoPilot - As the Model Router in Foundry discussed here is still in Preview, please always refer to the official documentation for the latest information as facts will change as the service evolves #MicrosoftAdvocate]
-
 Businesses can now reduce their AI costs without sacrificing quality. Microsoft’s new Model Router (currently in preview) is an Azure OpenAI Service feature that acts like an intelligent traffic controller for AI models. Instead of always using the most powerful (and expensive) large language model (LLM) for every task, the Model Router automatically directs each request to the most cost-effective model that can handle it – balancing performance and price while maintaining high quality[[2]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fazure%2Fai-services%2Fopenai%2Fconcepts%2Fmodel-router&urlhash=ZLWZ&trk=article-ssr-frontend-pulse_little-text-block)[[1]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fgithub%2Ecom%2Fguygregory%2FModelRouter&urlhash=CMrH&trk=article-ssr-frontend-pulse_little-text-block). In short: smarter routing, lower costs, and the same great results.
 
 ### What is the Model Router?

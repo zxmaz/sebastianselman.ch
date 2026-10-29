@@ -647,7 +647,7 @@ function articlePage(doc, profile) {
     <p class="eyebrow">${esc(humanDate(doc.meta.date))}${
       doc.meta.byline && doc.meta.byline !== 'Sebastian Selman' ? ` · as ${esc(doc.meta.byline)}` : ''}</p>
     <h1>${esc(doc.meta.title)}</h1>
-    ${doc.meta.source ? `<p class="origin">Originally published on
+    ${doc.meta.source ? `<p class="origin">${doc.origin === 'linkedin' ? 'Also' : 'Originally'} published on
       <a href="${esc(doc.meta.source)}" target="_blank" rel="noopener">${
         doc.origin === 'linkedin' ? 'LinkedIn' : 'limmatreframe.com'}</a></p>` : ''}
   </header>
