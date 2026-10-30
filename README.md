@@ -130,7 +130,7 @@ Besides the visible copy, `content/profile.json` holds:
 |---|---|
 | `email` | The address behind the *Email* link (`"url": "mailto:{email}"`) and the Invite button. Moving to a new address is a one-line change here |
 | `offer` | Optional. One line under the tagline; Markdown links work. Nothing renders without it |
-| `invite` | Optional. The *Invite me* section: `heading`, `intro`, `nav` (adds a nav item), `formats` (each `name`, `line`, `evidence`) and `button` (`label`, `subject` for the prefilled mail). Nothing renders without `heading` and at least one format |
+| `invite` | Optional. The *Invite me* section, placed after Projects and before Writing: `heading`, `intro`, `nav` (adds a nav item after Projects), `formats` (each `name`, `line`, `evidence`) and `button` (`label`, `subject` for the prefilled mail). Nothing renders without `heading` and at least one format |
 | `alternateName`, `jobTitle`, `knowsAbout`, `image`, `homeLocation` | The `Person` in the home page's structured data. The `http(s)` links become its `sameAs` (set `"same_as": false` on a link to leave it out). There is no `worksFor`, on purpose |
 | `meta.title` | The home page `<title>`, at most 60 characters |
 

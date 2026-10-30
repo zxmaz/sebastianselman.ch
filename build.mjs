@@ -375,7 +375,8 @@ function shell({ profile, title, description, body, canonical, lang = 'en', type
   const chromeLang = lang === 'en' ? '' : ' lang="en"';
   const nav = [['/#now', 'Now'], ['/#projects', 'Projects'], ['/#writing', 'Writing'],
                ['/#career', 'Career'], ['/#certifications', 'Certifications']];
-  if (profile.invite?.nav && profile.invite?.formats?.length) nav.unshift(['/#invite', profile.invite.nav]);
+  // The optional Invite item sits where the section does: after Projects.
+  if (profile.invite?.nav && profile.invite?.formats?.length) nav.splice(2, 0, ['/#invite', profile.invite.nav]);
   const otherLocales = alternates.filter(a => a.hreflang !== lang && LOCALES[a.hreflang])
     .map(a => LOCALES[a.hreflang]);
 
@@ -1152,11 +1153,13 @@ async function main() {
     description: profile.meta.description,
     canonical: `${site}/`,
     graph: homeGraph(profile, projects, activities),
+    // Invite sits right after Projects, so the podcast and workshop cards
+    // above it read as the evidence for the formats it offers.
     body: [
       heroSection(profile),
-      inviteSection(profile),
       nowSection(activities, showTentative),
       projectsSection(projects),
+      inviteSection(profile),
       writingSection(docs),
       careerSection(career),
       certificationsSection(certs),

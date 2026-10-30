@@ -355,6 +355,19 @@ test('home page: no Reading section, early roles gone, certifications tiered', a
   if (!profile.offer) assert.ok(!/class="offer"/.test(html), 'offer line without data');
 });
 
+test('home page: the Invite section sits between Projects and Writing, with a prefilled mail button', async () => {
+  const html = await readFile(path.join(out, 'index.html'), 'utf8');
+  const profile = JSON.parse(await readFile(path.join(CONTENT, 'profile.json'), 'utf8'));
+  if (!profile.invite) return;
+  const at = (id) => html.indexOf(`<section id="${id}">`);
+  assert.ok(at('projects') < at('invite') && at('invite') < at('writing'), 'Invite after Projects, before Writing');
+  const invite = html.match(/<section id="invite">([\s\S]*?)<\/section>/)[1];
+  assert.equal([...invite.matchAll(/<li class="format">/g)].length, profile.invite.formats.length);
+  const href = `mailto:${profile.email}?subject=${encodeURIComponent(profile.invite.button.subject)}`;
+  assert.ok(invite.includes(`href="${href}"`), `button links ${href}`);
+  assert.ok(html.includes(`<p class="offer">`), 'offer line');
+});
+
 // ── data-driven parts, on fixture content ──────────────────────────────────
 
 test('offer line, Invite section and email come from profile.json alone', async () => {
@@ -367,7 +380,9 @@ test('offer line, Invite section and email come from profile.json alone', async 
   assert.match(invite, /href="mailto:hello@example\.org\?subject=Invitation%3A%20guest%20lecture%20%26%20more"/);
   assert.match(html, /href="mailto:hello@example\.org">Email/, 'Email link follows profile.email');
   assert.ok(!html.includes('sebastianrappen@gmail.com'), 'old address still on the page');
-  assert.match(html, /<nav>\s*<a href="\/#invite">Invite<\/a>/, 'Invite nav item');
+  assert.match(html, /href="\/#projects">Projects<\/a>\s*<a href="\/#invite">Invite<\/a>/, 'Invite nav item after Projects');
+  const order = ['now', 'projects', 'invite', 'writing'].map(id => html.indexOf(`<section id="${id}">`));
+  assert.deepEqual(order, order.slice().sort((a, b) => a - b), `section order ${order}`);
 });
 
 test('events: talks and sessions only, upcoming and confirmed, Zurich time', async () => {
