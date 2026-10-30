@@ -98,7 +98,7 @@ A data contract typically defines:
 - Quality expectations: e.g., no dummy/test records included, certain columns have at least 99% valid values, etc.
 - Timeliness/frequency: how often data is updated or delivered, and possibly latency (e.g., “transactions are available within 1 hour of creation”).
 - Availability/SLA: uptime or reliability of the data service (for instance, “95% uptime of the data pipeline”).
-- Versioning policy: how changes to the data structure will be managed (e.g., semantic versioning – adding new columns is a minor version that is backward compatible, removing or renaming columns triggers a major version)[[8][8]](https://livebook.manning.com/book/data-mesh-in-action/chapter-5/).
+- Versioning policy: how changes to the data structure will be managed (e.g., semantic versioning – adding new columns is a minor version that is backward compatible, removing or renaming columns triggers a major version)[[8]](https://livebook.manning.com/book/data-mesh-in-action/chapter-5/).
 - Owner and support: who owns the data product and who to contact for issues or requests.
 - Usage terms or privacy constraints: any restrictions on how the data can be used (for example, “this dataset may be used for aggregate analytics but not to contact individual candidates directly” if there are privacy concerns).
 
