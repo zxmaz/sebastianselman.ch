@@ -1,9 +1,10 @@
 {
   "name": "Sebastian Selman",
   "alternateName": "Sebastian Rappen",
-  "role": "Data & AI · Human-Centered Design",
+  "role": "Data & Analytics in organisations · Teaching, talks, podcast",
   "location": "Zurich, Switzerland",
   "tagline": "I work on the gap between what technology can do and what organisations manage to do with it.",
+  "offer": "I teach and speak about it: guest lectures and workshops for universities and programmes, talks for conferences, and conversations on podcasts.",
 
   "intro": [
     "That gap is mostly not technical. It shows up as a data platform nobody trusts, a governance model written for a world that no longer exists, or an AI pilot that works beautifully and changes nothing. I spend my time on the organisational side of that problem — currently in enterprise data engineering and data governance, previously across Microsoft's Azure data and AI portfolio, and before that as a design-thinking consultant working with banks and healthcare on how they actually make decisions.",
@@ -11,8 +12,36 @@
     "I grew up in Baden-Baden, was born in Toronto, and started my working life as assistant to a violin maker in Tübingen. Some of that turns out to be more relevant than it sounds."
   ],
 
-  "jobTitle": "Data & AI · Human-Centered Design",
-  "knowsAbout": ["Data engineering", "Data governance", "Artificial intelligence", "Microsoft Azure", "Human-centered design", "Design thinking", "Digital corporate culture"],
+  "invite": {
+    "heading": "Invite me",
+    "intro": "If you run a course, a programme, a conference or a podcast, and the gap between what data and analytics can do and what organisations do with it belongs on your agenda, I would like to hear from you.",
+    "formats": [
+      {
+        "name": "Guest lecture",
+        "line": "A session for a course or degree programme on how organisations actually adopt data and analytics, and why the technology is rarely the hard part.",
+        "evidence": "Four years lecturing Digital Corporate Culture on the Dipl. Digital Innovation Manager NDS HF programme at BVS St. Gallen (2020–2024)."
+      },
+      {
+        "name": "Workshop",
+        "line": "Hands-on, for a cohort or a team: participants build something that works before they discuss what it means.",
+        "evidence": "Slaying Dragons with AI, built with Franziska-J. Klebôn: run at Tomorrow University in Berlin (40 attendees), the WAVE Fellowship and HeadsQuarter Zurich. Earlier: lead coach on EY's Innovation Journey, training around a thousand colleagues."
+      },
+      {
+        "name": "Talk or keynote",
+        "line": "For a conference, leadership event or offsite: why a data platform nobody trusts changes nothing, and what makes data actually used.",
+        "evidence": "Two live sessions in November 2026: hosting an expert panel on SAP data in Microsoft Fabric, and co-presenting AI in event management with Nico Bühler of Alibaba Cloud."
+      },
+      {
+        "name": "Podcast guest",
+        "line": "Happy to sit on the other side of the microphone, for shows on data, analytics, work and how organisations change.",
+        "evidence": "Co-host of Business Mission Control with Dr. Estera Kot since April 2026: conversations on what happens when enterprises put AI into production."
+      }
+    ],
+    "button": { "label": "Send an invitation", "subject": "Invitation via sebastianselman.ch" }
+  },
+
+  "jobTitle": "Lecturer and speaker on data and analytics",
+  "knowsAbout": ["Data analytics", "Data governance", "Data engineering", "Data mesh", "Microsoft Fabric", "Microsoft Azure", "Organisational development", "Digital corporate culture", "Design thinking", "Human-centered design"],
   "image": "/assets/img/sebastian-selman.jpg",
   "homeLocation": { "locality": "Zurich", "country": "CH" },
   "email": "sebastianrappen@gmail.com",
@@ -27,15 +56,15 @@
   ],
 
   "meta": {
-    "title": "Sebastian Selman — Data & AI · Human-Centered Design, Zurich",
-    "description": "Data & AI and human-centered design, from Zurich. Talks, writing, and a podcast on what happens when enterprises put AI into production.",
+    "title": "Sebastian Selman · Lecturer on Data & Analytics, Zurich",
+    "description": "Sebastian Selman on the gap between what technology can do and what organisations do with it. Guest lectures, workshops, talks and podcasts from Zurich.",
     "url": "https://sebastianselman.ch"
   },
 
   "_notes": {
     "show_tentative": false,
-    "schema": "alternateName, jobTitle, knowsAbout, image and homeLocation feed the Person in the home page JSON-LD (build.mjs homeGraph). jobTitle and knowsAbout are interim, taken from the role line and the intro; final values come from Ari (WI #218). The http(s) links become Person.sameAs.",
-    "email": "The Email link and the Invite button both read email; switching address is a one-line change here. offer (a line under the tagline) and invite (the Invite section) render only once they exist; see README.md.",
+    "schema": "alternateName, jobTitle, knowsAbout, image and homeLocation feed the Person in the home page JSON-LD (build.mjs homeGraph). jobTitle, knowsAbout, role, offer, invite and meta are the copy Sebastian approved on 2026-10-30 (WI #218; theme Data & Analytics). The http(s) links become Person.sameAs.",
+    "email": "The Email link and the Invite button both read email; switching address is a one-line change here. Keep the Gmail address until the hello@ round-trip test passes (WI #218 DoD item 9). offer (a line under the tagline) and invite (the Invite section, after Projects) render only when present; see README.md.",
     "comment": "show_tentative=false keeps engagements marked status:'tentative' off the published page. Flip to true once a date is confirmed, or change that entry's status to 'confirmed'. See README.md.",
     "source": "Career data in career.json follows the LinkedIn experience history supplied by Sebastian on 2026-08-26. Note this corrected a long-standing error: Microsoft was 4 years 8 months (May 2021 - Dec 2025), not the ten years recorded in knowledge entries #23, #24 and #425."
   }
