@@ -80,6 +80,10 @@ def fit(draw, text, path, start, max_width):
 
 
 def wrap(draw, text, font, max_width):
+    """Lines that fit max_width. A role line too long for one line breaks at
+    its " · " separators first, so no line ends on a dangling middle dot."""
+    if draw.textlength(text, font=font) > max_width and " · " in text:
+        return [l for part in text.split(" · ") for l in wrap(draw, part, font, max_width)]
     words, lines, line = text.split(), [], ""
     for w in words:
         trial = f"{line} {w}".strip()
