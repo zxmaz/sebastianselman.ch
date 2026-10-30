@@ -9,6 +9,9 @@ cover_image: "https://media.licdn.com/dms/image/v2/D4D12AQGNcAQ6UStrPw/article-c
 images: [establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-24df1be1a2.jpg, establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-6e94ddeb1d.jpg, establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-2711ce9b3b.jpg, establishing-data-mesh-fractal-enterprise-ensuring-quality-selman-mywfc-073f281c04.jpg]
 captured_at: 2026-08-26T10:37:14.170Z
 origin: linkedin
+topic: data-ai
+seo_title: "Data Mesh: Data Quality and Data Contracts"
+description: "Data Mesh in a fractal enterprise: shifting data quality left with MDM, data contracts at the silver and gold layers, and an Azure blueprint with Purview."
 ---
 ### Data Mesh in a Fractal Organization
 

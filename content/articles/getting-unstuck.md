@@ -11,6 +11,9 @@ content_source: rest
 captured_at: 2026-08-26T10:32:43.403Z
 origin: limmatreframe
 byline: Sebastian Rappen
+topic: earlier
+seo_title: "Getting unstuck: goal setting and identity"
+description: "Being stuck can be framed as an identity crisis: no guiding goals, or goals in conflict. Goal setting helps with the first; the second needs priorities."
 ---
 Are you stuck? Because you cannot even sort where to start with all the things piling up in your backlog? Or because you are not even sure what shall happen? I came across a white paper and realized: Being stuck can be framed as an identity crisis, which can burden you in varying degrees.
 

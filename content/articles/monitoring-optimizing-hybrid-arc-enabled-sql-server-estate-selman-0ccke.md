@@ -10,6 +10,9 @@ cover_image: "https://media.licdn.com/dms/image/v2/D4D12AQF-J5kRDGI7gg/article-c
 images: [monitoring-optimizing-hybrid-arc-enabled-sql-server-estate-selman-0ccke-e4b7dfa4e5.jpg, monitoring-optimizing-hybrid-arc-enabled-sql-server-estate-selman-0ccke-0b0cc8dbd8.jpg, monitoring-optimizing-hybrid-arc-enabled-sql-server-estate-selman-0ccke-fe3cb3e0e0.jpg]
 captured_at: 2026-08-26T10:37:14.170Z
 origin: linkedin
+topic: data-ai
+seo_title: "Monitoring an Arc-Enabled SQL Server Estate"
+description: "Monitoring and optimising a hybrid SQL Server estate with Azure Arc: metrics versus logs, Azure-native tools, and lower cost without losing performance."
 ---
 ### Introduction to SQL Server Logging and Monitoring
 

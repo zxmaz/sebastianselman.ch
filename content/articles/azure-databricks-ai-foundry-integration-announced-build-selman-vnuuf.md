@@ -10,6 +10,9 @@ cover_image: "https://media.licdn.com/dms/image/v2/D4D12AQFM1fdY3N1whQ/article-c
 images: [azure-databricks-ai-foundry-integration-announced-build-selman-vnuuf-cc0c4b2947.jpg, azure-databricks-ai-foundry-integration-announced-build-selman-vnuuf-388e399500.jpg, azure-databricks-ai-foundry-integration-announced-build-selman-vnuuf-7ff511f472.jpg]
 captured_at: 2026-08-26T10:37:14.170Z
 origin: linkedin
+topic: data-ai
+seo_title: "Azure Databricks and AI Foundry at Build 2025"
+description: "Build 2025 gave Azure AI Foundry agents live access to Azure Databricks data under Unity Catalog governance. Why it matters, who benefits, and its limits."
 ---
 At Microsoft Build 2025, a new integration between Azure Databricks and Azure AI Foundry (now Microsoft Foundry) was announced. Azure Databricks is a unified analytics platform optimised for Microsoft Azure (providing scalable data processing via Apache Spark), while Azure AI Foundry is a platform for developers to design and manage AI applications and agents. The integration (currently in preview) enables AI agents built in Azure AI Foundry to directly leverage enterprise data stored in Azure Databricks in real time[[1]](https://news.microsoft.com/build-2025-book-of-news/). It allows agents to execute live Spark jobs on Databricks and use Databricks’ AI/BI Genie (a natural language query interface for data) to retrieve insights[[1]](https://news.microsoft.com/build-2025-book-of-news/). Crucially, all data access remains governed by Azure Databricks Unity Catalog for security and compliance[[1]](https://news.microsoft.com/build-2025-book-of-news/). Below, I am aiming to address the significance of this change, who benefits from it, some imagined use cases, and its limitations.
 

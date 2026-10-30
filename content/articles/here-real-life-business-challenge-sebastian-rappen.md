@@ -10,6 +10,8 @@ cover_image: "https://media.licdn.com/dms/image/v2/C4D12AQE6XZWzyOIcVg/article-c
 images: [here-real-life-business-challenge-sebastian-rappen-e4a6b61f96.jpg, here-real-life-business-challenge-sebastian-rappen-1b19cc0e23.jpg, here-real-life-business-challenge-sebastian-rappen-4be6199448.jpg, here-real-life-business-challenge-sebastian-rappen-186d1c3808.jpg]
 captured_at: 2026-08-26T10:37:14.170Z
 origin: linkedin
+topic: earlier
+description: "How could a small people’s knowledge center in the Sundarbans rethink its business model? An open ideation challenge from a design thinking trip to India."
 ---
 ![Here is a real-life business challenge](/assets/img/here-real-life-business-challenge-sebastian-rappen-e4a6b61f96.jpg)
 

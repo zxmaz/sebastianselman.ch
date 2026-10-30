@@ -13,6 +13,8 @@ origin: linkedin
 translated_as: "Heroes, fools and design thinkers meet outside the box"
 translation_lang: "en"
 translation_href: "/articles/thinking-outside-the-box-scares-people/"
+topic: earlier
+description: "Horos, die Grenze: warum soziale Systeme Grenzen brauchen und sie dennoch überschreiten müssen, mit Nietzsche, Wittgenstein und Frege."
 ---
 Horos (altgr. ὅρος) bezeichnet die Grenze, den Grenzstein. Der menschliche Frisson, eine solche zu überschreiten wird in der Moderne in Horrorfilmen stilisiert, gezielt erlebbar gemacht. Wo früher meist natürliche Gegebenheiten, wie Flüsse, als Demarkationslinien die Differenz zwischen hier und dort markierten erfand der Mensch bald Begriffe um zwischen dies- und jenseits-von zu unterscheiden.
 

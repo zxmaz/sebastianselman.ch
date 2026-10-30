@@ -15,6 +15,8 @@ variant_of: "What is at the core of a persona?"
 also_published_at: https://www.linkedin.com/pulse/what-core-persona-sebastian-rappen/
 variant_similarity: "80.4%"
 variant_date: 2019-11-21
+topic: earlier
+description: "In design thinking a persona is the personified representation of a need-statement, not of a demographic segment. What sits at its core, and why."
 ---
 A persona is the personified representation of a user or client group. Within design thinking this persona will be centered around coherent need-statements. The persona as method has initially been developed in marketing where personas were initially used as representations of demographic segments (e.g.: personas called “*dinks” – double income no kids*etc.). Persona’s in design thinking are distinctively different because they are not built around demographic or socio-economic attributes but around needs – **the design thinking persona does not represent the 32-Year old married woman, but represents people who *need* something,**e.g. sth. they can consume with one hand and without getting their hands dirty, while strolling the textile market (because they are not only hungry/thirsty, but also want to touch the textiles and can’t do that with occupied or dirty hands).
 

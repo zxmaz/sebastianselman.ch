@@ -10,6 +10,9 @@ cover_image: "https://media.licdn.com/dms/image/v2/D4D12AQFBVK3QDQ756Q/article-c
 images: [integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-7377bc6e22.jpg, integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-78af20ad71.jpg, integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-a56acd851f.jpg, integration-microsoft-fabric-azure-ai-foundry-what-why-selman-rbiwf-2567ea612d.jpg]
 captured_at: 2026-08-26T10:37:14.170Z
 origin: linkedin
+topic: data-ai
+seo_title: "Microsoft Fabric and Azure AI Foundry"
+description: "Azure AI Foundry agents can use Microsoft Fabric data agents as a knowledge source: what the integration does, who benefits, three use cases, its limits."
 ---
 ### Why is this change relevant? (So What)
 

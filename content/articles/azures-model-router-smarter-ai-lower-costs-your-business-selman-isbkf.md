@@ -9,6 +9,9 @@ cover_image: "https://media.licdn.com/dms/image/v2/D4D12AQEqzvyXaKzoaw/article-c
 images: [azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf-ca021f006e.jpg, azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf-59e8400979.jpg, azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf-87f5ab10fa.jpg, azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf-be3a8572c1.jpg]
 captured_at: 2026-08-26T10:37:14.170Z
 origin: linkedin
+topic: data-ai
+seo_title: "Azure’s Model Router: Smarter AI, Lower Costs"
+description: "Azure OpenAI’s Model Router sends each prompt to the most cost-effective model that can handle it. How it works, what it saves, and why it matters."
 ---
 Businesses can now reduce their AI costs without sacrificing quality. Microsoft’s new Model Router (currently in preview) is an Azure OpenAI Service feature that acts like an intelligent traffic controller for AI models. Instead of always using the most powerful (and expensive) large language model (LLM) for every task, the Model Router automatically directs each request to the most cost-effective model that can handle it – balancing performance and price while maintaining high quality[[2]](https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/model-router)[[1]](https://github.com/guygregory/ModelRouter). In short: smarter routing, lower costs, and the same great results.
 

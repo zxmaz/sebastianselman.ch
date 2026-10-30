@@ -10,6 +10,8 @@ cover_image: "https://media.licdn.com/dms/image/v2/D4E12AQHH67kWVxf0kA/article-c
 images: [slaying-dragons-ai-sebastian-selman-xqome-ebcbb60b7f.jpg, slaying-dragons-ai-sebastian-selman-xqome-c2b9273d9b.jpg, slaying-dragons-ai-sebastian-selman-xqome-210a799a1d.jpg, slaying-dragons-ai-sebastian-selman-xqome-9633ac18f4.jpg, slaying-dragons-ai-sebastian-selman-xqome-56dd628269.jpg, slaying-dragons-ai-sebastian-selman-xqome-a4c89568b9.jpg, slaying-dragons-ai-sebastian-selman-xqome-5e91b7ce89.jpg, slaying-dragons-ai-sebastian-selman-xqome-85a9f9480e.jpg, slaying-dragons-ai-sebastian-selman-xqome-152a0fea4b.jpg, slaying-dragons-ai-sebastian-selman-xqome-563c050b56.jpg, slaying-dragons-ai-sebastian-selman-xqome-366f960168.jpg, slaying-dragons-ai-sebastian-selman-xqome-768bcc2f31.jpg, slaying-dragons-ai-sebastian-selman-xqome-27ee945bc2.jpg]
 captured_at: 2026-08-26T10:37:14.170Z
 origin: linkedin
+topic: data-ai
+description: "A 60-minute workshop at Tomorrow University’s Berlin Immersion: 40 attendees, local AI agent systems, four working prototypes. What helped, what didn’t."
 ---
 40 people, 4 working prototypes, and how to be the next one!
 

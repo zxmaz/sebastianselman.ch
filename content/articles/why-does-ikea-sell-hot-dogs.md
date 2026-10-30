@@ -12,6 +12,8 @@ content_source: rest
 captured_at: 2026-08-26T10:32:43.403Z
 origin: limmatreframe
 byline: Sebastian Rappen
+topic: earlier
+description: "A user-journey reading of IKEA’s hot dogs: they lift the very end of the visit, and the remembering self keeps mostly the beginning and the end."
 ---
 Have you ever wondered, why they offer hotdogs at the end of an IKEA-trip? The answer is: If they wouldn’t, you would leave the store directly after the emotional all-time-low-moment of the entire IKEA-experience.
 

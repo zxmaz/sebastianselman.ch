@@ -10,6 +10,9 @@ cover_image: "https://media.licdn.com/dms/image/v2/D4E12AQEtTn4kJwoGfQ/article-c
 images: [der-5-prozent-filter-wo-im-unternehmen-ki-investment-wirklich-selman-ybpqe-73d0efc6e6.jpg, der-5-prozent-filter-wo-im-unternehmen-ki-investment-wirklich-selman-ybpqe-3da7fcb2e0.jpg, der-5-prozent-filter-wo-im-unternehmen-ki-investment-wirklich-selman-ybpqe-46b7997391.jpg, der-5-prozent-filter-wo-im-unternehmen-ki-investment-wirklich-selman-ybpqe-8ba4de6837.jpg, der-5-prozent-filter-wo-im-unternehmen-ki-investment-wirklich-selman-ybpqe-c2b6e02eb0.jpg, der-5-prozent-filter-wo-im-unternehmen-ki-investment-wirklich-selman-ybpqe-cfe94b2576.jpg]
 captured_at: 2026-08-26T10:37:14.170Z
 origin: linkedin
+topic: data-ai
+seo_title: "Der 5-Prozent-Filter: Wo KI-Investment zählt"
+description: "Nur rund 5% der Prozesse machen ein Unternehmen unterscheidbar, nur dort lohnt KI-Investment. Ein Filter für CIOs und CDOs, vom Prozess zum Canvas."
 ---
 Vor knapp zwei Jahren durfte ich an einer Ausgabe der AI Summer School von
 [Microsoft](https://www.linkedin.com/company/microsoft?trk=article-ssr-frontend-pulse_little-mention)

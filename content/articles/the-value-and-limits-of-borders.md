@@ -11,6 +11,8 @@ content_source: rest
 captured_at: 2026-08-26T10:32:43.403Z
 origin: limmatreframe
 byline: Sebastian Rappen
+topic: earlier
+description: "Why are binary systems only ever decidable or complete, never both? An essay on the value and limits of borders, with Nietzsche, Wittgenstein and Frege."
 ---
 The central question of this essay was to me: Why will binary systems always only be decidable or complete but never completely decidable? And: What does that mean for me?
 

@@ -14,6 +14,9 @@ byline: Sebastian Rappen
 translation_of: "Grenzen erreichen. Grenzen überwinden."
 translation_lang: "de"
 translation_href: "/articles/grenzen-erreichen-ueberwinden-sebastian-rappen/"
+topic: earlier
+seo_title: "Heroes, fools and design thinkers"
+description: "Crossing borders scares people, yet social systems need it. Why thinking outside the box feels dangerous, and where heroes, fools and design thinkers meet."
 ---
 Horos (ancient Greek ὅρος) describes the border, the boundary stone. The human frisson of crossing such a border is stylized in modern horror films. In the movies it is opened up for repeated experience in a deliberate way. Horror (from ancient Greek ὅρος) is, what humans experience, when they cross the ὅρος, or as we might say nowadays: leave their comfort zone. Crossing the line between the known and the unknown and leaving the known territory behind has been very dangerous to humankind for most of its existence. Thus the goosebumps and fear.
 

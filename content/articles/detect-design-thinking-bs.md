@@ -15,6 +15,8 @@ variant_of: Detecting Design Thinking BS
 also_published_at: https://www.linkedin.com/pulse/detecting-design-thinking-bs-sebastian-rappen/
 variant_similarity: "41.7%"
 variant_date: 2019-10-11
+topic: earlier
+description: "The U.S. Department of Defense guide to detecting Agile BS, rephrased for Design Thinking: questions that help executives spot buzzword projects."
 ---
 About a year back, the U.S. Department of Defense published their [guide for detecting Agile BS](https://media.defense.gov/2018/Oct/09/2002049591/-1/-1/0/DIB_DETECTING_AGILE_BS_2018.10.05.PDF). Within their guide they included a graphic I thought was so inspiring that I re-created it:
 

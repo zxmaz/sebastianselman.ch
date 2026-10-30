@@ -11,6 +11,9 @@ content_source: rest
 captured_at: 2026-08-26T10:32:43.403Z
 origin: limmatreframe
 byline: Sebastian Rappen
+topic: earlier
+seo_title: "Remote collaboration: Rakesh Kasturi interview"
+description: "An interview with Rakesh Kasturi, the Sprint Doctor, on remote collaboration: trust online, empathising, ideating, prototyping and remote workshops."
 ---
 I had the pleasure to meet Rakesh Kasturi, to address some questions that came up on LinkedIn. Centered around remote collaboration, we had the chance to address how to bring people together in a way that allows people to connect online and builds trust – even if you’re stuck in home office. We thereafter turned to distinct questions along the design cycle (how to empathize, how to ideate, how to prototype). And finally addressed whether certain workshop-formats are doable in remote settings. But before we go into the details let me introduce Rakesh briefly:
 
