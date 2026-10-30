@@ -3,18 +3,55 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Azure’s Model Router: Smarter AI, Lower Costs for Your Business — Sebastian Selman</title>
-<meta name="description" content="Businesses can now reduce their AI costs without sacrificing quality. Microsoft’s new Model Router (currently in preview) is an Azure OpenAI Service feature that acts like an intelligent…">
+<title>Azure’s Model Router: Smarter AI, Lower Costs — Sebastian Selman</title>
+<meta name="description" content="Azure OpenAI’s Model Router sends each prompt to the most cost-effective model that can handle it. How it works, what it saves, and why it matters.">
 <link rel="canonical" href="https://sebastianselman.ch/articles/azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf/">
-<meta property="og:title" content="Azure’s Model Router: Smarter AI, Lower Costs for Your Business — Sebastian Selman">
-<meta property="og:description" content="Businesses can now reduce their AI costs without sacrificing quality. Microsoft’s new Model Router (currently in preview) is an Azure OpenAI Service feature that acts like an intelligent…">
+<meta property="og:site_name" content="Sebastian Selman">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="Azure’s Model Router: Smarter AI, Lower Costs — Sebastian Selman">
+<meta property="og:description" content="Azure OpenAI’s Model Router sends each prompt to the most cost-effective model that can handle it. How it works, what it saves, and why it matters.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://sebastianselman.ch/articles/azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf/">
+<meta property="og:image" content="https://media.licdn.com/dms/image/v2/D4D12AQEqzvyXaKzoaw/article-cover_image-shrink_423_752/B4DZcUCUXVGkAU-/0/1748387842496?e=2147483647&amp;v=beta&amp;t=FADj0Oau_Dlmp4vPqDtmkk29-wqaT-PJPjE2-ZZf5DE">
+<meta property="article:published_time" content="2025-05-28">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="/assets/style.css">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%89%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://sebastianselman.ch/articles/azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf/#article",
+      "headline": "Azure’s Model Router: Smarter AI, Lower Costs for Your Business",
+      "description": "Azure OpenAI’s Model Router sends each prompt to the most cost-effective model that can handle it. How it works, what it saves, and why it matters.",
+      "datePublished": "2025-05-28",
+      "dateModified": "2025-05-28",
+      "inLanguage": "en",
+      "image": [
+        "https://media.licdn.com/dms/image/v2/D4D12AQEqzvyXaKzoaw/article-cover_image-shrink_423_752/B4DZcUCUXVGkAU-/0/1748387842496?e=2147483647&v=beta&t=FADj0Oau_Dlmp4vPqDtmkk29-wqaT-PJPjE2-ZZf5DE"
+      ],
+      "author": {
+        "@type": "Person",
+        "@id": "https://sebastianselman.ch/#person",
+        "name": "Sebastian Selman",
+        "url": "https://sebastianselman.ch/"
+      },
+      "url": "https://sebastianselman.ch/articles/azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf/",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://sebastianselman.ch/articles/azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf/"
+      }
+    }
+  ]
+}
+</script>
 <script>
   (function(){
     try {
@@ -35,7 +72,7 @@
     <a href="/#projects">Projects</a>
     <a href="/#writing">Writing</a>
     <a href="/#career">Career</a>
-    <a href="/#reading">Reading</a>
+    <a href="/#certifications">Certifications</a>
   </nav>
   <button id="theme" type="button" aria-label="Switch between light and dark">
     <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
@@ -51,36 +88,36 @@
   </header>
   
   <div class="prose">
-<p>Businesses can now reduce their AI costs without sacrificing quality. Microsoft’s new Model Router (currently in preview) is an Azure OpenAI Service feature that acts like an intelligent traffic controller for AI models. Instead of always using the most powerful (and expensive) large language model (LLM) for every task, the Model Router automatically directs each request to the most cost-effective model that can handle it – balancing performance and price while maintaining high quality[[2]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fazure%2Fai-services%2Fopenai%2Fconcepts%2Fmodel-router&amp;urlhash=ZLWZ&amp;trk=article-ssr-frontend-pulse_little-text-block)[[1]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fgithub%2Ecom%2Fguygregory%2FModelRouter&amp;urlhash=CMrH&amp;trk=article-ssr-frontend-pulse_little-text-block). In short: smarter routing, lower costs, and the same great results.</p>
-<h4>What is the Model Router?</h4>
-<p>The Model Router is a smart AI “middleman” that evaluates your users’ queries in real time and chooses the best underlying model to respond[[1]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fgithub%2Ecom%2Fguygregory%2FModelRouter&amp;urlhash=CMrH&amp;trk=article-ssr-frontend-pulse_little-text-block). By assessing factors like prompt complexity, required tools, and performance needs, it decides if a smaller, cheaper model is sufficient or if a more powerful model is required[[2]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fazure%2Fai-services%2Fopenai%2Fconcepts%2Fmodel-router&amp;urlhash=ZLWZ&amp;trk=article-ssr-frontend-pulse_little-text-block)[[1]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fgithub%2Ecom%2Fguygregory%2FModelRouter&amp;urlhash=CMrH&amp;trk=article-ssr-frontend-pulse_little-text-block). This ensures simpler queries use lightweight models (saving money) while complex questions automatically get the advanced AI brainpower they need. All of this happens behind a single unified endpoint, so your team doesn’t have to manually pick or swap models – integration stays simple[[2]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fazure%2Fai-services%2Fopenai%2Fconcepts%2Fmodel-router&amp;urlhash=ZLWZ&amp;trk=article-ssr-frontend-pulse_little-text-block).</p>
-<h4>How It Works under the hood: Three Easy Steps</h4>
+<p>Businesses can now reduce their AI costs without sacrificing quality. Microsoft’s new Model Router (currently in preview) is an Azure OpenAI Service feature that acts like an intelligent traffic controller for AI models. Instead of always using the most powerful (and expensive) large language model (LLM) for every task, the Model Router automatically directs each request to the most cost-effective model that can handle it – balancing performance and price while maintaining high quality<sup class="cite"><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/model-router" target="_blank" rel="noopener">[2]</a></sup><sup class="cite"><a href="https://github.com/guygregory/ModelRouter" target="_blank" rel="noopener">[1]</a></sup>. In short: smarter routing, lower costs, and the same great results.</p>
+<h2>What is the Model Router?</h2>
+<p>The Model Router is a smart AI “middleman” that evaluates your users’ queries in real time and chooses the best underlying model to respond<sup class="cite"><a href="https://github.com/guygregory/ModelRouter" target="_blank" rel="noopener">[1]</a></sup>. By assessing factors like prompt complexity, required tools, and performance needs, it decides if a smaller, cheaper model is sufficient or if a more powerful model is required<sup class="cite"><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/model-router" target="_blank" rel="noopener">[2]</a></sup><sup class="cite"><a href="https://github.com/guygregory/ModelRouter" target="_blank" rel="noopener">[1]</a></sup>. This ensures simpler queries use lightweight models (saving money) while complex questions automatically get the advanced AI brainpower they need. All of this happens behind a single unified endpoint, so your team doesn’t have to manually pick or swap models – integration stays simple<sup class="cite"><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/model-router" target="_blank" rel="noopener">[2]</a></sup>.</p>
+<h2>How It Works under the hood: Three Easy Steps</h2>
 <p>Using the Model Router in Azure OpenAI is straightforward. Here’s how a request flows through the system:</p>
 <figure><img src="/assets/img/azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf-ca021f006e.jpg" alt="Article content" loading="lazy"><figcaption>Article content</figcaption></figure>
 <p>Screenshot taken from Microsoft Build 2025 - Breakout session BRK 178 [4]</p>
 <ol>
 <li>Step 1 – Invoke the Endpoint: Your application or user sends a prompt to the Model Router endpoint via the standard Azure OpenAI Chat Completions (or Completions) API. This is just like making any other query to an AI model, so no special new code is needed on your side.</li>
-<li>Step 2 – Intelligent Routing: The Model Router analyzes the request – looking at the prompt and context (including any tool use or complexity in the query) – and dynamically routes it to the optimal model for a response[[1]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fgithub%2Ecom%2Fguygregory%2FModelRouter&amp;urlhash=CMrH&amp;trk=article-ssr-frontend-pulse_little-text-block). In milliseconds, it chooses the model that will give the best balance of speed, cost, and quality for that particular prompt.</li>
+<li>Step 2 – Intelligent Routing: The Model Router analyzes the request – looking at the prompt and context (including any tool use or complexity in the query) – and dynamically routes it to the optimal model for a response<sup class="cite"><a href="https://github.com/guygregory/ModelRouter" target="_blank" rel="noopener">[1]</a></sup>. In milliseconds, it chooses the model that will give the best balance of speed, cost, and quality for that particular prompt.</li>
 <li>Step 3 – Response Returned: The chosen AI model generates an answer. The Model Router then returns the model’s response back through the same endpoint. From your perspective, you simply get a high-quality answer, without needing to know which model was used under the hood.</li>
 </ol>
-<p>The screenshot above was taken from Build 2025 which I really recommend you have a look at the first 15 minutes of, if you are curious how it works? The session breaks it down beautifully in my opinion[[4]](https://www.youtube.com/watch?v=N6SYd1y3e4g&amp;trk=article-ssr-frontend-pulse_little-text-block).</p>
-<h4>Business Benefits of Model Router</h4>
+<p>The screenshot above was taken from Build 2025 which I really recommend you have a look at the first 15 minutes of, if you are curious how it works? The session breaks it down beautifully in my opinion<sup class="cite"><a href="https://www.youtube.com/watch?v=N6SYd1y3e4g&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">[4]</a></sup>.</p>
+<h2>Business Benefits of Model Router</h2>
 <ul>
-<li>Lower AI Usage Costs: By automatically using smaller-capacity models for easy tasks and only calling on big models when absolutely needed, Model Router saves your business money on AI compute costs[[1]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fgithub%2Ecom%2Fguygregory%2FModelRouter&amp;urlhash=CMrH&amp;trk=article-ssr-frontend-pulse_little-text-block). You’re no longer overpaying for top-tier model performance when it’s not necessary.</li>
-<li>Maintained Quality and Performance: Even with cost savings, you won’t compromise on results. For complex queries or critical tasks, the router taps into powerful models to ensure high-quality, accurate responses[[1]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fgithub%2Ecom%2Fguygregory%2FModelRouter&amp;urlhash=CMrH&amp;trk=article-ssr-frontend-pulse_little-text-block). Your end-users continue to get fast, great answers – and simple questions may even get answered faster by the leaner models.</li>
-<li>Simplicity and Scalability: The Model Router provides a single AI endpoint that handles all the decision-making for you[[2]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fazure%2Fai-services%2Fopenai%2Fconcepts%2Fmodel-router&amp;urlhash=ZLWZ&amp;trk=article-ssr-frontend-pulse_little-text-block). This means less complexity for your developers and easier scaling of AI-driven applications. As your usage grows or your queries vary in difficulty, the system adapts automatically. You don’t need a data scientist tweaking when to use Model A or B – Azure handles it in real time.</li>
-<li>Optimized AI Investment: Whether you’re experimenting with new AI-powered features or scaling up a customer-facing application, the Model Router helps you get more value from your AI budget. It ensures you’re always using the “right-size” model for each job, maximizing efficiency. In the words of Microsoft’s Azure team, this capability is a “game-changer for apps that need adaptive intelligence.”[[3]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Ftechcommunity%2Emicrosoft%2Ecom%2Fblog%2Faiplatformblog%2Fazure-ai-foundry-models-futureproof-your-genai-applications%2F4414904&amp;urlhash=8xh4&amp;trk=article-ssr-frontend-pulse_little-text-block)</li>
+<li>Lower AI Usage Costs: By automatically using smaller-capacity models for easy tasks and only calling on big models when absolutely needed, Model Router saves your business money on AI compute costs<sup class="cite"><a href="https://github.com/guygregory/ModelRouter" target="_blank" rel="noopener">[1]</a></sup>. You’re no longer overpaying for top-tier model performance when it’s not necessary.</li>
+<li>Maintained Quality and Performance: Even with cost savings, you won’t compromise on results. For complex queries or critical tasks, the router taps into powerful models to ensure high-quality, accurate responses<sup class="cite"><a href="https://github.com/guygregory/ModelRouter" target="_blank" rel="noopener">[1]</a></sup>. Your end-users continue to get fast, great answers – and simple questions may even get answered faster by the leaner models.</li>
+<li>Simplicity and Scalability: The Model Router provides a single AI endpoint that handles all the decision-making for you<sup class="cite"><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/model-router" target="_blank" rel="noopener">[2]</a></sup>. This means less complexity for your developers and easier scaling of AI-driven applications. As your usage grows or your queries vary in difficulty, the system adapts automatically. You don’t need a data scientist tweaking when to use Model A or B – Azure handles it in real time.</li>
+<li>Optimized AI Investment: Whether you’re experimenting with new AI-powered features or scaling up a customer-facing application, the Model Router helps you get more value from your AI budget. It ensures you’re always using the “right-size” model for each job, maximizing efficiency. In the words of Microsoft’s Azure team, this capability is a “game-changer for apps that need adaptive intelligence.”<sup class="cite"><a href="https://techcommunity.microsoft.com/blog/aiplatformblog/azure-ai-foundry-models-futureproof-your-genai-applications/4414904" target="_blank" rel="noopener">[3]</a></sup></li>
 </ul>
-<h4>Why It Matters for You</h4>
+<h2>Why It Matters for You</h2>
 <p>For business leaders, the bottom line is simple: Model Router cuts costs and boosts efficiency. Imagine running a company FAQ chatbot or a document analysis tool – many user questions are basic and can be handled by a smaller AI model. Occasionally, a complex request comes along that needs the big guns. Model Router handles this automatically, so you’re not paying premium prices all the time, only when it’s truly beneficial. It enables you to offer AI-driven services to customers or employees at scale, with predictable and optimized costs.</p>
-<p>In summary, Azure’s Model Router enables smarter AI usage that aligns with business goals: minimize expenses while delivering excellent results. It’s one of the latest innovations from Microsoft Azure’s AI services aiming to help organizations leverage artificial intelligence in a cost-effective way[[2]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fazure%2Fai-services%2Fopenai%2Fconcepts%2Fmodel-router&amp;urlhash=ZLWZ&amp;trk=article-ssr-frontend-pulse_little-text-block). Since it’s currently in preview, now is a great time to explore how Model Router can benefit your projects. By adopting features like this, businesses can stay ahead in the AI era – enjoying cutting-edge capabilities without breaking the bank.[[2]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fazure%2Fai-services%2Fopenai%2Fconcepts%2Fmodel-router&amp;urlhash=ZLWZ&amp;trk=article-ssr-frontend-pulse_little-text-block)[[1]](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fgithub%2Ecom%2Fguygregory%2FModelRouter&amp;urlhash=CMrH&amp;trk=article-ssr-frontend-pulse_little-text-block)</p>
+<p>In summary, Azure’s Model Router enables smarter AI usage that aligns with business goals: minimize expenses while delivering excellent results. It’s one of the latest innovations from Microsoft Azure’s AI services aiming to help organizations leverage artificial intelligence in a cost-effective way<sup class="cite"><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/model-router" target="_blank" rel="noopener">[2]</a></sup>. Since it’s currently in preview, now is a great time to explore how Model Router can benefit your projects. By adopting features like this, businesses can stay ahead in the AI era – enjoying cutting-edge capabilities without breaking the bank.<sup class="cite"><a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/model-router" target="_blank" rel="noopener">[2]</a></sup><sup class="cite"><a href="https://github.com/guygregory/ModelRouter" target="_blank" rel="noopener">[1]</a></sup></p>
 <p>References</p>
-<p>[1] <a href="https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fgithub%2Ecom%2Fguygregory%2FModelRouter&amp;urlhash=CMrH&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">Model Router for Azure OpenAI - GitHub</a></p>
-<p>[2] <a href="https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Flearn%2Emicrosoft%2Ecom%2Fen-us%2Fazure%2Fai-services%2Fopenai%2Fconcepts%2Fmodel-router&amp;urlhash=ZLWZ&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">Model router for Azure AI Foundry (preview) concepts - Azure OpenAI</a></p>
-<p>[3] <a href="https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Ftechcommunity%2Emicrosoft%2Ecom%2Fblog%2Faiplatformblog%2Fazure-ai-foundry-models-futureproof-your-genai-applications%2F4414904&amp;urlhash=8xh4&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">Azure AI Foundry Models: Futureproof Your GenAI Applications</a></p>
+<p>[1] <a href="https://github.com/guygregory/ModelRouter" target="_blank" rel="noopener">Model Router for Azure OpenAI - GitHub</a></p>
+<p>[2] <a href="https://learn.microsoft.com/en-us/azure/ai-services/openai/concepts/model-router" target="_blank" rel="noopener">Model router for Azure AI Foundry (preview) concepts - Azure OpenAI</a></p>
+<p>[3] <a href="https://techcommunity.microsoft.com/blog/aiplatformblog/azure-ai-foundry-models-futureproof-your-genai-applications/4414904" target="_blank" rel="noopener">Azure AI Foundry Models: Futureproof Your GenAI Applications</a></p>
 <p>[4] <a href="https://www.youtube.com/watch?v=N6SYd1y3e4g&amp;trk=article-ssr-frontend-pulse_little-text-block" target="_blank" rel="noopener">Optimize your GenAI applications at scale in Azure AI Foundry | BRK178 - YouTube</a></p>
   </div>
-  <p class="back"><a href="/#writing">← All writing</a></p>
+  <p class="back"><a href="/articles/">← All articles</a></p>
 </article>
 </main>
 <footer>
