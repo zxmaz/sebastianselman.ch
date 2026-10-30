@@ -63,6 +63,6 @@ Therefore the following questions can be posed to the program leadership:
 
 ![](/assets/img/Slide1.jpg)
 
-So keep the above questions at hand whenever you enter a negotiation around Design Thinking. While it is totally fine to refrain from doing Design Thinking, let´s be honest about whether or not we are actually doing it.
+So keep the above questions at hand whenever you enter a negotiation around Design Thinking. While it is totally fine to refrain from doing Design Thinking, let’s be honest about whether or not we are actually doing it.
 
 Let me know what you think about this and your experiences so far in the comments below.

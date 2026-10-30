@@ -13,7 +13,7 @@ captured_at: 2026-08-26T10:32:43.403Z
 origin: limmatreframe
 byline: Sebastian Rappen
 ---
-Have you ever wondered, why they offer hotdogs at the end of an IKEA-trip? The answer is: If they wouldn´t, you would leave the store directly after the emotional all-time-low-moment of the entire IKEA-experience.
+Have you ever wondered, why they offer hotdogs at the end of an IKEA-trip? The answer is: If they wouldn’t, you would leave the store directly after the emotional all-time-low-moment of the entire IKEA-experience.
 
 Have a close look at the last few steps in the below illustration of a typical IKEA-Journey:
 
@@ -29,7 +29,7 @@ Offering hot-dogs is a simple intervention to increase the customer-satisfaction
 
 And as Kahnemann&Co. stressed in “thinking, fast and slow”: Your remembering self tends to blurr out most details of a memory, except for the beginning and end of an episode. Therefore, whilst you experience the ups and down of a IKEA visit, you most likely will only remember the first and last bits of it, when evaluating your experience in hindsight. In the given IKEA example this means: The entire trip would end as a desaster without hot-dogs: With hot-dogs however a much more positive memory is being stimulated. And for anybody chasing the Net-Promoter-Score: This does mean the NPS most probably will rise.
 
-Let´s compare the hypothetical remembered emotional value of an IKEA trip with & without the hot-dogs:
+Let’s compare the hypothetical remembered emotional value of an IKEA trip with & without the hot-dogs:
 
 ### User Journey with Hot-dogs
 

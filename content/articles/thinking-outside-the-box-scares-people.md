@@ -49,7 +49,7 @@ The exciting point for me is the following: Although Luhmann and Co. state, that
 
 ## Why thinking & acting outside the box scares people:
 
-In my opinion Jordan B. Peterson´s book *Maps of Meaning*succeeded in explaining why the epics of many cultures praise people who succeed in going beyond culturally determined structures and breaking with tradition. The heroes succeed in wringing something new out of the chaos; something that can only be found beyond the established boundaries of their culture. And what is even more, they succeed in integrating this into the existing zeitgeist and culture. **This act is heroic, because you need to actually have skin in the game and put yourself at risk to gain such insights.**This remains true, **even if you are smart and able to think.** You cannot leave the mapped territory *and*be safe. Playing it safe means staying inside the mapped territory. And even thinking about leaving the known territory can evoke fear. It is thus, that thinking outside the box scares people.
+In my opinion Jordan B. Peterson’s book *Maps of Meaning*succeeded in explaining why the epics of many cultures praise people who succeed in going beyond culturally determined structures and breaking with tradition. The heroes succeed in wringing something new out of the chaos; something that can only be found beyond the established boundaries of their culture. And what is even more, they succeed in integrating this into the existing zeitgeist and culture. **This act is heroic, because you need to actually have skin in the game and put yourself at risk to gain such insights.**This remains true, **even if you are smart and able to think.** You cannot leave the mapped territory *and*be safe. Playing it safe means staying inside the mapped territory. And even thinking about leaving the known territory can evoke fear. It is thus, that thinking outside the box scares people.
 
 ## Heroes, fools and design thinkers meet outside the box
 
@@ -59,7 +59,7 @@ If social systems – and that includes but is not limited to economic enterpris
 
 ![Where the magic happens](/assets/img/IMG-20190412-WA0003.jpg)
 
-## It is worth leaving the comfort zone, because that´s where the magic happens
+## It is worth leaving the comfort zone, because that’s where the magic happens
 
 That being said: This shall not be misunderstood as an invitation to transgress any societal boundaries such as laws arbitrarily. Especially not at the cost of (other members of) the society. Rather this means that if you
 

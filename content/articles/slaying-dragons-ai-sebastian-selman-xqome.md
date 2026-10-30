@@ -256,7 +256,7 @@ Slay one dragon this week. The gold is always in the lair.
 2. Microsoft Responsible AI Standard (v2, 2022) + the six Microsoft AI Principles (adopted 2018).
 3. Microsoft Responsible AI Governance framework + Sensitive Uses program + Impact Assessment methodology.
 4. PyRIT — Python Risk Identification Toolkit (Microsoft, open source). Red-team automation.
-5. Azure AI Foundry + Azure AI Content Safety + Automated Evaluation in Azure AI Foundry.
+5. Azure AI Foundry (now Microsoft Foundry) + Azure AI Content Safety + Automated Evaluation in Azure AI Foundry.
 6. Epoch AI — "Parameter, Compute and Data Trends in Machine Learning." Scaling-trend data behind the "new Moore's Law" framing.
 7. KPMG / University of Melbourne — "Trust in Artificial Intelligence: A Global Study" (2023).
 8. Deloitte — "The State of Generative AI in the Enterprise" (quarterly series).

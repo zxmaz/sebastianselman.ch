@@ -12,7 +12,7 @@ captured_at: 2026-08-26T10:32:43.403Z
 origin: limmatreframe
 byline: Sebastian Rappen
 ---
-The central question of this essay was to me: Why will binary systems always only be decideable or complete but never completely decideable? And: What does that mean for me?
+The central question of this essay was to me: Why will binary systems always only be decidable or complete but never completely decidable? And: What does that mean for me?
 
 Horos (ancient Greek ὅρος) denotes the border, the boundary stone. The human frisson to cross such a border is stylized in horror films in modern times, specifically made tangible. Where in former times mostly natural conditions, like rivers, marked as demarcation lines the difference between here and there, man soon invented terms to distinguish between this- and beyond-that.Systems theorists have developed this two-valued logic into theories and have shown the value for social systems – i.e. states, religious communities, etc. – if it is successful to enforce two-valued logics. It is only the difference that allows one to respond to a counterpart, to meet as a human being. And so it has its value when a system establishes its boundaries, reaches its limits.But I would like to address a particular aspect of boundaries that rarely receives attention – because it is uncomfortable to think about, especially among studied folk. To do so, I want to draw on three traditions or thinkers that I think have created powerful images of language that make this difference denominable.
 
