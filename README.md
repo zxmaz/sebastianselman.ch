@@ -92,17 +92,24 @@ they never touch YouTube or the real `projects.json`.
 |---|---|
 | `content/profile.json` | Name, role, bio paragraphs, the LinkedIn/GitHub/Credly/email links |
 | `content/projects.json` | The Projects section. Podcast episodes sync themselves, see above |
-| `content/essays/*.md` | The 7 limmatreframe.com essays |
-| `content/articles/*.md` | The 9 LinkedIn articles |
+| `content/articles/*.md` | All 16 pieces — 7 from limmatreframe.com, 9 from LinkedIn — one folder, one URL space |
 | `content/career.json` | The career timeline — employers, roles, month spans |
 | `content/reading.json` | The reading section — books and essays, with optional links |
 | `content/certifications.json` | The Certifications section — Credly badges, newest first, last on the page. To add one, see *Adding a certification* below |
 | `assets/img/` | Images. Reference them as `/assets/img/name.jpg` |
 | `assets/img/credly/` | The badge PNGs for the Certifications section |
 
-Essays and articles carry YAML front-matter (`title`, `date`, `slug`, `byline`,
-`source`). The `slug` becomes the URL, so changing it breaks existing links —
+Articles carry YAML front-matter (`title`, `date`, `slug`, `byline`, `source`,
+`origin`). `origin` is `limmatreframe` or `linkedin` and decides whether the
+page says *Originally* or *Also published on*; the build stops on a file
+without it. The `slug` becomes the URL, so changing it breaks existing links —
 don't, unless you mean to.
+
+Until 30 October 2026 the limmatreframe.com pieces were served under
+`/essays/<slug>/`, and limmatreframe.com's `.htaccess` still redirects there.
+The build therefore writes a redirect stub at each old path, driven by the
+`LEGACY_ESSAYS` list in `build.mjs`; the stubs stay out of the sitemap. Keep
+the list for as long as that `.htaccess` points at the old paths.
 
 Slugs are folded to ASCII at build time (`ü` → `ue`, and so on). A raw umlaut in
 a URL path 404s on GitHub Pages unless every href percent-encodes it — it works
@@ -207,8 +214,8 @@ The `MX` record stays on all-inkl. Mail is unaffected.
 
 ## Notes on the content
 
-The essays and articles were recovered from limmatreframe.com and LinkedIn under
-Work Item #189. The full archive — including images, page HTML and the WordPress
+The articles were recovered from limmatreframe.com and LinkedIn under Work
+Item #189. The full archive — including images, page HTML and the WordPress
 REST payloads — lives outside this repo in `Web/archive/`.
 
 Two pairs are deliberately not what they look like:
@@ -218,7 +225,7 @@ Two pairs are deliberately not what they look like:
   in its front-matter.
 - **"Grenzen erreichen. Grenzen überwinden."** (German, Nov 2019) and **"Heroes,
   fools and design thinkers meet outside the box"** (English, Jan 2020) are the
-  same essay in two languages. Both are published and cross-linked. Automated
+  same piece in two languages. Both are published and cross-linked. Automated
   similarity can't detect this — the two share almost no vocabulary — so the link
   is recorded by hand in the front-matter and has to stay there.
 

@@ -55,8 +55,6 @@ In my opinion Jordan B. Peterson´s book *Maps of Meaning*succeeded in explainin
 
 On a small scale, companies try to achieve exactly that with their innovation efforts. “Out of the box thinking”, “creative destruction” (a term that Nietzsche coined before Schumpeter), Peter Thiel’s “Zero to One” or the term “verbindendes Brechen” (Ernst Bloch) are nodal points in the history of ideas that deal with these moments of shifting borders. Human Centered Design provides a framework that aims in the same direction: Namely at a meaningful reframe of problem statements, that open up perspectives into a previously undiscovered solution space.
 
-JOIN MY WEEKLY MAILS
-
 If social systems – and that includes but is not limited to economic enterprises – want to keep an environmental fit, they need to adapt. But to adapt they need to shift their boundaries in a meaningful way, which is to say: they need to change what defines them. Animals have done that over millennia and the environment encouraged this by killing those who did not adapt. Animals have changed their DNA over time – and social systems need to do so. But precisely how this change shall take place is up for discussion. I believe it involves transgressing borders or “leaving the comfort zone”. A friend of mine once scribbled the following down:
 
 ![Where the magic happens](/assets/img/IMG-20190412-WA0003.jpg)
@@ -81,5 +79,3 @@ It is heroic, because the reframe you provide to your social system was created 
 2. 2Maps of Meaning (J.B.Peterson)
 3. 3Begriffsschrift (G. Frege)
 4. 4Beyond good and evil (F. Nietzsche)
-
-JOIN MY WEEKLY MAILS

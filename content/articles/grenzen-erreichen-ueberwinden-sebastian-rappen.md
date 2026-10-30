@@ -12,7 +12,7 @@ captured_at: 2026-08-26T10:37:14.170Z
 origin: linkedin
 translated_as: "Heroes, fools and design thinkers meet outside the box"
 translation_lang: "en"
-translation_href: "/essays/thinking-outside-the-box-scares-people/"
+translation_href: "/articles/thinking-outside-the-box-scares-people/"
 ---
 Horos (altgr. ὅρος) bezeichnet die Grenze, den Grenzstein. Der menschliche Frisson, eine solche zu überschreiten wird in der Moderne in Horrorfilmen stilisiert, gezielt erlebbar gemacht. Wo früher meist natürliche Gegebenheiten, wie Flüsse, als Demarkationslinien die Differenz zwischen hier und dort markierten erfand der Mensch bald Begriffe um zwischen dies- und jenseits-von zu unterscheiden.
 

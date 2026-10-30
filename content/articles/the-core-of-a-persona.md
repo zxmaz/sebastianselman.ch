@@ -28,5 +28,3 @@ We might put a name and face and age and family background to the persona, that 
 2. 2Clean-free-hand-thirsty Veronica: She is 75-Years old, widowed and proud grandma of 8 grandchildren
 
 You might have both of them, Fred and Veronica represented by the same persona. You might decide to depict this persona as a 35-Years old pan-sexual transvestite in an open relationship. Why can the 35-Year old represent both the teen and the granny? Because it´s not about age or marital status, the persona is centered around the clean-free-hand-hungry-&-thirsty-need-statement.
-
-JOIN MY WEEKLY MAILS

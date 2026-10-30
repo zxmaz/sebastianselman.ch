@@ -40,8 +40,6 @@ If you are stuck even though you have goals, you are probably not suffering of a
 
 So goal setting does work – if you do not have “guiding commitments” – but those guiding commitments on their own might just as well ride you into paralysis, if they are conflicting. It does not work if you do not sort out your priorities among goals you are striving for.
 
-JOIN MY WEEKLY MAILS
-
 Resources:
 
 - Two kinds of identity crisis; Roy F Baumeister, Jeremy P Shapiro, Dianne M Tice; September 1985.

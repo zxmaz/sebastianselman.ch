@@ -17,12 +17,6 @@ origin: linkedin
 
 [Sebastian Selman](https://ch.linkedin.com/in/humancentereddesign)
 
-### Sebastian Selman
-
-Published Nov 20, 2019
-
-[+ Follow](https://www.linkedin.com/signup/cold-join?session_redirect=%2Fpulse%2Fhere-real-life-business-challenge-sebastian-rappen%2F&trk=article-ssr-frontend-pulse_publisher-author-card)
-
 If you were to help a small "people´s knowledge center" on the islands of the Ganges delta to reimagine their business-model: **What would be your suggestion?** Put down your ideas in the comments. I will randomly pick somebody amongst all of you who contribute and send you a glass of Sundarban [honey](https://amarkhamar.com/product-details?id=dnhUNTRkZmI4NzZkZjU3OTZERlZrajR4NTc0NTZ5), which is being produced in exactly that "people´s knowledge center".
 
 As part of my trip to India I had the pleasure to sit together with the [SOCEO](https://www.linkedin.com/company/soceo/) India team and discuss with them how Human Cented Design and Design Thinking could help them in their different projects. We covered topics ranging from deforrestation & drinking-water-scarcity to reducing plastic waste and improving the menstrual hygiene amongst women in rural areas. The topic we discussed last led to a small ideation session - and because I enjoyed the discussion so thoroughly I thought it would be brilliant to open up the discussion to the community here on LinkedIn:

@@ -18,8 +18,6 @@ I had the pleasure to meet Rakesh Kasturi, to address some questions that came u
 
 Rakesh Kasturi, aka the Sprint Doctor supports business leaders in creating cultures of collaboration and self organization – and this extends to the remote side of things. Therefore I thought he’d be an awesome candidate to address the most pressing questions on online collaboration.
 
-JOIN MY MAILING LIST
-
 ## Setting up remote collaboration – the holy grail
 
 When I asked Rakesh whether he prefers **Mural, Miro or Whimsical**, this is what he said:*“If you ask me, I’m looking for a nice, fun user experience. **For me it has to be Mural.** I see that people get on very quickly. There’s no major learning curve needed – you can just jump in. You learn how to create a post it and you’re good to go. That’s the simplest thing, but it does have some feature shortcomings and there Miro provides a smoother interface. Miro has an a slightly more serious look. Whimsical I haven’t tried it, honestly, so I wouldn’t know.”*After establishing that Rakesh prefers Sharpies over Pentel-Sign-Pens in real life we turned to the hard question on online collaboration:I asked Rakesh how he goes about **v****irtual trust building amongst team members**, especially if they’ve not met in person before, and here’s what he shared with me:*“This is the Holy Grail literally. I just got off a session where we did an introduction on how people can forge better connections, more human connections in remote sessions and trust is the bedrock. It is the foundation. So, if you look at how people work, when they have to come together to do something […] there’s an implicit level of trust that they start with. If you haven’t really met before you trust each other based on the level of skills, and say: **Okay we’re here for a common goal.** Let’s see how we can make the best out of this time – and this trust lasts for a bit. And you need to capitalize on that:*
@@ -34,8 +32,6 @@ When I asked Rakesh whether he prefers **Mural, Miro or Whimsical**, this is wha
 
 *The more you share – I feel – the better the chances for people to continuously build that trust.”*This does of course put some pressure on those who are organizing the meetings because you need to make the setting comfortable for those who are to attend, meaning: Clarify the purpose of the meeting and make it explicit why the people who are invited have skills that are relevant to that goal. Because then you are creating the safe space of them talking about things they are comfortable about and that’s something they are able to stick to. The organizer, facilitator, meeting leader should take care of creating the space in which they can actually put those skills to good work. Rakesh added:*“I like to try and ask people to share something very personal, right in the beginning, to make that a real human connection. Because when we’re working virtually, we do not only have this physical distance but there’s also psychological distance. So I really want to make sure that people can understand what my personal background is today, [which they have zero chance to empathize with, if it is not being shared]. It helps to clarify that today I’m feeling okay but maybe not hundred percent because… And from that level of sharing. There’s a chance or an opportunity to build a personal connection, and I feel that matters a lot.”*
 
-JOIN MY MAILING LIST
-
 ## *How do you ensure that people stay concentrated in remote sessions?*
 
 I think there’s a lot of muted dish-washing going on in dial-in-sessions. Therefore another question that came up was: *“How do you ensure that people stay concentrated in remote sessions?”*How do you make sure people are engaged and don’t open up other tabs in their browsers and check their mails on the side?*“You can’t prevent it hundred percent. that’s something, because people are being. I love this quote, that a friend of mine used to tell me: We all have the attention span of a mosquito. And to me, that is very true, unfortunately. And what we can do to counter this fact is to set some first principles. I usually start the session by saying:****C****an we please have the video on**, because that’s how we can connect better remotely. If we were in the same room, we’d just see each other but video is the only way now to stay connected.*
@@ -47,8 +43,6 @@ Rakesh framed it differently once more saying:*“If done correctly and **if don
 ## Facilitator-Participant Ratio’s in remote sessions: 1 Coach per 3 groups of 3-4 persons
 
 One question that I’m always struggling to answer and am going to pose to you, is: What is a good ratio, if you’re working in several digital rooms. How many people can one facilitator manage or how many groups can one facilitator manage?**Rakesh Kasturi:***“I would rather keep it small. I’m a big fan of small groups because I find them to be effective. Groups of three or four, not more than three groups or four groups are the maximum. Because I feel the number of communication channels increases rapidly when you’re working remotely. And there are chances of people asking you something on chat or asking you directly. So, just managing it is all the more difficult. I usually try to go with no more than three small groups, each group would be not more than three people. T**hat’s my borderline .And I would even say it’s possible to get people to do this without going into separate rooms, if you have a digital whiteboard like Miro or Mural. Just have different corners of the board, and you can still do the same thing. The advantage there is, that you as the facilitator can sort of drop by each group and see whether you can support somehow. And this really moves the team ahead as a whole.**“*
-
-Never miss a post – join my mailing list
 
 ## How do you empathize with users when interviews are only possible remotely
 
@@ -89,5 +83,3 @@ The other thing that he has been working on are the Life-Sprints. The Life Sprin
 And I cannot recommend joining one of those lifesprints enough. I’ve been there and took tons of value out of that.
 
 Find him on [LinkedIn](https://www.linkedin.com/in/rkasturi/), and on his [homepage sprintdoctor.io](https://sprintdoctor.io/).
-
-JOIN MY WEEKLY MAILS

@@ -49,12 +49,8 @@ Sweets with the bill in a restaurant and for children after they were â€œbraveâ€
 
 **How do you ensure your customers keep a fond memory after interacting with you?**Let me know in the comments!
 
-JOIN MY WEEKLY MAILS
+Resources used:
 
-[Resources](https://limmatreframe.com/resources/) used:
-
-- Kahnemann, Thinking Fast&Slow (on [Amazon](https://www.amazon.de/gp/product/0141033576/ref=as_li_tl?ie=UTF8&tag=limmatreframe-21&camp=1638&creative=6742&linkCode=as2&creativeASIN=0141033576&linkId=debdce318ad482ad6745f70881dcb760))
+- Kahnemann, Thinking Fast&Slow (on [Amazon](https://www.amazon.de/gp/product/0141033576/))
 - [Marketingexperiencial](https://marketingexperiencial.wordpress.com/2015/03/07/customer-journey-map-o-mapa-del-viaje-del-cliente-para-gestionar-la-experiencia-de-cliente/)
 - [Marketingfacts.nl](https://www.marketingfacts.nl/berichten/hoe-tikkie-en-ikea-briljant-gebruik-maken-van-peak-end-rule)
-
-[**Have a look at my Bookshelve**](https://limmatreframe.com/resources/)

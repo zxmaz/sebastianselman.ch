@@ -65,6 +65,26 @@ const u = (href) => (BASE && typeof href === 'string' && href.startsWith('/'))
 
 const KIND_LABEL = { talk: 'Talk', workshop: 'Workshop', session: 'Session', podcast: 'Podcast',
                      attending: 'Attending' };
+
+/** Where a piece first appeared. Front-matter `origin`; decides the credit line. */
+const ORIGINS = new Set(['limmatreframe', 'linkedin']);
+
+/**
+ * Pieces that were served under /essays/<slug>/ until 30 October 2026, when the
+ * essays/articles split was dropped and everything moved to /articles/<slug>/.
+ * limmatreframe.com's .htaccess still 301s limmatreframe.com/<slug>/ to the old
+ * path, so each one gets a redirect stub there. The stubs stay out of the
+ * sitemap. Keep this list for as long as that .htaccess points here.
+ */
+const LEGACY_ESSAYS = [
+  'detect-design-thinking-bs',
+  'getting-unstuck',
+  'rakeshkasturi',
+  'the-core-of-a-persona',
+  'the-value-and-limits-of-borders',
+  'thinking-outside-the-box-scares-people',
+  'why-does-ikea-sell-hot-dogs',
+];
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -668,12 +688,25 @@ ${md2html(doc.body)}
 
 // ── build ──────────────────────────────────────────────────────────────────
 
-async function loadDocs(dir, origin) {
+/**
+ * Every piece lives in content/articles/ and is served at /articles/<slug>/,
+ * whichever platform it first appeared on. The front-matter `origin` carries
+ * that provenance — it used to come from the folder, which is why the
+ * limmatreframe pieces sat under /essays/ until 2026-10-30 (see LEGACY_ESSAYS).
+ * A file without a valid origin stops the build: the credit line on the page
+ * depends on it, and a wrong attribution is worse than a failed rebuild.
+ */
+async function loadDocs(dir) {
   const full = path.join(CONTENT, dir);
   try { await stat(full); } catch { return []; }
   const out = [];
   for (const f of (await readdir(full)).filter(f => f.endsWith('.md')).sort()) {
     const { meta, body } = parseMd(await readFile(path.join(full, f), 'utf8'));
+    const origin = meta.origin;
+    if (!ORIGINS.has(origin)) {
+      throw new Error(`content/${dir}/${f}: front-matter needs origin: ` +
+        `${[...ORIGINS].join(' | ')} (got ${JSON.stringify(origin ?? null)})`);
+    }
     const slug = asciiSlug(meta.slug || f.replace(/\.md$/, ''));
     out.push({ slug, meta, body, origin, excerpt: excerpt(body),
                href: `/${dir}/${slug}/` });
@@ -696,9 +729,7 @@ async function main() {
     catch { console.warn(`  ! certification image missing: ${c.image}`); }
   }
 
-  const essays = await loadDocs('essays', 'limmatreframe');
-  const articles = await loadDocs('articles', 'linkedin');
-  const docs = [...essays, ...articles];
+  const docs = await loadDocs('articles');
 
   await rm(DOCS, { recursive: true, force: true });
   await mkdir(DOCS, { recursive: true });
@@ -746,6 +777,24 @@ async function main() {
       `<p><a href="${u('/')}${anchor}">${label}</a></p>\n`, 'utf8');
   }
 
+  // Redirect stubs for the old /essays/<slug>/ URLs — see LEGACY_ESSAYS. A slug
+  // that no longer matches a piece is a stale entry, and failing is better than
+  // writing a stub that redirects to a 404.
+  for (const slug of LEGACY_ESSAYS) {
+    const target = docs.find(d => d.slug === slug);
+    if (!target) throw new Error(`LEGACY_ESSAYS: no piece has slug "${slug}"`);
+    const dir = path.join(DOCS, 'essays', slug);
+    await mkdir(dir, { recursive: true });
+    await writeFile(path.join(dir, 'index.html'),
+      `<!doctype html>\n` +
+      `<meta charset="utf-8">\n` +
+      `<!-- /essays/${slug}/ moved to ${target.href} on 2026-10-30 -->\n` +
+      `<meta http-equiv="refresh" content="0; url=${u(target.href)}">\n` +
+      `<link rel="canonical" href="${profile.meta.url}${target.href}">\n` +
+      `<title>${esc(target.meta.title)}</title>\n` +
+      `<p><a href="${u(target.href)}">${esc(target.meta.title)}</a></p>\n`, 'utf8');
+  }
+
   // Static assets
   await cp(ASSETS, path.join(DOCS, 'assets'), { recursive: true });
   await writeFile(path.join(DOCS, 'assets', 'style.css'), STYLE, 'utf8');
@@ -766,7 +815,7 @@ async function main() {
     `\n</urlset>\n`, 'utf8');
 
   const heldBack = activities.filter(a => a.status === 'tentative').length;
-  console.log(`built  ${docs.length} pieces (${essays.length} essays, ${articles.length} articles)`);
+  console.log(`built  ${docs.length} pieces, ${LEGACY_ESSAYS.length} legacy /essays/ redirects`);
   console.log(`       ${activities.length} activities` +
     (heldBack && !showTentative ? `, ${heldBack} tentative held back from the page` : ''));
   console.log(`       ${projects.length} projects, ${certs.badges.length} certifications, ${urls.length} URLs in sitemap`);
