@@ -111,7 +111,7 @@ Double-click the launcher. Terminal opens, server starts, browser opens to the d
 
 Now in order to make this relevant to the students we wanted them to have them work on something deeply personal (this is setting the scene for the discussion of Responsible AI later) - but also I wanted for them, even if technically not interested, to take something away with them: A better chance at academic success.
 
-An agent system that doesn't do anything is a folder with opinions. So we pointed it at something worth doing: Future Authoring — the structured-writing protocol from Peterson's Self Authoring Suite, validated by Morisano, Hirsh, Peterson, Pihl & Shore (2010), Journal of Applied Psychology 95(2), 255–264 ([DOI 10.1037/a0018478](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fdoi%2Eorg%2F10%2E1037%2Fa0018478&urlhash=FFhe&trk=article-ssr-frontend-pulse_little-text-block)). [Anybody who wants to get the benefits, without running this on their own machine: [selfauthoring.com](https://www.linkedin.com/redir/redirect?url=http%3A%2F%2Fselfauthoring%2Ecom&urlhash=fM-o&trk=article-ssr-frontend-pulse_little-text-block) offers this kind of program, and some more, for a few dollars]
+An agent system that doesn't do anything is a folder with opinions. So we pointed it at something worth doing: Future Authoring — the structured-writing protocol from Peterson's Self Authoring Suite, validated by Morisano, Hirsh, Peterson, Pihl & Shore (2010), Journal of Applied Psychology 95(2), 255–264 ([DOI 10.1037/a0018478](https://doi.org/10.1037/a0018478)). [Anybody who wants to get the benefits, without running this on their own machine: [selfauthoring.com](http://selfauthoring.com) offers this kind of program, and some more, for a few dollars]
 
 85 struggling undergraduates, GPA < 3.0, randomised to the writing program or a face-valid control. Four months later, the writing group's GPA jumped 2.25 → 2.91; control barely moved (2.26 → 2.46). Zero writers dropped below a full course load; eight controls did, two withdrew entirely.
 
@@ -232,7 +232,7 @@ Slay one dragon this week. The gold is always in the lair.
 
 ### C. Future Authoring — the writing exercise
 
-1. Morisano, D., Hirsh, J. B., Peterson, J. B., Pihl, R. O., & Shore, B. M. (2010). Setting, elaborating, and reflecting on personal goals improves academic performance. Journal of Applied Psychology, 95(2), 255–264. DOI: [10.1037/a0018478](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fdoi%2Eorg%2F10%2E1037%2Fa0018478&urlhash=FFhe&trk=article-ssr-frontend-pulse_little-text-block). — The "JAP2010" paper. The Appendix (p. 263–264) holds the canonical 8-step instrument.
+1. Morisano, D., Hirsh, J. B., Peterson, J. B., Pihl, R. O., & Shore, B. M. (2010). Setting, elaborating, and reflecting on personal goals improves academic performance. Journal of Applied Psychology, 95(2), 255–264. DOI: [10.1037/a0018478](https://doi.org/10.1037/a0018478). — The "JAP2010" paper. The Appendix (p. 263–264) holds the canonical 8-step instrument.
 2. Schippers, M. C., Scheepers, A. W. A., & Peterson, J. B. (2015). A scalable goal-setting intervention closes both the gender and ethnic minority achievement gap. Palgrave Communications, 1, 15014. — Replication and scale-up evidence.
 3. Self Authoring Suite — official program. selfauthoring.com. — Commercial scale of the above whitpapers, expanding on the canonical "writing prompts" for students already present in the whitepapers mentioned above. Main difference is that it applies a more granular and broken down into pieces timeboxing to ask you about specifics.
 4. Pennebaker, J. W. (1997). Writing about emotional experiences as a therapeutic process. Psychological Science, 8(3), 162–166. — The expressive-writing tradition Future Authoring sits within.
@@ -244,7 +244,7 @@ Slay one dragon this week. The gold is always in the lair.
 1. NIST AI Risk Management Framework (AI RMF 1.0, 2023) + companion Generative AI Profile (NIST AI 600-1, 2024). — Canonical Govern / Map / Measure / Manage structure.
 2. EU AI Act (Regulation (EU) 2024/1689). — Risk-tier categorisation; transparency obligations; the regulatory baseline for any deployment in Europe.
 3. OECD AI Principles (2019, updated 2024). — Human-centred values, transparency, accountability.
-4. Weidinger, L. et al. (DeepMind, 2021). "Ethical and social risks of harm from language models." arXiv:[2112.04359](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Farxiv%2Eorg%2Fabs%2F2112%2E04359&urlhash=-Ewp&trk=article-ssr-frontend-pulse_little-text-block). — Most-cited taxonomy of LLM-specific harms.
+4. Weidinger, L. et al. (DeepMind, 2021). "Ethical and social risks of harm from language models." arXiv:[2112.04359](https://arxiv.org/abs/2112.04359). — Most-cited taxonomy of LLM-specific harms.
 5. Bender, E. M., Gebru, T., McMillan-Major, A., & Shmitchell, S. (2021). On the dangers of stochastic parrots. Proceedings of FAccT '21. — Contrarian voice for the "what AI is not" framing.
 6. EU GDPR (Regulation (EU) 2016/679). — Privacy-law backdrop the EU AI Act builds on.
 7. U.S. Executive Order 14110 (2023). Safe, secure, and trustworthy AI. — U.S. federal regulatory baseline.
@@ -263,4 +263,4 @@ Slay one dragon this week. The gold is always in the lair.
 
 ### F. Inspiration
 
-1. "Claude just killed ALL Note-Taking Apps. Here is proof." YouTube, 2026. [https://youtu.be/geIKyDaXwGg?si=txLLXF3M_XdPBAUs](https://www.linkedin.com/redir/redirect?url=https%3A%2F%2Fyoutu%2Ebe%2FgeIKyDaXwGg%3Fsi%3DtxLLXF3M_XdPBAUs&urlhash=P_Nu&trk=article-ssr-frontend-pulse_little-text-block) — Seeded the local-folder-as-agent-system pattern this article builds on.
+1. "Claude just killed ALL Note-Taking Apps. Here is proof." YouTube, 2026. [https://youtu.be/geIKyDaXwGg?si=txLLXF3M_XdPBAUs](https://youtu.be/geIKyDaXwGg?si=txLLXF3M_XdPBAUs) — Seeded the local-folder-as-agent-system pattern this article builds on.
