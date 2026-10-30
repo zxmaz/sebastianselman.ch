@@ -9,22 +9,39 @@
 //   node build.mjs --serve                    build, then serve docs/ on :4173
 //   node build.mjs --base /sebastianselman.ch build for a GitHub Pages subpath
 //
+// For the tests, never for a deploy:
+//   --content <dir>   read content from <dir> instead of content/
+//   --out <dir>       write the site to <dir> instead of docs/
+//   --today <date>    treat YYYY-MM-DD as today (default: today in Zurich)
+//
 // The default build targets sebastianselman.ch at a domain root and writes a
 // CNAME. Before the DNS cutover the only reachable URL is the project-pages
 // subpath github.io/<repo>/, where every root-absolute href would 404 — so
 // --base prefixes internal links and omits the CNAME. Drop the flag once DNS
 // points at GitHub.
 
-import { readdir, readFile, mkdir, writeFile, rm, cp, stat } from 'node:fs/promises';
+import { readdir, readFile, mkdir, writeFile, rm, cp, stat, copyFile } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import path from 'node:path';
 
 const ROOT = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'));
-const CONTENT = path.join(ROOT, 'content');
-const DOCS = path.join(ROOT, 'docs');
+const argv = process.argv.slice(2);
+const argVal = (flag) => {
+  const i = argv.indexOf(flag);
+  return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : null;
+};
+const CONTENT = path.resolve(argVal('--content') ?? path.join(ROOT, 'content'));
+const DOCS = path.resolve(argVal('--out') ?? path.join(ROOT, 'docs'));
 const ASSETS = path.join(ROOT, 'assets');
 
-const argv = process.argv.slice(2);
+/**
+ * "Today" as a Zurich calendar date (en-CA formats as YYYY-MM-DD, so it
+ * compares to content dates as a plain string). Decides which activities are
+ * upcoming, which badges have expired, and which events go into the schema.
+ */
+const TODAY = argVal('--today') ?? new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Zurich' })
+  .format(new Date());
+
 const baseIdx = argv.indexOf('--base');
 
 /**
@@ -85,6 +102,35 @@ const LEGACY_ESSAYS = [
   'thinking-outside-the-box-scares-people',
   'why-does-ikea-sell-hot-dogs',
 ];
+
+/**
+ * Topic groups on the /articles/ index, in page order. Front-matter `topic`
+ * picks one; a piece without it lands in the first group, because new writing
+ * is on the site's own subject. An unknown key stops the build.
+ */
+const TOPICS = [
+  { key: 'data-ai', label: 'Data, AI & organisations' },
+  { key: 'earlier', label: 'Earlier articles' },
+];
+
+/**
+ * Certification tiers. `advanced` badges show up front; every other tier sits
+ * in one collapsed "More" group. A badge without a tier counts as advanced, so
+ * a new exam pass shows without extra bookkeeping.
+ */
+const CERT_TIERS = { advanced: null, foundational: 'foundational certifications', hackathon: 'hackathons' };
+
+/** Search-result limits (characters). The tests hold every page to them. */
+const TITLE_MAX = 65;
+const HOME_TITLE_MAX = 60;
+const DESC_MAX = 160;
+
+/** og:locale per front-matter `lang`. */
+const LOCALES = { en: 'en_GB', de: 'de_CH' };
+
+/** The default share image: name and role over the portrait (make-share-assets.py). */
+const SHARE_CARD = { src: '/assets/img/share-card.jpg', width: 1200, height: 630 };
+
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
                 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -140,8 +186,12 @@ function parseMd(text) {
  * Markdown → HTML. Handles the subset the corpus actually contains: headings,
  * paragraphs, lists, blockquotes, images, links, emphasis, code, rules.
  * Block-level first, then inline within each block.
+ *
+ * Headings shift so the body's highest level renders as <h2> (the page <h1> is
+ * the title). LinkedIn exports often start at ### with no ## anywhere, which
+ * used to come out as a page of <h4>s under the <h1>.
  */
-function md2html(md) {
+function md2html(md, top = topHeading(md)) {
   const blocks = String(md).replace(/\r\n/g, '\n').split(/\n{2,}/);
   const out = [];
   let listBuf = null, listTag = null;
@@ -161,7 +211,7 @@ function md2html(md) {
     const h = block.match(/^(#{1,6})\s+(.*)$/s);
     if (h) {
       flushList();
-      const level = Math.min(6, h[1].length + 1);   // demote: page <h1> is the title
+      const level = Math.min(6, Math.max(2, h[1].length - top + 2));
       out.push(`<h${level}>${inline(h[2].replace(/\n/g, ' '))}</h${level}>`);
       continue;
     }
@@ -169,7 +219,7 @@ function md2html(md) {
     if (/^>\s?/.test(block)) {
       flushList();
       const body = block.split('\n').map(l => l.replace(/^>\s?/, '')).join('\n');
-      out.push(`<blockquote>${md2html(body)}</blockquote>`);
+      out.push(`<blockquote>${md2html(body, top)}</blockquote>`);
       continue;
     }
 
@@ -208,15 +258,35 @@ function md2html(md) {
   return out.join('\n');
 }
 
-/** Inline Markdown. Images before links so `[![…](…)](…)` still works. */
+/** Shallowest Markdown heading level in a body (1–6); 1 when there are none. */
+function topHeading(md) {
+  let min = 7, fenced = false;
+  for (const line of String(md).replace(/\r\n/g, '\n').split('\n')) {
+    if (/^```/.test(line)) { fenced = !fenced; continue; }
+    const h = !fenced && line.match(/^(#{1,6})\s+\S/);
+    if (h) min = Math.min(min, h[1].length);
+  }
+  return min === 7 ? 1 : min;
+}
+
+const extAttr = (href) => /^https?:/i.test(href) ? ' target="_blank" rel="noopener"' : '';
+
+/**
+ * Inline Markdown. Images before links so `[![…](…)](…)` still works.
+ * Citations come first of all: LinkedIn exports write a footnote as
+ * `[[3]](url)`, which the link pattern cannot match (the text would be "[3"),
+ * so it used to reach the page as raw brackets. It renders as a superscript.
+ * Link text cannot contain "[": otherwise "[aside with [a link](url)" would
+ * swallow the whole aside into one anchor.
+ */
 function inline(s) {
   let t = esc(s);
+  t = t.replace(/\[\[(\d+)\]\]\(([^)\s]+)\)/g,
+    (_, n, href) => `<sup class="cite"><a href="${u(href)}"${extAttr(href)}>[${n}]</a></sup>`);
   t = t.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g,
     (_, alt, src) => `<img src="${u(src)}" alt="${alt}" loading="lazy">`);
-  t = t.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, txt, href) => {
-    const ext = /^https?:/i.test(href) ? ' target="_blank" rel="noopener"' : '';
-    return `<a href="${u(href)}"${ext}>${txt}</a>`;
-  });
+  t = t.replace(/\[([^[\]]+)\]\(([^)\s]+)\)/g,
+    (_, txt, href) => `<a href="${u(href)}"${extAttr(href)}>${txt}</a>`);
   t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   t = t.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
   t = t.replace(/`([^`]+)`/g, '<code>$1</code>');
@@ -242,41 +312,108 @@ function asciiSlug(slug) {
     .toLowerCase();
 }
 
+/** Markdown → plain text: citations dropped, links reduced to their text. */
+const flatten = (s) => String(s || '')
+  .replace(/\[\[\d+\]\]\([^)]*\)/g, '')
+  .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+  .replace(/\[([^[\]]+)\]\([^)]*\)/g, '$1')
+  .replace(/[*`_]/g, '')
+  .replace(/\s+([.,;:!?])/g, '$1')
+  .replace(/\s+/g, ' ').trim();
+
 /** First real paragraph, trimmed — used as a card summary. */
 function excerpt(body, max = 190) {
   for (const block of body.split(/\n{2,}/)) {
     const b = block.trim();
     if (!b || /^[#>\-*!]/.test(b) || /^\d+\./.test(b)) continue;
-    const flat = b.replace(/[*`_]/g, '')
-      .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
-      .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-      .replace(/\s+/g, ' ').trim();
+    const flat = flatten(b);
     if (flat.length < 40) continue;
     return flat.length > max ? flat.slice(0, max).replace(/\s+\S*$/, '') + '…' : flat;
   }
   return '';
 }
 
+/**
+ * A meta description that fits a search result: at most `max` characters, cut
+ * at a sentence end where one falls late enough, else at a word, and never
+ * ending in an ellipsis (a dangling "…" reads as truncated, because it is).
+ */
+function clampDescription(text, max = DESC_MAX) {
+  const t = String(text || '').replace(/\s+/g, ' ').trim().replace(/\s*(…|\.\.\.)$/, '');
+  if (t.length <= max) return t;
+  const cut = t.slice(0, max + 1);
+  let end = -1;
+  for (const m of cut.matchAll(/[.!?](?=\s)/g)) if (m.index < max) end = m.index;
+  if (end >= max * 0.5) return cut.slice(0, end + 1);
+  return cut.slice(0, max).replace(/\s+\S*$/, '').replace(/[\s,;:–—-]+$/, '');
+}
+
 // ── page shell ─────────────────────────────────────────────────────────────
 
-function shell({ title, description, body, canonical, isHome = false }) {
+/** Absolute URL on the live site for a root-relative path; external URLs pass through. */
+const absUrl = (profile, href) => /^https?:/i.test(href) ? href : `${profile.meta.url}${href}`;
+
+/**
+ * One JSON-LD block per page, always an @graph so a page can describe several
+ * things (the person, the podcast, the events) without several scripts. "<" is
+ * escaped so no string in the data can close the script element early.
+ */
+function jsonLd(graph) {
+  const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)
+    .replace(/</g, '\\u003c');
+  return `<script type="application/ld+json">\n${json}\n</script>`;
+}
+
+/**
+ * Page shell: head, top bar, footer. `lang` comes from front-matter and drives
+ * <html lang> and og:locale; the chrome around the content is English, so on a
+ * German page the header and footer say so themselves.
+ */
+function shell({ profile, title, description, body, canonical, lang = 'en', type = 'website',
+                 image = SHARE_CARD, published, modified, alternates = [], graph, robots }) {
+  const imgUrl = absUrl(profile, image.src);
+  const chromeLang = lang === 'en' ? '' : ' lang="en"';
+  const nav = [['/#now', 'Now'], ['/#projects', 'Projects'], ['/#writing', 'Writing'],
+               ['/#career', 'Career'], ['/#certifications', 'Certifications']];
+  if (profile.invite?.nav && profile.invite?.formats?.length) nav.unshift(['/#invite', profile.invite.nav]);
+  const otherLocales = alternates.filter(a => a.hreflang !== lang && LOCALES[a.hreflang])
+    .map(a => LOCALES[a.hreflang]);
+
+  const head = [
+    `<title>${esc(title)}</title>`,
+    `<meta name="description" content="${esc(description)}">`,
+    robots && `<meta name="robots" content="${esc(robots)}">`,
+    canonical && `<link rel="canonical" href="${esc(canonical)}">`,
+    ...alternates.map(a => `<link rel="alternate" hreflang="${esc(a.hreflang)}" href="${esc(a.href)}">`),
+    `<meta property="og:site_name" content="${esc(profile.name)}">`,
+    `<meta property="og:locale" content="${LOCALES[lang] || LOCALES.en}">`,
+    ...otherLocales.map(l => `<meta property="og:locale:alternate" content="${l}">`),
+    `<meta property="og:title" content="${esc(title)}">`,
+    `<meta property="og:description" content="${esc(description)}">`,
+    `<meta property="og:type" content="${type}">`,
+    canonical && `<meta property="og:url" content="${esc(canonical)}">`,
+    `<meta property="og:image" content="${esc(imgUrl)}">`,
+    image.width && `<meta property="og:image:width" content="${image.width}">`,
+    image.height && `<meta property="og:image:height" content="${image.height}">`,
+    published && `<meta property="article:published_time" content="${esc(published)}">`,
+    modified && modified !== published && `<meta property="article:modified_time" content="${esc(modified)}">`,
+    `<meta name="twitter:card" content="summary_large_image">`,
+  ].filter(Boolean).join('\n');
+
   return `<!doctype html>
-<html lang="en">
+<html lang="${esc(lang)}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(title)}</title>
-<meta name="description" content="${esc(description)}">
-${canonical ? `<link rel="canonical" href="${esc(canonical)}">` : ''}
-<meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(description)}">
-<meta property="og:type" content="${isHome ? 'website' : 'article'}">
-${canonical ? `<meta property="og:url" content="${esc(canonical)}">` : ''}
+${head}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="${u('/assets/style.css')}">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E%F0%9F%90%89%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="${u('/favicon.ico')}" sizes="48x48">
+<link rel="icon" href="${u('/assets/icons/favicon-32.png')}" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="${u('/apple-touch-icon.png')}">
+${jsonLd(graph)}
 <script>
   (function(){
     try {
@@ -289,15 +426,11 @@ ${canonical ? `<meta property="og:url" content="${esc(canonical)}">` : ''}
 </script>
 </head>
 <body>
-<a class="skip" href="#main">Skip to content</a>
-<header class="topbar">
-  <a class="wordmark" href="${u('/')}">Sebastian Selman</a>
+<a class="skip" href="#main"${chromeLang}>Skip to content</a>
+<header class="topbar"${chromeLang}>
+  <a class="wordmark" href="${u('/')}">${esc(profile.name)}</a>
   <nav>
-    <a href="${u('/#now')}">Now</a>
-    <a href="${u('/#projects')}">Projects</a>
-    <a href="${u('/#writing')}">Writing</a>
-    <a href="${u('/#career')}">Career</a>
-    <a href="${u('/#reading')}">Reading</a>
+    ${nav.map(([href, label]) => `<a href="${u(href)}">${esc(label)}</a>`).join('\n    ')}
   </nav>
   <button id="theme" type="button" aria-label="Switch between light and dark">
     <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
@@ -306,8 +439,8 @@ ${canonical ? `<meta property="og:url" content="${esc(canonical)}">` : ''}
 <main id="main">
 ${body}
 </main>
-<footer>
-  <p>© ${new Date().getFullYear()} Sebastian Selman · Switzerland</p>
+<footer${chromeLang}>
+  <p>© ${new Date().getFullYear()} ${esc(profile.name)} · Switzerland</p>
   <p class="muted">Earlier work published as Sebastian Rappen.</p>
 </footer>
 <script>
@@ -350,16 +483,29 @@ ${body}
 
 // ── sections ───────────────────────────────────────────────────────────────
 
+/**
+ * A link URL from profile.json, with "{email}" filled in from `email`. Moving
+ * to a new address is then a one-line change to profile.json.
+ */
+const linkUrl = (profile, url) => String(url).replace('{email}', profile.email ?? '');
+
+/** mailto: with an optional prefilled subject. */
+const mailto = (email, subject) =>
+  `mailto:${email}${subject ? `?subject=${encodeURIComponent(subject)}` : ''}`;
+
 function heroSection(profile) {
-  const links = profile.links.map(l =>
-    `<a class="link${l.primary ? ' primary' : ''}" href="${esc(l.url)}"` +
-    `${/^https?:/.test(l.url) ? ' target="_blank" rel="noopener"' : ''}>` +
-    `${esc(l.label)}<span aria-hidden="true">↗</span></a>`).join('\n      ');
+  const links = profile.links.map(l => {
+    const url = linkUrl(profile, l.url);
+    return `<a class="link${l.primary ? ' primary' : ''}" href="${esc(url)}"` +
+      `${/^https?:/.test(url) ? ' target="_blank" rel="noopener"' : ''}>` +
+      `${esc(l.label)}<span aria-hidden="true">↗</span></a>`;
+  }).join('\n      ');
 
   return `<section class="hero">
   <p class="eyebrow">${esc(profile.role)} · ${esc(profile.location)}</p>
   <h1>${esc(profile.name)}</h1>
   <p class="tagline">${esc(profile.tagline)}</p>
+  ${profile.offer ? `<p class="offer">${inline(profile.offer)}</p>` : ''}
   ${profile.intro.map(p => `<p class="intro">${inline(p)}</p>`).join('\n  ')}
   <div class="links">
       ${links}
@@ -367,20 +513,48 @@ function heroSection(profile) {
 </section>`;
 }
 
+/**
+ * "Invite me": the formats Sebastian can be booked for, each with one line and
+ * the evidence behind it, and a mail button with a prefilled subject. Driven
+ * entirely by profile.json `invite`; with no `invite` (or no formats) the
+ * section is not rendered at all.
+ *
+ *   "invite": { "heading": "…", "intro": "…", "nav": "…",
+ *               "formats": [{ "name": "…", "line": "…", "evidence": "…" }],
+ *               "button": { "label": "…", "subject": "…" } }
+ */
+function inviteSection(profile) {
+  const inv = profile.invite;
+  if (!inv?.heading || !inv.formats?.length) return '';
+  const button = inv.button?.label && profile.email
+    ? `\n  <p class="invite-cta"><a class="link primary" href="${esc(mailto(profile.email, inv.button.subject))}">` +
+      `${esc(inv.button.label)}<span aria-hidden="true">↗</span></a></p>` : '';
+  return `<section id="invite">
+  <h2>${esc(inv.heading)}</h2>
+  ${inv.intro ? `<p class="section-note">${inline(inv.intro)}</p>` : ''}
+  <ul class="formats">${inv.formats.map(f => `
+    <li class="format">
+      <h3>${esc(f.name)}</h3>
+      ${f.line ? `<p>${inline(f.line)}</p>` : ''}
+      ${f.evidence ? `<p class="evidence">${inline(f.evidence)}</p>` : ''}
+    </li>`).join('')}
+  </ul>${button}
+</section>`;
+}
+
+/**
+ * An activity is past once its date has gone by — no manual status flip
+ * needed. A same-day event stays upcoming for its whole (Zurich) day, so an
+ * evening event doesn't demote early when the build runs in UTC; a multi-day
+ * event stays upcoming through its date_end. An explicit status "past" is
+ * still honoured.
+ */
+const isPast = (a) => a.status === 'past' || (a.date_end ?? a.date) < TODAY;
+
 function nowSection(activities, showTentative) {
   const visible = activities.filter(a =>
     a.status !== 'tentative' || showTentative);
   const held = activities.length - visible.length;
-
-  // An activity is past once its date has gone by — no manual status flip
-  // needed. "Today" is the Europe/Zurich calendar date (en-CA formats as
-  // YYYY-MM-DD, comparable to activity dates as strings), so an evening
-  // event doesn't demote early when the build runs in UTC. A same-day event
-  // stays upcoming for its whole day; a multi-day event stays upcoming through
-  // its date_end. An explicit status "past" is still honoured.
-  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Zurich' })
-    .format(new Date());
-  const isPast = (a) => a.status === 'past' || (a.date_end ?? a.date) < today;
 
   const upcoming = visible.filter(a => !isPast(a))
     .sort((a, b) => a.date.localeCompare(b.date));
@@ -511,9 +685,15 @@ function careerSection(career) {
       </ol>
     </div>`).join('');
 
+  // The span is computed so the note stays true as the timeline changes.
+  const spanYears = Math.round((maxM - minM) / 12);
+  const WORDS = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+                 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen',
+                 'eighteen', 'nineteen', 'twenty'];
+
   return `<section id="career">
   <h2>Career</h2>
-  <p class="section-note">Where the last fifteen years went. Select a band for the detail.</p>
+  <p class="section-note">Where the last ${WORDS[spanYears] || spanYears} years went. Select a band for the detail.</p>
   <div class="cv">
     <div class="cv-chart" style="--rows:${entries.length}">
       <div class="cv-years">${years.map(y =>
@@ -533,41 +713,13 @@ function humanMonth(ym) {
   return m ? `${MONTHS[Number(m[2]) - 1]} ${m[1]}` : String(ym || '');
 }
 
-/** Books and essays, rendered inline on the home page. */
-function readingSection(reading) {
-  const item = (b, kind) => `
-    <li class="${kind}">
-      ${b.cover ? `<img class="cover" src="${esc(u(b.cover))}" alt="" loading="lazy">` : ''}
-      <div>
-        <h3>${b.url
-          ? `<a href="${esc(b.url)}" target="_blank" rel="noopener">${esc(b.title)}</a>`
-          : esc(b.title)}<span class="by">${esc(b.author)}</span></h3>
-        <p>${inline(b.note)}</p>
-      </div>
-    </li>`;
-
-  return `<section id="reading">
-  <h2>Reading</h2>
-  <p class="section-note">${inline(reading.intro)}</p>
-  ${reading.epigraph ? `
-  <blockquote class="epigraph">
-    <p>${esc(reading.epigraph.text)}</p>
-    <cite>${esc(reading.epigraph.attribution)}</cite>
-  </blockquote>` : ''}
-  ${reading.essays?.length ? `
-  <h3 class="sub">Essays</h3>
-  <ul class="reading-list">${reading.essays.map(e => item(e, 'read-essay')).join('')}
-  </ul>` : ''}
-  <h3 class="sub">Books</h3>
-  <ul class="reading-list">${reading.books.map(b => item(b, 'read-book')).join('')}
-  </ul>
-</section>`;
-}
-
 /**
- * Certifications: one tile per Credly badge, newest first. Each tile links to
- * the badge's public Credly page, which is where it gets verified; the PNGs
- * themselves carry no baked credential (strip-badge.mjs removes it).
+ * Certifications: one tile per Credly badge. Each tile links to the badge's
+ * public Credly page, which is where it gets verified; the PNGs themselves
+ * carry no baked credential (strip-badge.mjs removes it).
+ *
+ * Advanced badges come first; every other tier (see CERT_TIERS) sits in one
+ * collapsed "More" group, which needs no JavaScript. Newest first within each.
  *
  * The image link is a mouse target only (aria-hidden, out of the tab order) so
  * a screen reader hears each badge once, through the heading link. A badge
@@ -575,11 +727,10 @@ function readingSection(reading) {
  * it; "today" is the Zurich calendar date, the same rule nowSection uses.
  */
 function certificationsSection(certs) {
-  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Zurich' })
-    .format(new Date());
   const ext = ' target="_blank" rel="noopener"';
+  const tierOf = (c) => c.tier ?? 'advanced';
   const tile = (c) => {
-    const expired = Boolean(c.expires) && c.expires < today;
+    const expired = Boolean(c.expires) && c.expires < TODAY;
     return `
     <li class="cert${expired ? ' expired' : ''}">
       <a class="cert-img" href="${esc(c.url)}"${ext} tabindex="-1" aria-hidden="true">
@@ -590,14 +741,45 @@ function certificationsSection(certs) {
     </li>`;
   };
 
+  const newest = (list) => list.slice().sort((a, b) => b.date.localeCompare(a.date));
+  const front = newest(certs.badges.filter(c => tierOf(c) === 'advanced'));
+  const rest = newest(certs.badges.filter(c => tierOf(c) !== 'advanced'));
+  const restLabel = Object.entries(CERT_TIERS)
+    .filter(([key, label]) => label && rest.some(c => tierOf(c) === key))
+    .map(([, label]) => label).join(' and ');
+
   return `<section id="certifications">
   <h2>Certifications</h2>
   <p class="section-note">${inline(certs.intro)}</p>
-  <ul class="certs">${certs.badges.slice()
-    .sort((a, b) => b.date.localeCompare(a.date)).map(tile).join('')}
-  </ul>
-  <p class="cert-more"><a href="${esc(certs.profile_url)}"${ext}>All badges on Credly<span aria-hidden="true">↗</span></a></p>
+  ${front.length ? `<ul class="certs">${front.map(tile).join('')}
+  </ul>` : ''}
+  ${rest.length ? `<details class="cert-group">
+    <summary>More: ${esc(restLabel)} (${rest.length})</summary>
+    <ul class="certs">${rest.map(tile).join('')}
+    </ul>
+  </details>` : ''}
+  <p class="cert-more"><a href="${esc(certs.profile_url)}"${ext}>All credentials on Credly<span aria-hidden="true">↗</span></a></p>
 </section>`;
+}
+
+/** One entry in an article list: title, excerpt, date / byline / language. */
+const pieceItem = (d) => `
+        <li>
+          <a href="${u(d.href)}"${d.lang !== 'en' ? ` hreflang="${esc(d.lang)}"` : ''}>${esc(d.meta.title)}</a>
+          <p class="excerpt"${d.lang !== 'en' ? ` lang="${esc(d.lang)}"` : ''}>${esc(d.excerpt)}</p>
+          <p class="meta">${esc(humanDate(d.meta.date))}${
+            d.meta.byline && d.meta.byline !== 'Sebastian Selman'
+              ? ` · as ${esc(d.meta.byline)}` : ''}${
+            d.lang === 'de' ? ' · Deutsch' : ''}</p>
+        </li>`;
+
+const newestFirst = (a, b) => (b.meta.date || '').localeCompare(a.meta.date || '');
+
+/** "16 articles, 2019–2026. Everything previously on …" — shared by both lists. */
+function writingNote(docs) {
+  const years = docs.map(d => year(d.meta.date)).filter(Boolean).sort();
+  return `${docs.length} articles, ${years[0]}–${years[years.length - 1]}. ` +
+    `Everything previously on limmatreframe.com and LinkedIn, in one place.`;
 }
 
 function writingSection(docs) {
@@ -612,31 +794,42 @@ function writingSection(docs) {
   const groups = years.map(y => `
     <div class="year">
       <h3>${esc(y)}</h3>
-      <ul class="pieces">${byYear.get(y)
-        .sort((a, b) => (b.meta.date || '').localeCompare(a.meta.date || ''))
-        .map(d => `
-        <li>
-          <a href="${u(d.href)}">${esc(d.meta.title)}</a>
-          <p class="excerpt">${esc(d.excerpt)}</p>
-          <p class="meta">${esc(humanDate(d.meta.date))}${
-            d.meta.byline && d.meta.byline !== 'Sebastian Selman'
-              ? ` · as ${esc(d.meta.byline)}` : ''}${
-            d.meta.lang === 'de' ? ' · Deutsch' : ''}</p>
-        </li>`).join('')}
+      <ul class="pieces">${byYear.get(y).sort(newestFirst).map(pieceItem).join('')}
       </ul>
     </div>`).join('');
 
   return `<section id="writing">
   <h2>Writing</h2>
-  <p class="section-note">${docs.length} pieces, ${years[years.length - 1]}–${years[0]}. Everything previously on limmatreframe.com and LinkedIn, in one place.</p>
+  <p class="section-note">${esc(writingNote(docs))}</p>
   <div class="years">${groups}
   </div>
+  <p class="more-link"><a href="${u('/articles/')}">All articles by topic<span aria-hidden="true">→</span></a></p>
+</section>`;
+}
+
+/** Docs grouped by front-matter `topic`, in TOPICS order, newest first within. */
+function byTopic(docs) {
+  return TOPICS.map(t => ({ ...t, docs: docs.filter(d => d.topic === t.key).sort(newestFirst) }))
+    .filter(g => g.docs.length);
+}
+
+/** /articles/: every article, grouped by topic. */
+function articlesIndexBody(docs) {
+  return `<section class="index">
+  <h1>Articles</h1>
+  <p class="section-note">${esc(writingNote(docs))}</p>
+  ${byTopic(docs).map(g => `
+  <div class="topic">
+    <h2>${esc(g.label)}</h2>
+    <ul class="pieces">${g.docs.map(pieceItem).join('')}
+    </ul>
+  </div>`).join('')}
 </section>`;
 }
 
 // ── article pages ──────────────────────────────────────────────────────────
 
-function articlePage(doc, profile) {
+function articlePage(doc, docs, profile) {
   const notes = [];
 
   if (doc.meta.variant_of) {
@@ -659,31 +852,184 @@ function articlePage(doc, profile) {
       : `Later rewritten in ${lang} as ${link}.`);
   }
 
+  // The notes, credit line and dates are English; on a German page they say so.
+  const en = doc.lang !== 'en' ? ' lang="en"' : '';
+
   const variant = notes.length
-    ? `\n    <aside class="variant">${notes.map(n => `<p>${n}</p>`).join('')}</aside>` : '';
+    ? `\n    <aside class="variant"${en}>${notes.map(n => `<p>${n}</p>`).join('')}</aside>` : '';
+
+  // limmatreframe.com now redirects every old URL here, so a link back to it
+  // would only loop: the credit is plain text. LinkedIn copies still exist.
+  const origin = doc.origin === 'linkedin'
+    ? (doc.meta.source ? `<p class="origin"${en}>Also published on
+      <a href="${esc(doc.meta.source)}" target="_blank" rel="noopener">LinkedIn</a></p>` : '')
+    : `<p class="origin"${en}>First published on limmatreframe.com, ${esc(year(doc.meta.date))}</p>`;
 
   const body = `<article class="piece">
   <header class="piece-head">
-    <p class="eyebrow">${esc(humanDate(doc.meta.date))}${
+    <p class="eyebrow"${en}>${esc(humanDate(doc.meta.date))}${
       doc.meta.byline && doc.meta.byline !== 'Sebastian Selman' ? ` · as ${esc(doc.meta.byline)}` : ''}</p>
     <h1>${esc(doc.meta.title)}</h1>
-    ${doc.meta.source ? `<p class="origin">${doc.origin === 'linkedin' ? 'Also' : 'Originally'} published on
-      <a href="${esc(doc.meta.source)}" target="_blank" rel="noopener">${
-        doc.origin === 'linkedin' ? 'LinkedIn' : 'limmatreframe.com'}</a></p>` : ''}
+    ${origin}
   </header>
   ${variant}
   <div class="prose">
 ${md2html(doc.body)}
   </div>
-  <p class="back"><a href="${u('/#writing')}">← All writing</a></p>
+  <p class="back"${en}><a href="${u('/articles/')}">← All articles</a></p>
 </article>`;
 
+  const canonical = absUrl(profile, doc.href);
+  const image = doc.meta.cover_image ? { src: doc.meta.cover_image } : SHARE_CARD;
   return shell({
-    title: `${doc.meta.title} — ${profile.name}`,
-    description: doc.excerpt || profile.meta.description,
-    canonical: `${profile.meta.url}${doc.href}`,
-    body,
+    profile, body, canonical,
+    title: doc.title,
+    description: doc.description,
+    lang: doc.lang,
+    type: 'article',
+    image,
+    published: doc.meta.date,
+    modified: doc.lastmod,
+    alternates: alternatesFor(doc, docs, profile),
+    graph: [{
+      '@type': 'Article',
+      '@id': `${canonical}#article`,
+      headline: doc.meta.title,
+      description: doc.description,
+      datePublished: doc.meta.date,
+      dateModified: doc.lastmod,
+      inLanguage: doc.lang,
+      image: [absUrl(profile, image.src)],
+      author: personRef(profile),
+      url: canonical,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+    }],
   });
+}
+
+/**
+ * hreflang links for an EN/DE twin, recorded by hand in front-matter
+ * (`translated_as` / `translation_of` + `translation_href`). Both pages carry
+ * the same set: themselves, the twin, and x-default pointing at the English one.
+ */
+function alternatesFor(doc, docs, profile) {
+  const href = doc.meta.translation_href;
+  if (!href) return [];
+  const twin = docs.find(d => d.href === href);
+  if (!twin) {
+    console.warn(`  ! ${doc.slug}: translation_href ${href} matches no article; no hreflang`);
+    return [];
+  }
+  const pair = [doc, twin].sort((a, b) => a.lang.localeCompare(b.lang));
+  const fallback = pair.find(d => d.lang === 'en') ?? pair[0];
+  return [...pair.map(d => ({ hreflang: d.lang, href: absUrl(profile, d.href) })),
+          { hreflang: 'x-default', href: absUrl(profile, fallback.href) }];
+}
+
+/** The Person as the author / performer of something: a reference to the home page node. */
+const personId = (profile) => `${profile.meta.url}/#person`;
+const personRef = (profile) => ({
+  '@type': 'Person', '@id': personId(profile), name: profile.name, url: `${profile.meta.url}/`,
+});
+
+/** "2026-11-10" + "12:00" → "2026-11-10T12:00:00+01:00" in Zurich time. */
+function zurichDateTime(date, time) {
+  if (!time) return date;
+  const at = new Date(`${date}T${time}:00Z`);
+  const off = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Zurich', timeZoneName: 'longOffset' })
+    .formatToParts(at).find(p => p.type === 'timeZoneName')?.value.replace('GMT', '') || '+00:00';
+  return `${date}T${time}:00${off === '' ? '+00:00' : off}`;
+}
+
+/**
+ * Home page structured data: the site, the profile page and the person it is
+ * about, plus anything a project or an activity says should be described too.
+ *
+ * - A project with `schema.type: "PodcastSeries"` becomes a PodcastSeries;
+ *   `schema.cohosts` names the other hosts, `schema.same_as` lists the show on
+ *   other platforms (Spotify, Apple…), `schema.web_feed` its RSS feed and
+ *   `schema.description` an optional description. All data, so a new
+ *   platform link needs no code change.
+ * - Every upcoming, non-tentative activity Sebastian speaks at becomes an
+ *   Event with him as performer. `attending` entries are left out: he is in
+ *   the audience there, not on the programme.
+ * - No worksFor, on purpose: the site is about Sebastian, not an employer.
+ */
+function homeGraph(profile, projects, activities) {
+  const site = profile.meta.url;
+  const person = {
+    '@type': 'Person',
+    '@id': personId(profile),
+    name: profile.name,
+    alternateName: profile.alternateName,
+    url: `${site}/`,
+    image: profile.image ? absUrl(profile, profile.image) : undefined,
+    description: profile.tagline,
+    jobTitle: profile.jobTitle,
+    knowsAbout: profile.knowsAbout?.length ? profile.knowsAbout : undefined,
+    homeLocation: profile.homeLocation ? {
+      '@type': 'Place',
+      name: profile.location,
+      address: { '@type': 'PostalAddress', addressLocality: profile.homeLocation.locality,
+                 addressCountry: profile.homeLocation.country },
+    } : undefined,
+    sameAs: profile.links.filter(l => /^https?:/.test(l.url) && l.same_as !== false).map(l => l.url),
+  };
+
+  const podcasts = projects.filter(p => p.schema?.type === 'PodcastSeries').map(p => {
+    const hosts = [personRef(profile), ...(p.schema.cohosts || []).map(name => ({ '@type': 'Person', name }))];
+    return {
+      '@type': 'PodcastSeries',
+      '@id': `${site}/#podcast-${asciiSlug(p.name)}`,
+      name: p.name,
+      url: p.url,
+      description: p.schema.description || undefined,
+      inLanguage: p.schema.inLanguage || 'en',
+      author: hosts,
+      actor: hosts,
+      webFeed: p.schema.web_feed || undefined,
+      sameAs: p.schema.same_as?.length ? p.schema.same_as : undefined,
+    };
+  });
+
+  const events = activities
+    .filter(a => a.status !== 'tentative' && a.kind !== 'attending' && !isPast(a))
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map(a => {
+      const online = a.mode ? a.mode === 'online' : /^online\b/i.test(a.venue || '');
+      const end = a.date_end || (a.time_end ? a.date : (a.time ? null : a.date));
+      return {
+        '@type': 'Event',
+        name: a.title,
+        startDate: zurichDateTime(a.date, a.time),
+        endDate: end ? zurichDateTime(end, a.time_end) : undefined,
+        eventStatus: 'https://schema.org/EventScheduled',
+        eventAttendanceMode: `https://schema.org/${online ? 'Online' : 'Offline'}EventAttendanceMode`,
+        location: online
+          ? { '@type': 'VirtualLocation', url: a.url || `${site}/` }
+          : { '@type': 'Place', name: a.venue, address: a.address || a.venue },
+        url: a.url || undefined,
+        description: a.blurb ? flatten(a.blurb) : undefined,
+        image: [absUrl(profile, SHARE_CARD.src)],
+        performer: personRef(profile),
+      };
+    });
+
+  return [
+    { '@type': 'WebSite', '@id': `${site}/#website`, url: `${site}/`, name: profile.name, inLanguage: 'en' },
+    {
+      '@type': 'ProfilePage',
+      '@id': `${site}/`,
+      url: `${site}/`,
+      name: profile.meta.title,
+      inLanguage: 'en',
+      isPartOf: { '@id': `${site}/#website` },
+      mainEntity: { '@id': personId(profile) },
+    },
+    person,
+    ...podcasts,
+    ...events,
+  ];
 }
 
 // ── build ──────────────────────────────────────────────────────────────────
@@ -695,11 +1041,21 @@ ${md2html(doc.body)}
  * limmatreframe pieces sat under /essays/ until 2026-10-30 (see LEGACY_ESSAYS).
  * A file without a valid origin stops the build: the credit line on the page
  * depends on it, and a wrong attribution is worse than a failed rebuild.
+ *
+ * Also settled here, once, for every page that shows a piece:
+ *   lang         front-matter `lang`, default "en"
+ *   topic        front-matter `topic` (see TOPICS), default the first group
+ *   title        the <title>: `seo_title` if set, else the title; " — <name>"
+ *                appended whenever the result still fits TITLE_MAX
+ *   description  `description`, else `summary`, else the first paragraph,
+ *                clamped to DESC_MAX
+ *   lastmod      `modified` if set, else `date`
  */
-async function loadDocs(dir) {
+async function loadDocs(dir, profile) {
   const full = path.join(CONTENT, dir);
   try { await stat(full); } catch { return []; }
   const out = [];
+  const suffix = ` — ${profile.name}`;
   for (const f of (await readdir(full)).filter(f => f.endsWith('.md')).sort()) {
     const { meta, body } = parseMd(await readFile(path.join(full, f), 'utf8'));
     const origin = meta.origin;
@@ -707,74 +1063,171 @@ async function loadDocs(dir) {
       throw new Error(`content/${dir}/${f}: front-matter needs origin: ` +
         `${[...ORIGINS].join(' | ')} (got ${JSON.stringify(origin ?? null)})`);
     }
+    const topic = meta.topic || TOPICS[0].key;
+    if (!TOPICS.some(t => t.key === topic)) {
+      throw new Error(`content/${dir}/${f}: unknown topic ${JSON.stringify(topic)} ` +
+        `(known: ${TOPICS.map(t => t.key).join(', ')})`);
+    }
     const slug = asciiSlug(meta.slug || f.replace(/\.md$/, ''));
-    out.push({ slug, meta, body, origin, excerpt: excerpt(body),
+    const base = meta.seo_title || meta.title;
+    const title = (base + suffix).length <= TITLE_MAX ? base + suffix : base;
+    const description = clampDescription(meta.description || meta.summary || excerpt(body, Infinity));
+    out.push({ slug, meta, body, origin, topic, title, description,
+               lang: meta.lang || 'en',
+               lastmod: meta.modified || meta.date,
+               excerpt: excerpt(body),
                href: `/${dir}/${slug}/` });
   }
   return out;
 }
 
+const readJson = async (name) => JSON.parse(await readFile(path.join(CONTENT, name), 'utf8'));
+
+/**
+ * Refuse to wipe anything that is not a previous build. --out exists for the
+ * tests; a slip like `--out .` must not take the repo with it.
+ */
+async function prepareOut(dir) {
+  const rel = path.relative(dir, ROOT);
+  if (!rel || !rel.startsWith('..')) throw new Error(`refusing to build into ${dir}: it contains the repo`);
+  let entries = [];
+  try { entries = await readdir(dir); } catch { /* does not exist yet */ }
+  if (entries.length && !entries.includes('sitemap.xml') && path.resolve(dir) !== path.join(ROOT, 'docs')) {
+    throw new Error(`refusing to wipe ${dir}: not empty and not a previous build`);
+  }
+  await rm(dir, { recursive: true, force: true });
+  await mkdir(dir, { recursive: true });
+}
+
+/** A meta-refresh stub that forwards an old or bare path to its new home. */
+const redirectStub = (profile, target, label, note = '') =>
+  `<!doctype html>\n` +
+  `<meta charset="utf-8">\n` +
+  (note ? `<!-- ${note} -->\n` : '') +
+  `<meta http-equiv="refresh" content="0; url=${u(target)}">\n` +
+  `<link rel="canonical" href="${profile.meta.url}${target}">\n` +
+  `<title>${esc(label)}</title>\n` +
+  `<p><a href="${u(target)}">${esc(label)}</a></p>\n`;
+
+function notFoundPage(profile) {
+  return shell({
+    profile,
+    title: `Page not found — ${profile.name}`,
+    description: `There is nothing at this address. The articles, talks and podcast are all reachable from the home page.`,
+    robots: 'noindex',
+    graph: [{ '@type': 'WebPage', name: 'Page not found', inLanguage: 'en',
+              isPartOf: { '@id': `${profile.meta.url}/#website` } }],
+    body: `<section class="notfound">
+  <h1>Page not found</h1>
+  <p class="section-note">There is nothing at this address. If you followed an old link, the piece has most likely moved to the articles page.</p>
+  <p class="more-link"><a href="${u('/')}">Home</a> · <a href="${u('/articles/')}">All articles</a></p>
+</section>`,
+  });
+}
+
 async function main() {
-  const profile = JSON.parse(await readFile(path.join(CONTENT, 'profile.json'), 'utf8'));
-  const activities = JSON.parse(await readFile(path.join(CONTENT, 'activities.json'), 'utf8'));
-  const projects = JSON.parse(await readFile(path.join(CONTENT, 'projects.json'), 'utf8'));
-  const career = JSON.parse(await readFile(path.join(CONTENT, 'career.json'), 'utf8'));
-  const reading = JSON.parse(await readFile(path.join(CONTENT, 'reading.json'), 'utf8'));
-  const certs = JSON.parse(await readFile(path.join(CONTENT, 'certifications.json'), 'utf8'));
+  const profile = await readJson('profile.json');
+  const activities = await readJson('activities.json');
+  const projects = await readJson('projects.json');
+  const career = await readJson('career.json');
+  const certs = await readJson('certifications.json');
 
   // A badge whose PNG isn't in assets/ would publish as a broken image. Say so
   // rather than ship it quietly.
   for (const c of certs.badges) {
     try { await stat(path.join(ROOT, c.image)); }
     catch { console.warn(`  ! certification image missing: ${c.image}`); }
+    if (c.tier && !(c.tier in CERT_TIERS)) console.warn(`  ! ${c.name}: unknown tier "${c.tier}"`);
   }
 
-  const docs = await loadDocs('articles');
-
-  await rm(DOCS, { recursive: true, force: true });
-  await mkdir(DOCS, { recursive: true });
+  const docs = await loadDocs('articles', profile);
+  const site = profile.meta.url;
+  const pages = [];   // [path under DOCS, html] — written after the checks below
 
   // Home
   const showTentative = profile._notes?.show_tentative === true;
-  await writeFile(path.join(DOCS, 'index.html'), shell({
+  pages.push(['index.html', profile.meta.title, profile.meta.description, shell({
+    profile,
     title: profile.meta.title,
     description: profile.meta.description,
-    canonical: profile.meta.url + '/',
-    isHome: true,
+    canonical: `${site}/`,
+    graph: homeGraph(profile, projects, activities),
     body: [
       heroSection(profile),
+      inviteSection(profile),
       nowSection(activities, showTentative),
       projectsSection(projects),
       writingSection(docs),
       careerSection(career),
-      readingSection(reading),
       certificationsSection(certs),
-    ].join('\n\n'),
-  }), 'utf8');
+    ].filter(Boolean).join('\n\n'),
+  })]);
 
   // One page per piece
   for (const d of docs) {
-    const dir = path.join(DOCS, d.href.replace(/^\/|\/$/g, ''));
-    await mkdir(dir, { recursive: true });
-    await writeFile(path.join(dir, 'index.html'), articlePage(d, profile), 'utf8');
+    pages.push([path.join(d.href.replace(/^\/|\/$/g, ''), 'index.html'), d.title, d.description,
+                articlePage(d, docs, profile)]);
   }
 
-  // Section stubs. /writing/ backs the projects.json link; /reading/ exists
-  // because limmatreframe.com/resources/ 301s to it — that redirect was set up
-  // while Reading was still a standalone page, and removing the page silently
-  // turned a working inbound link into a 404. Keep the stub for as long as the
-  // .htaccess on limmatreframe.com points here.
-  for (const [dir, anchor, label] of [
-    ['writing', '#writing', 'All writing'],
-    ['reading', '#reading', 'Reading list'],
+  // The index of every piece, grouped by topic
+  const articlesTitle = `Articles — ${profile.name}`;
+  const years = docs.map(d => year(d.meta.date)).filter(Boolean).sort();
+  const articlesDesc = clampDescription(`${docs.length} articles by ${profile.name}, ` +
+    `${years[0]}–${years[years.length - 1]}: data, AI and organisations first, then the earlier pieces.`);
+  pages.push([path.join('articles', 'index.html'), articlesTitle, articlesDesc, shell({
+    profile,
+    title: articlesTitle,
+    description: articlesDesc,
+    canonical: `${site}/articles/`,
+    body: articlesIndexBody(docs),
+    graph: [{
+      '@type': 'CollectionPage',
+      '@id': `${site}/articles/`,
+      url: `${site}/articles/`,
+      name: 'Articles',
+      inLanguage: 'en',
+      isPartOf: { '@id': `${site}/#website` },
+      author: personRef(profile),
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: byTopic(docs).flatMap(g => g.docs).map((d, i) => ({
+          '@type': 'ListItem', position: i + 1, url: absUrl(profile, d.href), name: d.meta.title,
+        })),
+      },
+    }],
+  })]);
+
+  // GitHub Pages serves this for any path it has no file for.
+  pages.push(['404.html', `Page not found — ${profile.name}`, null, notFoundPage(profile)]);
+
+  // Search-result limits. Over the limit is a warning here and a failure in
+  // the tests, so the nightly rebuild never stops over a long title.
+  for (const [file, title, desc] of pages) {
+    const max = file === 'index.html' ? HOME_TITLE_MAX : TITLE_MAX;
+    if (title.length > max) console.warn(`  ! ${file}: title is ${title.length} chars (max ${max})`);
+    if (desc && desc.length > DESC_MAX) console.warn(`  ! ${file}: description is ${desc.length} chars (max ${DESC_MAX})`);
+  }
+
+  await prepareOut(DOCS);
+  for (const [file, , , html] of pages) {
+    await mkdir(path.dirname(path.join(DOCS, file)), { recursive: true });
+    await writeFile(path.join(DOCS, file), html, 'utf8');
+  }
+
+  // Stubs for paths that used to be pages:
+  //   /writing/  the old projects.json link, before /articles/ existed
+  //   /reading/  limmatreframe.com/resources/ 301s here; the Reading section
+  //              is gone, so it lands on the home page
+  //   /essays/   the old index path; the pieces now live under /articles/
+  // Keep /reading/ and /essays/ for as long as limmatreframe.com's .htaccess
+  // points at them.
+  for (const [dir, target, label] of [
+    ['writing', '/articles/', 'Articles'],
+    ['reading', '/', profile.name],
+    ['essays', '/articles/', 'Articles'],
   ]) {
     await mkdir(path.join(DOCS, dir), { recursive: true });
-    await writeFile(path.join(DOCS, dir, 'index.html'),
-      `<!doctype html><meta charset="utf-8">` +
-      `<meta http-equiv="refresh" content="0; url=${u('/')}${anchor}">` +
-      `<link rel="canonical" href="${profile.meta.url}/${anchor}">` +
-      `<title>${label}</title>` +
-      `<p><a href="${u('/')}${anchor}">${label}</a></p>\n`, 'utf8');
+    await writeFile(path.join(DOCS, dir, 'index.html'), redirectStub(profile, target, label), 'utf8');
   }
 
   // Redirect stubs for the old /essays/<slug>/ URLs — see LEGACY_ESSAYS. A slug
@@ -785,19 +1238,17 @@ async function main() {
     if (!target) throw new Error(`LEGACY_ESSAYS: no piece has slug "${slug}"`);
     const dir = path.join(DOCS, 'essays', slug);
     await mkdir(dir, { recursive: true });
-    await writeFile(path.join(dir, 'index.html'),
-      `<!doctype html>\n` +
-      `<meta charset="utf-8">\n` +
-      `<!-- /essays/${slug}/ moved to ${target.href} on 2026-10-30 -->\n` +
-      `<meta http-equiv="refresh" content="0; url=${u(target.href)}">\n` +
-      `<link rel="canonical" href="${profile.meta.url}${target.href}">\n` +
-      `<title>${esc(target.meta.title)}</title>\n` +
-      `<p><a href="${u(target.href)}">${esc(target.meta.title)}</a></p>\n`, 'utf8');
+    await writeFile(path.join(dir, 'index.html'), redirectStub(profile, target.href, target.meta.title,
+      `/essays/${slug}/ moved to ${target.href} on 2026-10-30`), 'utf8');
   }
 
-  // Static assets
+  // Static assets. The two icons browsers ask for at the root without being
+  // told (favicon.ico, apple-touch-icon.png) are copied up there as well.
   await cp(ASSETS, path.join(DOCS, 'assets'), { recursive: true });
   await writeFile(path.join(DOCS, 'assets', 'style.css'), STYLE, 'utf8');
+  for (const icon of ['favicon.ico', 'apple-touch-icon.png']) {
+    await copyFile(path.join(ASSETS, 'icons', icon), path.join(DOCS, icon));
+  }
 
   // GitHub Pages plumbing
   // A CNAME and a project-pages subpath are mutually exclusive: with the custom
@@ -806,20 +1257,30 @@ async function main() {
   if (!BASE) await writeFile(path.join(DOCS, 'CNAME'), 'sebastianselman.ch\n', 'utf8');
   await writeFile(path.join(DOCS, '.nojekyll'), '', 'utf8');
   await writeFile(path.join(DOCS, 'robots.txt'),
-    `User-agent: *\nAllow: /\nSitemap: ${profile.meta.url}/sitemap.xml\n`, 'utf8');
+    `User-agent: *\nAllow: /\nSitemap: ${site}/sitemap.xml\n`, 'utf8');
 
-  const urls = ['/', ...docs.map(d => d.href)];
+  // <lastmod>: an article's `modified`, else its date. The two index pages
+  // change when an article does; the home page also when an activity date
+  // passes or an episode is added. Only dates up to today count, so the
+  // sitemap does not churn on every nightly build.
+  const latest = (dates) => dates.filter(Boolean).filter(d => d <= TODAY).sort().pop();
+  const articlesMod = latest(docs.map(d => d.lastmod));
+  const homeMod = latest([articlesMod,
+    ...activities.filter(a => a.status !== 'tentative').map(a => a.date_end ?? a.date),
+    ...projects.flatMap(p => (p.episodes || []).map(e => e.date))]);
+  const urls = [['/', homeMod], ['/articles/', articlesMod], ...docs.map(d => [d.href, d.lastmod])];
   await writeFile(path.join(DOCS, 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    urls.map(u => `  <url><loc>${profile.meta.url}${u}</loc></url>`).join('\n') +
+    urls.map(([href, mod]) => `  <url><loc>${site}${href}</loc>${mod ? `<lastmod>${mod}</lastmod>` : ''}</url>`)
+      .join('\n') +
     `\n</urlset>\n`, 'utf8');
 
   const heldBack = activities.filter(a => a.status === 'tentative').length;
-  console.log(`built  ${docs.length} pieces, ${LEGACY_ESSAYS.length} legacy /essays/ redirects`);
+  console.log(`built  ${docs.length} articles, /articles/ index, 404, ${LEGACY_ESSAYS.length} legacy /essays/ redirects`);
   console.log(`       ${activities.length} activities` +
     (heldBack && !showTentative ? `, ${heldBack} tentative held back from the page` : ''));
   console.log(`       ${projects.length} projects, ${certs.badges.length} certifications, ${urls.length} URLs in sitemap`);
-  console.log(`       → ${path.relative(process.cwd(), DOCS)}`);
+  console.log(`       → ${path.relative(process.cwd(), DOCS) || '.'}`);
 
   if (process.argv.includes('--serve')) serve();
 }
@@ -827,7 +1288,7 @@ async function main() {
 function serve(port = 4173) {
   const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8',
     '.js': 'text/javascript', '.svg': 'image/svg+xml', '.png': 'image/png',
-    '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif',
+    '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.ico': 'image/x-icon',
     '.webp': 'image/webp', '.xml': 'application/xml', '.txt': 'text/plain; charset=utf-8' };
   createServer(async (req, res) => {
     let p = decodeURIComponent(req.url.split('?')[0]);
@@ -838,7 +1299,13 @@ function serve(port = 4173) {
       const buf = await readFile(file);
       res.writeHead(200, { 'content-type': TYPES[path.extname(file)] || 'application/octet-stream' });
       res.end(buf);
-    } catch { res.writeHead(404, { 'content-type': 'text/plain' }).end('404 ' + p); }
+    } catch {
+      // Like GitHub Pages: unknown paths get the custom 404 page.
+      try {
+        const page = await readFile(path.join(DOCS, '404.html'));
+        res.writeHead(404, { 'content-type': TYPES['.html'] }).end(page);
+      } catch { res.writeHead(404, { 'content-type': 'text/plain' }).end('404 ' + p); }
+    }
   }).listen(port, () => console.log(`\nserving docs/ → http://localhost:${port}`));
 }
 
@@ -914,8 +1381,8 @@ a:hover { text-decoration-color: var(--accent); }
 :root[data-theme="light"] .moon, :root[data-theme="dark"] .sun { display: none; }
 @media (max-width: 620px) {
   .topbar { gap: .75rem; flex-wrap: wrap; }
-  .topbar nav { width: 100%; order: 3; margin-left: 0; gap: 1rem;
-                overflow-x: auto; padding-bottom: .15rem; }
+  .topbar nav { width: 100%; order: 3; margin-left: 0; gap: .45rem 1rem;
+                flex-wrap: wrap; padding-bottom: .15rem; }
   #theme { margin-left: auto; }
 }
 
@@ -939,6 +1406,7 @@ h2 { font-size: 1.05rem; font-family: var(--mono); font-weight: 500;
 .hero h1 { font-size: clamp(2.4rem, 7vw, 3.4rem); font-weight: 600; margin: 0 0 .6rem; }
 .tagline { font-size: clamp(1.15rem, 3vw, 1.4rem); color: var(--fg);
            margin: 0 0 1.75rem; max-width: 34ch; line-height: 1.4; }
+.offer { font-size: 1.05rem; color: var(--fg); margin: -.75rem 0 1.75rem; max-width: 40ch; }
 .intro { color: var(--muted); margin: 0 0 1.1rem; }
 .intro strong { color: var(--fg); font-weight: 600; }
 .links { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 2rem; }
@@ -1001,6 +1469,24 @@ h2 { font-size: 1.05rem; font-family: var(--mono); font-weight: 500;
 .pieces a:hover { color: var(--accent); }
 .excerpt { color: var(--muted); font-size: .93rem; margin: .3rem 0 .35rem; }
 .pieces .meta { font: 400 .72rem/1 var(--mono); color: var(--faint); margin: 0; }
+.more-link { margin: 2.25rem 0 0; font: 500 .78rem/1.6 var(--mono); color: var(--faint); }
+.more-link a { text-decoration: none; display: inline-flex; gap: .35rem; }
+
+/* ── /articles/ index and 404 ──────────────────────────────────────────── */
+.index, .notfound { padding: 3.5rem 0 4.5rem; border-bottom: 0; }
+.index h1, .notfound h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); font-weight: 600; margin: 0 0 .5rem; }
+.topic { margin-top: 2.75rem; }
+.topic > h2 { margin: 0 0 1.1rem; }
+
+/* ── invite ────────────────────────────────────────────────────────────── */
+.formats { list-style: none; padding: 0; margin: 0; display: grid; gap: 1rem;
+           grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.format { background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+          padding: 1.2rem 1.3rem; box-shadow: var(--shadow); }
+.format h3 { font-size: 1.08rem; font-weight: 600; margin: 0 0 .4rem; }
+.format p { margin: 0; color: var(--muted); font-size: .95rem; }
+.format .evidence { margin-top: .6rem; font: 400 .74rem/1.5 var(--mono); color: var(--faint); }
+.invite-cta { margin: 1.75rem 0 0; }
 
 /* ── article pages ─────────────────────────────────────────────────────── */
 .piece { padding: 3.5rem 0 4.5rem; }
@@ -1030,7 +1516,8 @@ h2 { font-size: 1.05rem; font-family: var(--mono); font-weight: 500;
 .prose pre { background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
              padding: 1rem 1.1rem; overflow-x: auto; }
 .prose pre code { background: none; padding: 0; font-size: .84rem; }
-.reading img { max-width: 130px; }
+.cite { font: 500 .62em/1 var(--mono); margin-left: .05em; }
+.cite a { text-decoration: none; }
 .back { margin-top: 3rem; font: 500 .82rem/1 var(--mono); }
 .back a { text-decoration: none; }
 
@@ -1084,29 +1571,6 @@ h2 { font-size: 1.05rem; font-family: var(--mono); font-weight: 500;
   .band { font-size: .62rem; padding: 0 .3rem; }
 }
 
-/* ── reading ───────────────────────────────────────────────────────────── */
-.epigraph { margin: 0 0 2.25rem; padding: .2rem 0 .2rem 1.3rem;
-            border-left: 2px solid var(--accent); }
-.epigraph p { margin: 0 0 .35rem; font-style: italic; color: var(--fg); }
-.epigraph cite { font: 400 .78rem/1 var(--mono); color: var(--faint); font-style: normal; }
-.reading-list { list-style: none; padding: 0; margin: 0; }
-.reading-list > li { display: grid; grid-template-columns: 62px 1fr; gap: 1.1rem;
-                     padding: 1.1rem 0; border-top: 1px solid var(--line); }
-.reading-list > li:first-child { border-top: 0; padding-top: 0; }
-.read-essay { grid-template-columns: 1fr !important; }
-.reading-list .cover { width: 62px; height: auto; border-radius: 3px;
-                       box-shadow: var(--shadow); align-self: start; }
-.reading-list h3 { font-size: 1.02rem; font-weight: 600; margin: 0 0 .3rem; }
-.reading-list h3 a { color: var(--fg); text-decoration: none; }
-.reading-list h3 a:hover { color: var(--accent); }
-.reading-list .by { display: block; font: 400 .72rem/1.4 var(--mono);
-                    color: var(--faint); margin-top: .15rem; }
-.reading-list p { margin: 0; color: var(--muted); font-size: .93rem; }
-@media (max-width: 620px) {
-  .reading-list > li { grid-template-columns: 48px 1fr; gap: .85rem; }
-  .reading-list .cover { width: 48px; }
-}
-
 /* ── certifications ────────────────────────────────────────────────────── */
 .certs { list-style: none; padding: 0; margin: 0; display: grid; gap: 2rem 1.25rem;
          grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); }
@@ -1118,6 +1582,13 @@ h2 { font-size: 1.05rem; font-family: var(--mono); font-weight: 500;
 .cert h3 a:hover { color: var(--accent); }
 .cert-meta { font: 400 .7rem/1.45 var(--mono); color: var(--faint); margin: 0; }
 .cert.expired .cert-img img { opacity: .5; filter: grayscale(1); }
+.cert-group { margin: 2.5rem 0 0; }
+.cert-group > summary {
+  cursor: pointer; font: 500 .78rem/1.4 var(--mono); letter-spacing: .04em; color: var(--muted);
+  padding: .55rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+}
+.cert-group > summary:hover { color: var(--accent); }
+.cert-group[open] > summary { margin-bottom: 2rem; }
 .cert-more { margin: 2.5rem 0 0; }
 .cert-more a { font: 500 .78rem/1 var(--mono); text-decoration: none; display: inline-flex; gap: .3rem; }
 .cert-more span { font-size: .8em; }

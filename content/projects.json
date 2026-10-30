@@ -19,7 +19,8 @@
       { "label": "Full playlist", "url": "https://www.youtube.com/playlist?list=PL053kgqQv_fv9K7qPqv84G-rlbudzubzp" },
       { "label": "Clouds on Mars TV", "url": "https://www.youtube.com/@cloudsonmarshq/videos" }
     ],
-    "highlights": []
+    "highlights": [],
+    "schema": { "type": "PodcastSeries", "cohosts": ["Estera Kot"], "same_as": [], "web_feed": null }
   },
   {
     "name": "Slaying Dragons with AI",
@@ -39,7 +40,7 @@
     "kind": "Articles",
     "period": "2019 –",
     "status": "active",
-    "url": "/#writing",
+    "url": "/articles/",
     "url_label": "Read",
     "summary": "Sixteen pieces, from design-thinking essays written as Sebastian Rappen to recent work on Microsoft Foundry, data mesh and where AI investment actually pays. Everything published on limmatreframe.com and LinkedIn now lives here.",
     "highlights": []
