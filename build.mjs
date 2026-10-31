@@ -241,6 +241,18 @@ function md2html(md, top = topHeading(md)) {
       continue;
     }
 
+    // A pipe table: header row, |---| separator, body rows. The wrapper lets a
+    // wide table scroll on its own instead of widening the page.
+    if (lines.length >= 2 && lines.every(l => /^\s*\|.*\|\s*$/.test(l)) && /^\s*\|[\s:|-]+\|\s*$/.test(lines[1])) {
+      flushList();
+      const cells = (l) => l.trim().replace(/^\||\|$/g, '').split('|').map(c => c.trim());
+      const [head, , ...rows] = lines;
+      out.push(`<div class="table"><table>\n<thead><tr>${cells(head).map(c => `<th>${inline(c)}</th>`).join('')}</tr></thead>\n<tbody>\n` +
+        rows.map(r => `<tr>${cells(r).map(c => `<td>${inline(c)}</td>`).join('')}</tr>`).join('\n') +
+        `\n</tbody>\n</table></div>`);
+      continue;
+    }
+
     // A block that is nothing but an image becomes a figure.
     const onlyImg = block.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/);
     if (onlyImg) {
