@@ -139,7 +139,9 @@ test('every page has exactly one parseable JSON-LD block with the expected @type
     const want = file === 'index.html' ? 'ProfilePage'
       : file === 'articles/index.html' ? 'CollectionPage'
       : file === '404.html' ? 'WebPage'
-      : /^articles\/[^/]+\/index\.html$/.test(file) ? 'Article' : null;
+      : /^articles\/[^/]+\/index\.html$/.test(file) ? 'Article'
+      : file === 'podcast/index.html' ? 'PodcastSeries'
+      : /^podcast\/[^/]+\/index\.html$/.test(file) ? 'PodcastEpisode' : null;
     assert.ok(want, `${file}: unexpected page`);
     assert.ok(types.includes(want), `${file}: @types ${types.join(', ')} lack ${want}`);
   }
@@ -397,8 +399,10 @@ test('events: talks and sessions only, upcoming and confirmed, Zurich time', asy
   assert.equal(online.location['@type'], 'VirtualLocation');
   assert.equal(online.location.url, 'https://example.org/webinar');
   const podcast = graph.find(n => n['@type'] === 'PodcastSeries');
-  assert.deepEqual(podcast.sameAs,
-    ['https://open.spotify.com/show/fixture', 'https://podcasts.apple.com/podcast/fixture']);
+  // The series lives at /podcast/ now; the YouTube playlist is one more sameAs.
+  assert.equal(podcast.url, `${SITE}/podcast/`);
+  assert.deepEqual(podcast.sameAs, ['https://www.youtube.com/playlist?list=PL053kgqQv_fv9K7qPqv84G-rlbudzubzp',
+    'https://open.spotify.com/show/fixture', 'https://podcasts.apple.com/podcast/fixture']);
 });
 
 test('--out refuses to wipe a directory that is not a previous build', async () => {

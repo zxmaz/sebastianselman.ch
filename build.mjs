@@ -598,30 +598,41 @@ function nowSection(activities, showTentative) {
 </section>`;
 }
 
-function projectsSection(projects) {
+/**
+ * Project cards. The podcast's card (the project with episode pages, `pod`)
+ * links its heading and every episode to the pages on this site, and leads
+ * its links with the episode index; its platform links follow the others.
+ */
+function projectsSection(projects, pod) {
   const ext = (url) => /^https?:/.test(url) ? ' target="_blank" rel="noopener"' : '';
-  const card = (p) => `
+  const card = (p) => {
+    const own = pod?.project === p;
+    const href = own ? pod.page : p.url;
+    const episodes = own ? pod.episodes.map(e => ({ ...e, title: e.name, url: e.href }))
+      : (p.episodes || []).slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+    const links = [...(p.links || []), ...(own ? platformLinks(p.schema?.same_as) : [])];
+    return `
     <li class="project">
       <div class="phead">
-        <h3>${p.url ? `<a href="${esc(u(p.url))}"${ext(p.url)}>${esc(p.name)}</a>` : esc(p.name)}</h3>
+        <h3>${href ? `<a href="${esc(u(href))}"${ext(href)}>${esc(p.name)}</a>` : esc(p.name)}</h3>
         <span class="kind">${esc(p.kind)}</span>
         <span class="period">${esc(p.period)}</span>
       </div>
       <p>${inline(p.summary)}</p>
       ${p.highlights?.length ? `<ul class="highlights">${p.highlights.map(h => `<li>${inline(h)}</li>`).join('')}</ul>` : ''}
-      ${p.episodes?.length ? `
-      <ol class="episodes">${p.episodes
-        .slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''))
-        .map(e => `
+      ${episodes.length ? `
+      <ol class="episodes">${episodes.map(e => `
         <li>
-          <a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.title)}</a>
+          <a href="${esc(u(e.url))}"${ext(e.url)}>${esc(e.title)}</a>
           <span class="ep-date">${esc(humanDate(e.date))}</span>
         </li>`).join('')}
       </ol>` : ''}
-      ${p.links?.length ? `<p class="plinks">${p.links.map(l =>
+      ${own || links.length ? `<p class="plinks">${own
+        ? `<a href="${esc(u(pod.page))}">All episodes, with transcripts<span aria-hidden="true">→</span></a>` : ''}${links.map(l =>
         `<a href="${esc(l.url)}"${ext(l.url)}>${esc(l.label)}<span aria-hidden="true">↗</span></a>`
       ).join('')}</p>` : ''}
     </li>`;
+  };
   return `<section id="projects">
   <h2>Projects</h2>
   <p class="section-note">What I'm working on beyond client engagements.</p>
@@ -958,11 +969,8 @@ function zurichDateTime(date, time) {
  * Home page structured data: the site, the profile page and the person it is
  * about, plus anything a project or an activity says should be described too.
  *
- * - A project with `schema.type: "PodcastSeries"` becomes a PodcastSeries;
- *   `schema.cohosts` names the other hosts, `schema.same_as` lists the show on
- *   other platforms (Spotify, Apple…), `schema.web_feed` its RSS feed and
- *   `schema.description` an optional description. All data, so a new
- *   platform link needs no code change.
+ * - A project with `schema.type: "PodcastSeries"` becomes a PodcastSeries
+ *   (see seriesNode). All data, so a new platform link needs no code change.
  * - Every upcoming, non-tentative activity Sebastian speaks at becomes an
  *   Event with him as performer. `attending` entries are left out: he is in
  *   the audience there, not on the programme.
@@ -989,21 +997,7 @@ function homeGraph(profile, projects, activities) {
     sameAs: profile.links.filter(l => /^https?:/.test(l.url) && l.same_as !== false).map(l => l.url),
   };
 
-  const podcasts = projects.filter(p => p.schema?.type === 'PodcastSeries').map(p => {
-    const hosts = [personRef(profile), ...(p.schema.cohosts || []).map(name => ({ '@type': 'Person', name }))];
-    return {
-      '@type': 'PodcastSeries',
-      '@id': `${site}/#podcast-${asciiSlug(p.name)}`,
-      name: p.name,
-      url: p.url,
-      description: p.schema.description || undefined,
-      inLanguage: p.schema.inLanguage || 'en',
-      author: hosts,
-      actor: hosts,
-      webFeed: p.schema.web_feed || undefined,
-      sameAs: p.schema.same_as?.length ? p.schema.same_as : undefined,
-    };
-  });
+  const podcasts = projects.filter(p => p.schema?.type === 'PodcastSeries').map(p => seriesNode(profile, p));
 
   const events = activities
     .filter(a => a.status !== 'tentative' && a.kind !== 'attending' && !isPast(a))
@@ -1043,6 +1037,420 @@ function homeGraph(profile, projects, activities) {
     ...podcasts,
     ...events,
   ];
+}
+
+// ── podcast ────────────────────────────────────────────────────────────────
+//
+// The project with a `page` and an `episodes` list (Business Mission Control,
+// at /podcast/) gets an index page there and one page per episode at
+// <page><slug>/. An episode's page needs nothing but its projects.json entry:
+// title, date and YouTube link. When content/podcast/<slug>/ holds the show
+// notes and the transcript, the page adds the summary, chapters, sources and
+// the full transcript. Only those two files are ever read from the folder;
+// nothing under content/ is copied to docs/.
+
+const EPISODE_FILES = ['shownotes.md', 'transcript_website.md'];
+
+/** The fixed text of the note on a transcript marked `"transcript": "provisional"`. */
+const PROVISIONAL_NOTE = "This transcript is provisional. It was made from YouTube's automatic " +
+  "captions and will be replaced by the editor's corrected version.";
+
+/** Platform names for the show's and an episode's `same_as` links; anything else shows its host name. */
+const PLATFORMS = [
+  [/(^|\.)spotify\.com$/, 'Spotify'], [/^podcasts\.apple\.com$/, 'Apple Podcasts'],
+  [/^music\.amazon\./, 'Amazon Music'], [/^music\.youtube\.com$/, 'YouTube Music'],
+  [/(^|\.)pocketcasts\.com$/, 'Pocket Casts'], [/(^|\.)overcast\.fm$/, 'Overcast'],
+  [/(^|\.)deezer\.com$/, 'Deezer'],
+];
+const platformLinks = (urls) => (urls || []).filter(x => /^https?:/.test(x)).map(url => {
+  const host = new URL(url).hostname.replace(/^www\./, '');
+  return { url, label: PLATFORMS.find(([re]) => re.test(host))?.[1] ?? host };
+});
+
+/** Video ID from any YouTube URL form (same rule as sync-episodes.mjs). */
+const videoIdOf = (url) => String(url || '')
+  .match(/(?:youtu\.be\/|[?&]v=|\/(?:embed|shorts|live)\/)([A-Za-z0-9_-]{11})(?![A-Za-z0-9_-])/)?.[1];
+
+/**
+ * The page slug for an episode entry without one: the title folded to
+ * lowercase ASCII words joined by hyphens, at most 80 characters, cut at a
+ * word. Keep in step with episodeSlug() in sync-episodes.mjs, which writes the
+ * slug into every new entry, so a later title edit never moves the page.
+ */
+function episodeSlug(title) {
+  const s = String(title || '')
+    .replace(/[äöüÄÖÜß]/g, (c) => UMLAUTS[c])
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/['’]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return s.length <= 80 ? s : s.slice(0, 81).replace(/-[^-]*$/, '');
+}
+
+/** "28:06" or "1:02:03" → seconds; null for anything else. */
+function seconds(ts) {
+  const m = String(ts || '').match(/^(?:(\d+):)?(\d{1,2}):(\d{2})$/);
+  return m ? Number(m[1] || 0) * 3600 + Number(m[2]) * 60 + Number(m[3]) : null;
+}
+const pad2 = (n) => String(n).padStart(2, '0');
+/** Seconds → "02:31", or "1:02:03" past the hour: the transcripts' own format. */
+const clock = (s) => s >= 3600
+  ? `${Math.floor(s / 3600)}:${pad2(Math.floor(s % 3600 / 60))}:${pad2(s % 60)}`
+  : `${pad2(Math.floor(s / 60))}:${pad2(s % 60)}`;
+/** Seconds → ISO 8601 duration, "PT28M6S". */
+const isoDuration = (s) => 'PT' + ([[Math.floor(s / 3600), 'H'], [Math.floor(s % 3600 / 60), 'M'], [s % 60, 'S']]
+  .filter(([n]) => n).map(([n, unit]) => `${n}${unit}`).join('') || '0S');
+const watchUrl = (id) => `https://www.youtube.com/watch?v=${id}`;
+const watchAt = (id, s) => `${watchUrl(id)}&t=${s}`;
+
+/**
+ * shownotes.md → { number, watch, length, sections: [{ heading, body }] }.
+ * The file is the delivered show notes, copied verbatim: "# Episode N — Title",
+ * a bullet list (Watch, Published, Length, Hosts…), then "## " sections. Only
+ * Watch and Length are read from the bullets. Hosts is ignored on purpose: the
+ * page prints its own host line, without job titles.
+ */
+function parseShownotes(md) {
+  const parts = md.replace(/\r\n/g, '\n').split(/^## +/m);
+  const head = parts.shift();
+  return {
+    number: Number(head.match(/^#\s+Episode\s+(\d+)/mi)?.[1]) || null,
+    watch: head.match(/\*\*Watch:\*\*\s*(\S+)/)?.[1] ?? null,
+    length: head.match(/\*\*Length:\*\*\s*(\d{1,2}(?::\d{2}){1,2})\b/)?.[1] ?? null,
+    sections: parts.map(p => {
+      const nl = p.indexOf('\n');
+      return { heading: (nl < 0 ? p : p.slice(0, nl)).trim(), body: nl < 0 ? '' : p.slice(nl + 1).trim() };
+    }),
+  };
+}
+
+/**
+ * transcript_website.md → { watch, note, items }. Everything above the first
+ * "---" rule is the file's own header (title, watch link, a speakers line with
+ * job titles) and is not published, except its italic note. Below it, each
+ * turn is one paragraph, "**[mm:ss] Name:** text"; "### " lines are headings.
+ * A file without the rule keeps only its turns and headings, so a header can
+ * never leak onto the page.
+ */
+function parseTranscript(md) {
+  const text = md.replace(/\r\n/g, '\n');
+  const rule = text.match(/^---[ \t]*$/m);
+  const head = rule ? text.slice(0, rule.index) : '';
+  const items = [];
+  for (const raw of (rule ? text.slice(rule.index + rule[0].length) : text).split(/\n{2,}/)) {
+    const b = raw.trim();
+    if (!b) continue;
+    const h = b.match(/^#{2,6}\s+(.+)$/);
+    const t = b.match(/^\*\*\[(\d{1,2}(?::\d{2}){1,2})\]\s*([^*\n]+?):\*\*\s*([\s\S]*)$/);
+    if (h) items.push({ heading: h[1].trim() });
+    else if (t) items.push({ at: seconds(t[1]), who: t[2].trim(), text: t[3].replace(/\s*\n\s*/g, ' ') });
+    else if (rule) items.push({ text: b.replace(/\s*\n\s*/g, ' ') });
+  }
+  return {
+    watch: head.match(/\]\((https?:\/\/[^)\s]+)\)/)?.[1] ?? null,
+    note: head.match(/^_(.+)_[ \t]*$/m)?.[1] ?? null,
+    items,
+  };
+}
+
+/** A bare URL's link text: no scheme or "www.", at most 60 characters. */
+const urlLabel = (url) => {
+  const t = url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+  return t.length > 60 ? t.slice(0, 57).replace(/[/._-]+$/, '') + '…' : t;
+};
+
+/**
+ * Show-notes Markdown → HTML. Bare URLs (the sources lists are full of them)
+ * become links, and a list that follows its lead-in line without a blank line
+ * ("We cover:" then "- …") still renders as a list. Headings start at <h3>,
+ * under the page's own section headings.
+ */
+function showNotesHtml(md) {
+  const text = String(md).replace(/\r\n/g, '\n')
+    .replace(/^(?![ \t]*[-*]\s|[ \t]*\|)(.*\S.*)\n(?=[ \t]*[-*]\s)/gm, '$1\n\n')
+    .replace(/(^|\s|(?<!\])\()(https?:\/\/[^\s<>()[\]]*[^\s<>()[\].,;:!?'"])/g,
+      (_, pre, url) => `${pre}[${urlLabel(url)}](${url})`);
+  return md2html(text, 2);
+}
+
+/**
+ * Whole sentences from the start of a summary, as many as fit `max`: the
+ * meta description. Lists and lead-in lines ("We cover:") are skipped. A first
+ * sentence longer than `max` is clamped like any other description.
+ */
+function leadSentences(md, max = DESC_MAX) {
+  const paras = String(md).replace(/\r\n/g, '\n').split(/\n{2,}/).map(b => b.trim())
+    .filter(b => b && !/^[-*#|>]\s?/.test(b) && !/\n\s*[-*]\s/.test(b) && !/:$/.test(b));
+  const text = flatten(paras.join(' '));
+  let out = '';
+  for (const s of text.split(/(?<=[.!?])\s+(?=["“‘(]?[A-Z0-9])/)) {
+    const next = out ? `${out} ${s}` : s;
+    if (next.length > max) break;
+    out = next;
+  }
+  return out || clampDescription(text, max);
+}
+
+/**
+ * A <title> from a title that may be too long: cut at the last sentence break
+ * that fits ("What Happens When the Cloud Goes Down?"), else at a word; the
+ * site name appended whenever it still fits, as on the article pages.
+ */
+function fitTitle(base, suffix) {
+  let t = String(base);
+  if (t.length > TITLE_MAX) {
+    const head = t.slice(0, TITLE_MAX + 1);
+    const cut = [...head.matchAll(/[?!.:](?=\s)/g)].map(m => m.index).filter(i => i >= 19).pop();
+    t = cut != null ? head.slice(0, cut + (head[cut] === ':' ? 0 : 1))
+      : head.slice(0, TITLE_MAX).replace(/\s+\S*$/, '').replace(/[\s,;:–—-]+$/, '');
+  }
+  return (t + suffix).length <= TITLE_MAX ? t + suffix : t;
+}
+
+/** The series' @id: on its own page when it has one, else on the home page. */
+const seriesId = (profile, p) => p.page
+  ? `${profile.meta.url}${p.page}#series` : `${profile.meta.url}/#podcast-${asciiSlug(p.name)}`;
+
+/**
+ * A PodcastSeries node, the same on the home page and on /podcast/.
+ * `schema.cohosts` names the other hosts, `schema.same_as` lists the show on
+ * other platforms (Spotify, Apple…), `schema.web_feed` its RSS feed and
+ * `schema.description` an optional description. With a page on this site the
+ * series' url is that page and the YouTube playlist becomes a sameAs.
+ */
+function seriesNode(profile, p) {
+  const hosts = [personRef(profile), ...(p.schema?.cohosts || []).map(name => ({ '@type': 'Person', name }))];
+  const sameAs = [...new Set([...(p.page && p.url ? [p.url] : []), ...(p.schema?.same_as || [])])];
+  return {
+    '@type': 'PodcastSeries',
+    '@id': seriesId(profile, p),
+    name: p.name,
+    url: p.page ? absUrl(profile, p.page) : p.url,
+    description: p.schema?.description || undefined,
+    inLanguage: p.schema?.inLanguage || 'en',
+    author: hosts,
+    actor: hosts,
+    webFeed: p.schema?.web_feed || undefined,
+    sameAs: sameAs.length ? sameAs : undefined,
+  };
+}
+
+/**
+ * Everything the podcast pages need, settled once: per episode its slug, page
+ * href, number (by date, oldest first), YouTube ID, length, the parsed show
+ * notes and transcript, <title> and description. null when no project has a
+ * page. A duplicate slug stops the build: two episodes cannot share a page.
+ */
+async function loadPodcast(projects, profile) {
+  const project = projects.find(p => p.page && Array.isArray(p.episodes));
+  if (!project) return null;
+  const page = '/' + project.page.replace(/^\/+|\/+$/g, '') + '/';
+  const names = [...(project.schema?.cohosts || []), profile.name];
+  const hostLine = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names[0];
+  const dir = path.join(CONTENT, 'podcast');
+  const folders = new Set(await readdir(dir).catch(() => []));
+  const oldestFirst = project.episodes.slice().sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+  const suffix = ` — ${profile.name}`;
+  const seen = new Set();
+  const episodes = [];
+
+  for (const e of project.episodes) {
+    const slug = episodeSlug(e.slug || e.title);
+    if (!e.slug) console.warn(`  ! episode "${e.title}" has no slug; using "${slug}". Add it to projects.json to keep the URL stable`);
+    if (seen.has(slug)) throw new Error(`projects.json: two episodes share the slug "${slug}"`);
+    seen.add(slug);
+
+    const id = videoIdOf(e.url);
+    let notes = null, tx = null;
+    if (folders.has(slug)) {
+      folders.delete(slug);
+      const folder = path.join(dir, slug);
+      for (const f of await readdir(folder)) {
+        if (!EPISODE_FILES.includes(f)) console.warn(`  ! content/podcast/${slug}/${f} is ignored; only ${EPISODE_FILES.join(' and ')} are published`);
+      }
+      notes = await readFile(path.join(folder, 'shownotes.md'), 'utf8').then(parseShownotes, () => null);
+      tx = await readFile(path.join(folder, 'transcript_website.md'), 'utf8').then(parseTranscript, () => null);
+      // Show notes or a transcript filed under the wrong episode would put one
+      // conversation on another's page. Leave them off and say so.
+      for (const [label, src] of [['shownotes.md', notes], ['transcript_website.md', tx]]) {
+        if (src?.watch && id && videoIdOf(src.watch) !== id) {
+          console.warn(`  ! content/podcast/${slug}/${label} links video ${videoIdOf(src.watch)}, the episode is ${id}; left off the page`);
+          if (src === notes) notes = null; else tx = null;
+        }
+      }
+    }
+
+    const number = oldestFirst.indexOf(e) + 1;
+    if (notes?.number && notes.number !== number) {
+      console.warn(`  ! ${slug}: show notes say episode ${notes.number}, the date order makes it ${number}`);
+    }
+    const length = notes?.length ?? e.length ?? null;
+    const summary = notes?.sections.find(s => /^summary\b/i.test(s.heading))?.body;
+    const description = clampDescription(e.description || (summary && leadSentences(summary)) ||
+      `Episode ${number} of ${project.name} with ${hostLine}, published ${humanDate(e.date)}.`);
+    episodes.push({
+      ...e, slug, id, number, length, notes, tx, description,
+      name: e.title,
+      secs: seconds(length),
+      href: `${page}${slug}/`,
+      watch: id ? watchUrl(id) : e.url,
+      title: fitTitle(e.seo_title || e.title, suffix),
+      provisional: e.transcript === 'provisional',
+      lastmod: e.modified || e.date,
+    });
+  }
+  for (const f of folders) console.warn(`  ! content/podcast/${f}/ matches no episode slug in projects.json; not published`);
+
+  episodes.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  return { project, page, hostLine, episodes };
+}
+
+/** One episode's page: header, summary, chapters, the other show-note sections, transcript. */
+function episodePage(ep, pod, profile) {
+  const ext = ' target="_blank" rel="noopener"';
+  const stamp = (s) => ep.id
+    ? `<a class="ts" href="${esc(watchAt(ep.id, s))}"${ext}>${clock(s)}</a>`
+    : `<span class="ts">${clock(s)}</span>`;
+  const sections = ep.notes?.sections ?? [];
+  const summary = sections.find(s => /^summary\b/i.test(s.heading));
+  const chapters = (sections.find(s => /^chapters\b/i.test(s.heading))?.body ?? '').split('\n')
+    .map(l => l.match(/^\s*[-*]\s+(\d{1,2}(?::\d{2}){1,2})\s+(.+)$/)).filter(Boolean)
+    .map(m => ({ at: seconds(m[1]), title: m[2].trim() }));
+  const rest = sections.filter(s => !/^(summary|chapters)\b/i.test(s.heading) && s.body);
+  const items = ep.tx?.items ?? [];
+
+  const links = [
+    `<a class="link primary" href="${esc(ep.watch)}"${ext}>Watch on YouTube<span aria-hidden="true">↗</span></a>`,
+    ...platformLinks(ep.same_as).map(l =>
+      `<a class="link" href="${esc(l.url)}"${ext}>${esc(l.label)}<span aria-hidden="true">↗</span></a>`),
+    items.length ? `<a class="link" href="#transcript">Transcript<span aria-hidden="true">↓</span></a>` : '',
+  ].filter(Boolean);
+
+  const transcript = items.length ? `
+  <div class="ep-part transcript" id="transcript">
+    <h2>Transcript</h2>
+    ${ep.provisional ? `<p class="provisional">${esc(PROVISIONAL_NOTE)}</p>` : ''}
+    ${ep.tx.note ? `<p class="section-note">${inline(ep.tx.note)}</p>` : ''}
+    ${items.map(it => it.heading ? `<h3>${inline(it.heading)}</h3>`
+      : it.who ? `<p class="turn"><span class="turn-meta">${stamp(it.at)} <span class="who">${esc(it.who)}</span></span> ${inline(it.text)}</p>`
+      : `<p>${inline(it.text)}</p>`).join('\n    ')}
+  </div>` : '';
+
+  const body = `<article class="piece episode">
+  <header class="piece-head">
+    <p class="eyebrow"><a href="${u(pod.page)}">${esc(pod.project.name)}</a> · Episode ${ep.number}</p>
+    <h1>${esc(ep.name)}</h1>
+    <p class="ep-meta">${esc(humanDate(ep.date))}${ep.length ? ` · ${esc(ep.length)}` : ''} · Hosted by ${esc(pod.hostLine)}</p>
+    <p class="links">
+      ${links.join('\n      ')}
+    </p>
+  </header>${summary ? `
+  <div class="prose">
+${showNotesHtml(summary.body)}
+  </div>` : ''}${chapters.length ? `
+  <div class="ep-part" id="chapters">
+    <h2>Chapters</h2>
+    <ol class="chapters">${chapters.map(c => `
+      <li>${stamp(c.at)}<span>${inline(c.title)}</span></li>`).join('')}
+    </ol>
+  </div>` : ''}${rest.map(s => `
+  <div class="ep-part">
+    <h2>${esc(s.heading.replace(/\s*\(.*\)\s*$/, ''))}</h2>
+    <div class="prose">
+${showNotesHtml(s.body)}
+    </div>
+  </div>`).join('')}${transcript}
+  <p class="back"><a href="${u(pod.page)}">← All episodes</a></p>
+</article>`;
+
+  const canonical = absUrl(profile, ep.href);
+  const duration = ep.secs != null ? isoDuration(ep.secs) : undefined;
+  const hosts = [personRef(profile), ...(pod.project.schema?.cohosts || []).map(name => ({ '@type': 'Person', name }))];
+  return shell({
+    profile, body, canonical,
+    title: ep.title,
+    description: ep.description,
+    type: 'article',
+    published: ep.date,
+    modified: ep.lastmod,
+    graph: [{
+      '@type': 'PodcastEpisode',
+      '@id': `${canonical}#episode`,
+      url: canonical,
+      name: ep.name,
+      episodeNumber: ep.number,
+      datePublished: ep.date,
+      description: ep.description,
+      inLanguage: 'en',
+      duration,
+      partOfSeries: { '@type': 'PodcastSeries', '@id': seriesId(profile, pod.project), name: pod.project.name,
+                      url: absUrl(profile, pod.page) },
+      actor: hosts,
+      image: [absUrl(profile, SHARE_CARD.src)],
+      associatedMedia: ep.id ? {
+        '@type': 'VideoObject',
+        name: ep.name,
+        description: ep.description,
+        uploadDate: ep.date,
+        duration,
+        thumbnailUrl: [`https://i.ytimg.com/vi/${ep.id}/hqdefault.jpg`],
+        url: ep.watch,
+        embedUrl: `https://www.youtube.com/embed/${ep.id}`,
+      } : undefined,
+      sameAs: [ep.watch, ...(ep.same_as || [])],
+      mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+    }],
+  });
+}
+
+/** <page>: the series, its links, and every episode, newest first. */
+function podcastIndexBody(pod) {
+  const p = pod.project;
+  const ext = (url) => /^https?:/.test(url) ? ' target="_blank" rel="noopener"' : '';
+  const links = [...(p.links || []), ...platformLinks(p.schema?.same_as)].map(l =>
+    `<a class="link" href="${esc(u(l.url))}"${ext(l.url)}>${esc(l.label)}<span aria-hidden="true">↗</span></a>`);
+  return `<section class="index podcast">
+  <p class="eyebrow">${esc(p.kind)} · ${esc(p.period)}</p>
+  <h1>${esc(p.name)}</h1>
+  <p class="section-note">${inline(p.summary)}</p>
+  <p class="ep-meta">Hosted by ${esc(pod.hostLine)}</p>
+  ${links.length ? `<p class="links">\n    ${links.join('\n    ')}\n  </p>` : ''}
+  <ol class="ep-list">${pod.episodes.map(e => `
+    <li>
+      <p class="meta">Episode ${e.number} · ${esc(humanDate(e.date))}${e.length ? ` · ${esc(e.length)}` : ''}</p>
+      <a href="${u(e.href)}">${esc(e.name)}</a>
+      <p class="excerpt">${esc(e.description)}</p>
+    </li>`).join('')}
+  </ol>
+</section>`;
+}
+
+function podcastIndexPage(pod, profile, title, description) {
+  const site = profile.meta.url;
+  const canonical = absUrl(profile, pod.page);
+  return shell({
+    profile, title, description, canonical,
+    body: podcastIndexBody(pod),
+    graph: [
+      {
+        '@type': 'CollectionPage',
+        '@id': canonical,
+        url: canonical,
+        name: title,
+        inLanguage: 'en',
+        isPartOf: { '@id': `${site}/#website` },
+        mainEntity: { '@id': seriesId(profile, pod.project) },
+      },
+      {
+        ...seriesNode(profile, pod.project),
+        hasPart: pod.episodes.map(e => ({
+          '@type': 'PodcastEpisode', '@id': `${absUrl(profile, e.href)}#episode`, url: absUrl(profile, e.href),
+          name: e.name, episodeNumber: e.number, datePublished: e.date,
+        })),
+      },
+    ],
+  });
 }
 
 // ── build ──────────────────────────────────────────────────────────────────
@@ -1154,6 +1562,7 @@ async function main() {
   }
 
   const docs = await loadDocs('articles', profile);
+  const pod = await loadPodcast(projects, profile);
   const site = profile.meta.url;
   const pages = [];   // [path under DOCS, html] — written after the checks below
 
@@ -1170,7 +1579,7 @@ async function main() {
     body: [
       heroSection(profile),
       nowSection(activities, showTentative),
-      projectsSection(projects),
+      projectsSection(projects, pod),
       inviteSection(profile),
       writingSection(docs),
       careerSection(career),
@@ -1211,6 +1620,19 @@ async function main() {
       },
     }],
   })]);
+
+  // The podcast: its index and one page per episode
+  const podDir = (href) => href.replace(/^\/|\/$/g, '');
+  if (pod) {
+    const title = fitTitle(`${pod.project.name} podcast`, ` — ${profile.name}`);
+    const description = clampDescription(`All ${pod.episodes.length} episodes of ${pod.project.name}, ` +
+      `with ${pod.hostLine}: show notes, chapters, sources and transcripts.`);
+    pages.push([path.join(podDir(pod.page), 'index.html'), title, description,
+                podcastIndexPage(pod, profile, title, description)]);
+    for (const ep of pod.episodes) {
+      pages.push([path.join(podDir(ep.href), 'index.html'), ep.title, ep.description, episodePage(ep, pod, profile)]);
+    }
+  }
 
   // GitHub Pages serves this for any path it has no file for.
   pages.push(['404.html', `Page not found — ${profile.name}`, null, notFoundPage(profile)]);
@@ -1283,7 +1705,9 @@ async function main() {
   const homeMod = latest([articlesMod,
     ...activities.filter(a => a.status !== 'tentative').map(a => a.date_end ?? a.date),
     ...projects.flatMap(p => (p.episodes || []).map(e => e.date))]);
-  const urls = [['/', homeMod], ['/articles/', articlesMod], ...docs.map(d => [d.href, d.lastmod])];
+  const podUrls = pod ? [[pod.page, latest(pod.episodes.map(e => e.lastmod))],
+                         ...pod.episodes.map(e => [e.href, e.lastmod])] : [];
+  const urls = [['/', homeMod], ['/articles/', articlesMod], ...docs.map(d => [d.href, d.lastmod]), ...podUrls];
   await writeFile(path.join(DOCS, 'sitemap.xml'),
     `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
     urls.map(([href, mod]) => `  <url><loc>${site}${href}</loc>${mod ? `<lastmod>${mod}</lastmod>` : ''}</url>`)
@@ -1292,6 +1716,8 @@ async function main() {
 
   const heldBack = activities.filter(a => a.status === 'tentative').length;
   console.log(`built  ${docs.length} articles, /articles/ index, 404, ${LEGACY_ESSAYS.length} legacy /essays/ redirects`);
+  if (pod) console.log(`       ${pod.episodes.length} episode pages and the ${pod.page} index` +
+    ` (${pod.episodes.filter(e => e.tx?.items.length).length} with transcripts)`);
   console.log(`       ${activities.length} activities` +
     (heldBack && !showTentative ? `, ${heldBack} tentative held back from the page` : ''));
   console.log(`       ${projects.length} projects, ${certs.badges.length} certifications, ${urls.length} URLs in sitemap`);
@@ -1548,6 +1974,47 @@ h2 { font-size: 1.05rem; font-family: var(--mono); font-weight: 500;
 .plinks { margin: .9rem 0 0 !important; display: flex; gap: 1rem; flex-wrap: wrap; }
 .plinks a { font: 500 .78rem/1 var(--mono); text-decoration: none; display: inline-flex; gap: .3rem; }
 .plinks span { font-size: .8em; }
+
+/* ── podcast pages ─────────────────────────────────────────────────────── */
+.eyebrow a { color: inherit; text-decoration: none; }
+.eyebrow a:hover { color: var(--accent); }
+.ep-meta { color: var(--muted); font-size: .92rem; margin: 0; }
+.piece-head .links, .podcast .links { margin-top: 1.25rem; }
+.ep-part { margin-top: 3rem; }
+.ep-part > h2 { margin: 0 0 1.1rem; }
+.ep-part .prose { overflow-wrap: anywhere; }
+.chapters { list-style: none; margin: 0; padding: 0; }
+.chapters li { display: grid; grid-template-columns: 4.6rem 1fr; gap: .8rem; align-items: baseline;
+               padding: .45rem 0; border-top: 1px solid var(--line); font-size: .97rem; }
+.chapters li:first-child { border-top: 0; padding-top: 0; }
+.ts { font: 500 .76rem/1.6 var(--mono); text-decoration: none; white-space: nowrap;
+      font-variant-numeric: tabular-nums; }
+.turn { margin: 0 0 1.15rem; }
+.turn-meta { display: block; margin-bottom: .1rem; }
+.turn-meta .who { font: 500 .74rem/1.6 var(--mono); color: var(--muted); margin-left: .45rem; }
+.transcript h3 { font: 500 .76rem/1 var(--mono); text-transform: uppercase; letter-spacing: .08em;
+                 color: var(--faint); margin: 2rem 0 1rem; }
+.provisional { background: var(--accent-bg); color: var(--fg); border-radius: 8px;
+               padding: .8rem 1.1rem; font-size: .9rem; margin: 0 0 1.5rem; }
+.table { overflow-x: auto; margin: 0 0 1.25rem; }
+.prose table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+.prose th, .prose td { text-align: left; vertical-align: top; padding: .55rem .9rem .55rem 0;
+                       border-top: 1px solid var(--line); }
+.prose th { font: 500 .7rem/1.4 var(--mono); text-transform: uppercase; letter-spacing: .06em;
+            color: var(--faint); border-top: 0; }
+.ep-list { list-style: none; padding: 0; margin: 2.5rem 0 0; }
+.ep-list li { padding: 1.1rem 0; border-top: 1px solid var(--line); }
+.ep-list li:first-child { border-top: 0; padding-top: 0; }
+.ep-list .meta { font: 400 .72rem/1.5 var(--mono); color: var(--faint); margin: 0 0 .3rem; }
+.ep-list a { font-size: 1.1rem; font-weight: 600; color: var(--fg); text-decoration: none; }
+.ep-list a:hover { color: var(--accent); }
+@media (max-width: 620px) {
+  .prose table, .prose tbody, .prose tr, .prose td { display: block; }
+  .prose thead { display: none; }
+  .prose tr { padding: .6rem 0; border-top: 1px solid var(--line); }
+  .prose td { border-top: 0; padding: .1rem 0; }
+  .prose td:first-child { color: var(--muted); }
+}
 
 /* ── career timeline ───────────────────────────────────────────────────── */
 .cv-chart { position: relative; margin: 0 0 2rem; }
