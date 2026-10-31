@@ -27,6 +27,10 @@ const TITLE_MAX = 65, HOME_TITLE_MAX = 60, DESC_MAX = 160;
 
 let tmp, out, fixtureOut;
 
+/** The fixture stub episode; its slug is what sync-episodes.mjs would write. */
+const STUB = { id: 'StubEp_1234', title: 'Ask Me Anything & Nothing: Estera\'s "Take" — Live',
+               slug: 'ask-me-anything-nothing-esteras-take-live' };
+
 const run = (args) => new Promise((resolve, reject) => {
   execFile(process.execPath, [BUILD, ...args], { cwd: ROOT }, (err, stdout, stderr) =>
     err ? reject(Object.assign(err, { stdout, stderr })) : resolve({ stdout, stderr }));
@@ -102,8 +106,11 @@ before(async () => {
   };
   await writeFile(path.join(content, 'profile.json'), JSON.stringify(profile, null, 2));
   const projects = JSON.parse(await readFile(path.join(content, 'projects.json'), 'utf8'));
-  projects.find(p => p.schema?.type === 'PodcastSeries').schema.same_as =
-    ['https://open.spotify.com/show/fixture', 'https://podcasts.apple.com/podcast/fixture'];
+  const series = projects.find(p => p.schema?.type === 'PodcastSeries');
+  series.schema.same_as = ['https://open.spotify.com/show/fixture', 'https://podcasts.apple.com/podcast/fixture'];
+  // A stub as a hand edit might leave it: no slug, no show notes, no transcript.
+  series.episodes.unshift({ date: '2099-01-15', title: STUB.title, url: `https://youtu.be/${STUB.id}`,
+                            same_as: ['https://open.spotify.com/episode/fixture'] });
   await writeFile(path.join(content, 'projects.json'), JSON.stringify(projects, null, 2));
   const fixtureActivities = [
     { date: '2099-03-15', time: '18:00', title: 'Fixture Talk In Zurich', kind: 'talk',
@@ -408,4 +415,121 @@ test('events: talks and sessions only, upcoming and confirmed, Zurich time', asy
 test('--out refuses to wipe a directory that is not a previous build', async () => {
   await assert.rejects(run(['--out', ROOT]), /refusing/);
   await assert.rejects(run(['--out', path.join(ROOT, 'content')]), /refusing/);
+});
+
+// ── podcast episode pages ──────────────────────────────────────────────────
+
+const PODCAST = path.join(CONTENT, 'podcast');
+const toSeconds = (ts) => ts.split(':').map(Number).reduce((a, n) => a * 60 + n, 0);
+const isoFor = (ts) => {
+  const s = toSeconds(ts), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+  return 'PT' + (h ? `${h}H` : '') + (m ? `${m}M` : '') + (sec ? `${sec}S` : '');
+};
+async function podcastData() {
+  const projects = JSON.parse(await readFile(path.join(CONTENT, 'projects.json'), 'utf8'));
+  return projects.find(p => p.page);
+}
+const readOr = (file) => readFile(file, 'utf8').catch(() => null);
+
+test('podcast: every episode has a page with summary, deep-linked chapters and the full transcript', async () => {
+  const series = await podcastData();
+  assert.equal(series.page, '/podcast/');
+  const seriesNode = graphOf(await readFile(path.join(out, 'podcast', 'index.html'), 'utf8'))
+    .find(n => n['@type'] === 'PodcastSeries');
+  let withTranscript = 0;
+  for (const e of series.episodes) {
+    const id = e.url.match(/youtu\.be\/([\w-]{11})/)[1];
+    const file = path.join(out, 'podcast', e.slug, 'index.html');
+    assert.ok(await exists(file), `no page for ${e.slug}`);
+    const html = await readFile(file, 'utf8');
+    const notes = (await readOr(path.join(PODCAST, e.slug, 'shownotes.md')))?.replace(/\r\n/g, '\n');
+    const transcript = (await readOr(path.join(PODCAST, e.slug, 'transcript_website.md')))?.replace(/\r\n/g, '\n');
+    const length = notes?.match(/\*\*Length:\*\*\s*([\d:]+)/)?.[1];
+
+    // Structured data
+    const ep = graphOf(html).find(n => n['@type'] === 'PodcastEpisode');
+    assert.equal(ep.url, `${SITE}/podcast/${e.slug}/`, `${e.slug}: url`);
+    assert.equal(ep.name, e.title, `${e.slug}: name`);
+    assert.equal(ep.datePublished, e.date, `${e.slug}: datePublished`);
+    assert.equal(ep.partOfSeries['@id'], seriesNode['@id'], `${e.slug}: partOfSeries`);
+    assert.ok(ep.sameAs.includes(`https://www.youtube.com/watch?v=${id}`), `${e.slug}: sameAs YouTube`);
+    assert.equal(ep.associatedMedia['@type'], 'VideoObject', `${e.slug}: associatedMedia`);
+    assert.ok(ep.associatedMedia.thumbnailUrl?.length && ep.associatedMedia.uploadDate, `${e.slug}: VideoObject`);
+    if (length) assert.equal(ep.duration, isoFor(length), `${e.slug}: duration`);
+
+    // Header: host line without job titles, the YouTube link, the length
+    assert.ok(html.includes('Hosted by Estera Kot and Sebastian Selman'), `${e.slug}: host line`);
+    // Outside the transcript, which keeps what was said on air verbatim (Eps 2-4
+    // open with "I'm Sebastian, consulting lead for Switzerland").
+    const outsideTranscript = html.replace(/<div class="ep-part transcript"[\s\S]*?\n {2}<\/div>/, '');
+    assert.ok(!/consulting lead|\(CTO|CTO,/i.test(outsideTranscript), `${e.slug}: job title outside the transcript`);
+    assert.ok(html.includes(`href="https://www.youtube.com/watch?v=${id}"`), `${e.slug}: Watch link`);
+    if (length) assert.ok(html.includes(` · ${length} · `), `${e.slug}: length`);
+
+    // Chapters: one deep link per chapter line, to the right second
+    const chapters = [...(notes?.match(/## Chapters\n([\s\S]*?)(?=\n## |$)/)?.[1] ?? '')
+      .matchAll(/^- (\d{1,2}(?::\d{2}){1,2}) /gm)].map(m => toSeconds(m[1]));
+    const chapterBlock = html.match(/<ol class="chapters">([\s\S]*?)<\/ol>/)?.[1] ?? '';
+    const linked = [...chapterBlock.matchAll(/href="https:\/\/www\.youtube\.com\/watch\?v=([\w-]{11})&amp;t=(\d+)"/g)];
+    assert.deepEqual(linked.map(m => Number(m[2])), chapters, `${e.slug}: chapter links`);
+    assert.ok(linked.every(m => m[1] === id), `${e.slug}: chapter links point at this video`);
+
+    // Transcript: every turn, speaker-attributed, with a deep-linked timestamp
+    if (transcript) {
+      withTranscript++;
+      const turns = transcript.match(/^\*\*\[[\d:]+\] [^*]+:\*\*/gm).length;
+      const rendered = [...html.matchAll(/<p class="turn"><span class="turn-meta"><a class="ts" href="https:\/\/www\.youtube\.com\/watch\?v=[\w-]{11}&amp;t=\d+"[^>]*>[\d:]+<\/a> <span class="who">(Estera Kot|Sebastian Selman)<\/span><\/span>/g)];
+      assert.equal(rendered.length, turns, `${e.slug}: ${rendered.length} of ${turns} turns`);
+      assert.ok(html.includes('id="transcript"'), `${e.slug}: transcript anchor`);
+    }
+    assert.equal(html.includes('class="provisional"'), e.transcript === 'provisional', `${e.slug}: provisional note`);
+  }
+  assert.equal(withTranscript, series.episodes.length, 'every episode has its transcript');
+  assert.ok(series.episodes.some(e => e.transcript === 'provisional'), 'Episode 7 is marked provisional');
+});
+
+test('podcast: /podcast/ and the home page link every episode page, not YouTube', async () => {
+  const series = await podcastData();
+  const index = await readFile(path.join(out, 'podcast', 'index.html'), 'utf8');
+  const home = await readFile(path.join(out, 'index.html'), 'utf8');
+  const homeEpisodes = home.match(/<ol class="episodes">([\s\S]*?)<\/ol>/)[1];
+  for (const e of series.episodes) {
+    assert.ok(index.includes(`href="/podcast/${e.slug}/"`), `/podcast/ lacks ${e.slug}`);
+    assert.ok(homeEpisodes.includes(`href="/podcast/${e.slug}/"`), `home page lacks ${e.slug}`);
+  }
+  assert.ok(!/youtu\.be|youtube\.com/.test(homeEpisodes), 'home page episodes still link YouTube');
+  assert.match(home, /<p class="plinks"><a href="\/podcast\/">All episodes, with transcripts/, 'home links /podcast/');
+  const graph = graphOf(index);
+  assert.deepEqual(graph.map(n => n['@type']), ['CollectionPage', 'PodcastSeries']);
+  assert.equal(graph[1].hasPart.length, series.episodes.length, 'hasPart lists every episode');
+  // The same series @id on the home page and on /podcast/
+  assert.equal(graphOf(home).find(n => n['@type'] === 'PodcastSeries')['@id'], graph[1]['@id']);
+  // No platform links today, so none render.
+  assert.ok(!/spotify|podcasts\.apple/i.test(index + home), 'platform link without data');
+});
+
+test('podcast: only show notes and website transcripts are in content/, nothing else is published', async () => {
+  for (const file of await walk(PODCAST)) {
+    assert.match(file, /^[a-z0-9-]+\/(shownotes|transcript_website)\.md$/, `content/podcast/${file}`);
+  }
+  for (const file of await walk(out)) {
+    assert.ok(!/final-cut|README|shownotes\.md|transcript_website/i.test(file), `published ${file}`);
+  }
+});
+
+test('podcast: a stub episode gets a page from its entry alone, and platform links render from data', async () => {
+  const file = path.join(fixtureOut, 'podcast', STUB.slug, 'index.html');
+  assert.ok(await exists(file), 'stub page at the slug the sync would write');
+  const html = await readFile(file, 'utf8');
+  assert.ok(html.includes(`<h1>${STUB.title.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}</h1>`), 'title');
+  assert.ok(html.includes('15 January 2099'), 'date');
+  assert.ok(html.includes(`href="https://www.youtube.com/watch?v=${STUB.id}"`), 'YouTube link');
+  assert.ok(!html.includes('id="transcript"') && !html.includes('class="chapters"'), 'no transcript or chapters');
+  assert.match(html, /<a class="link" href="https:\/\/open\.spotify\.com\/episode\/fixture"[^>]*>Spotify/);
+  const ep = graphOf(html).find(n => n['@type'] === 'PodcastEpisode');
+  assert.ok(ep.sameAs.includes('https://open.spotify.com/episode/fixture'), 'episode sameAs');
+  const index = await readFile(path.join(fixtureOut, 'podcast', 'index.html'), 'utf8');
+  assert.match(index, /href="https:\/\/podcasts\.apple\.com\/podcast\/fixture"[^>]*>Apple Podcasts/);
+  const home = await readFile(path.join(fixtureOut, 'index.html'), 'utf8');
+  assert.match(home, /class="plinks">[\s\S]*>Spotify<span/, 'show platform link on the home card');
 });
