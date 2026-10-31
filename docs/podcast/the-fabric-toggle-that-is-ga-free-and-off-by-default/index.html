@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Fabric Toggle That Is GA, Free, And Off By Default</title>
+<meta name="description" content="One toggle dropped P95 query latency in a Fabric warehouse from 90 seconds to 15 seconds. Estera Kot walks through what that benchmark measured.">
+<link rel="canonical" href="https://sebastianselman.ch/podcast/the-fabric-toggle-that-is-ga-free-and-off-by-default/">
+<meta property="og:site_name" content="Sebastian Selman">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="The Fabric Toggle That Is GA, Free, And Off By Default">
+<meta property="og:description" content="One toggle dropped P95 query latency in a Fabric warehouse from 90 seconds to 15 seconds. Estera Kot walks through what that benchmark measured.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sebastianselman.ch/podcast/the-fabric-toggle-that-is-ga-free-and-off-by-default/">
+<meta property="og:image" content="https://sebastianselman.ch/assets/img/share-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-09-10">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "PodcastEpisode",
+      "@id": "https://sebastianselman.ch/podcast/the-fabric-toggle-that-is-ga-free-and-off-by-default/#episode",
+      "url": "https://sebastianselman.ch/podcast/the-fabric-toggle-that-is-ga-free-and-off-by-default/",
+      "name": "The Fabric Toggle That Is GA, Free, And Off By Default",
+      "episodeNumber": 5,
+      "datePublished": "2026-09-10",
+      "description": "One toggle dropped P95 query latency in a Fabric warehouse from 90 seconds to 15 seconds. Estera Kot walks through what that benchmark measured.",
+      "inLanguage": "en",
+      "duration": "PT28M10S",
+      "partOfSeries": {
+        "@type": "PodcastSeries",
+        "@id": "https://sebastianselman.ch/podcast/#series",
+        "name": "Business Mission Control",
+        "url": "https://sebastianselman.ch/podcast/"
+      },
+      "actor": [
+        {
+          "@type": "Person",
+          "@id": "https://sebastianselman.ch/#person",
+          "name": "Sebastian Selman",
+          "url": "https://sebastianselman.ch/"
+        },
+        {
+          "@type": "Person",
+          "name": "Estera Kot"
+        }
+      ],
+      "image": [
+        "https://sebastianselman.ch/assets/img/share-card.jpg"
+      ],
+      "associatedMedia": {
+        "@type": "VideoObject",
+        "name": "The Fabric Toggle That Is GA, Free, And Off By Default",
+        "description": "One toggle dropped P95 query latency in a Fabric warehouse from 90 seconds to 15 seconds. Estera Kot walks through what that benchmark measured.",
+        "uploadDate": "2026-09-10",
+        "duration": "PT28M10S",
+        "thumbnailUrl": [
+          "https://i.ytimg.com/vi/I9UWOuc8MKA/hqdefault.jpg"
+        ],
+        "url": "https://www.youtube.com/watch?v=I9UWOuc8MKA",
+        "embedUrl": "https://www.youtube.com/embed/I9UWOuc8MKA"
+      },
+      "sameAs": [
+        "https://www.youtube.com/watch?v=I9UWOuc8MKA"
+      ],
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://sebastianselman.ch/podcast/the-fabric-toggle-that-is-ga-free-and-off-by-default/"
+      }
+    }
+  ]
+}
+</script>
+<script>
+  (function(){
+    try {
+      var stored = localStorage.getItem('theme');
+      var dark = stored ? stored === 'dark'
+        : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <a class="wordmark" href="/">Sebastian Selman</a>
+  <nav>
+    <a href="/#now">Now</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#writing">Writing</a>
+    <a href="/#career">Career</a>
+    <a href="/#certifications">Certifications</a>
+  </nav>
+  <button id="theme" type="button" aria-label="Switch between light and dark">
+    <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
+  </button>
+</header>
+<main id="main">
+<article class="piece episode">
+  <header class="piece-head">
+    <p class="eyebrow"><a href="/podcast/">Business Mission Control</a> · Episode 5</p>
+    <h1>The Fabric Toggle That Is GA, Free, And Off By Default</h1>
+    <p class="ep-meta">10 September 2026 · 28:10 · Hosted by Estera Kot and Sebastian Selman</p>
+    <p class="links">
+      <a class="link primary" href="https://www.youtube.com/watch?v=I9UWOuc8MKA" target="_blank" rel="noopener">Watch on YouTube<span aria-hidden="true">↗</span></a>
+      <a class="link" href="#transcript">Transcript<span aria-hidden="true">↓</span></a>
+    </p>
+  </header>
+  <div class="prose">
+<p>One toggle dropped P95 query latency in a Fabric warehouse from 90 seconds to 15 seconds. Estera Kot walks through what that benchmark measured.</p>
+<p>Estera Kot and Sebastian Selman unpack GPU acceleration for the Microsoft Fabric data warehouse, and the footnotes behind Bogdan Crivat's six-times speed-up.</p>
+<p>We cover:</p>
+<ul>
+<li>Why the 6x figure is an average, not a per-query promise</li>
+<li>The 256 concurrent user anomaly in the TPC-H run</li>
+<li>How Databricks Photon prices acceleration you skip overnight</li>
+<li>Why dev and production on one capacity drain the same tank</li>
+</ul>
+  </div>
+  <div class="ep-part" id="chapters">
+    <h2>Chapters</h2>
+    <ol class="chapters">
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=0" target="_blank" rel="noopener">00:00</a><span>Introduction: the LinkedIn post behind this episode</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=53" target="_blank" rel="noopener">00:53</a><span>Who actually built GPU acceleration</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=102" target="_blank" rel="noopener">01:42</a><span>One toggle, no re-architecture, plain Parquet in OneLake</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=163" target="_blank" rel="noopener">02:43</a><span>Native Execution Engine: the same toggle in Spark</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=243" target="_blank" rel="noopener">04:03</a><span>The TPC-H benchmark, compared apple to apple</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=343" target="_blank" rel="noopener">05:43</a><span>What an F64 trial capacity proves</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=395" target="_blank" rel="noopener">06:35</a><span>Why trial hardware differs from paid capacity</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=566" target="_blank" rel="noopener">09:26</a><span>Night batches, morning gold layer</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=595" target="_blank" rel="noopener">09:55</a><span>Bronze to silver in Spark, gold in the warehouse</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=639" target="_blank" rel="noopener">10:39</a><span>Hundreds of Power BI models, one warehouse</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=779" target="_blank" rel="noopener">12:59</a><span>The 256 concurrent user anomaly</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=846" target="_blank" rel="noopener">14:06</a><span>Column counts and capacity limits</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=928" target="_blank" rel="noopener">15:28</a><span>CoddSpeed, built with NVIDIA</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=960" target="_blank" rel="noopener">16:00</a><span>VertiPaq in 2010 and what it changed</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1040" target="_blank" rel="noopener">17:20</a><span>Compression as a Fabric unique IP</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1194" target="_blank" rel="noopener">19:54</a><span>Why faster queries free up hardware</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1229" target="_blank" rel="noopener">20:29</a><span>Sizing: F64, F128 and concurrent users</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1289" target="_blank" rel="noopener">21:29</a><span>Databricks Photon and paying for acceleration</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1363" target="_blank" rel="noopener">22:43</a><span>Dev and production on one capacity</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1470" target="_blank" rel="noopener">24:30</a><span>Not GA yet: what the 6x number actually is</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1632" target="_blank" rel="noopener">27:12</a><span>The acceleration that is GA and free</span></li>
+    </ol>
+  </div>
+  <div class="ep-part">
+    <h2>Sources</h2>
+    <div class="prose">
+<ul>
+<li>Bogdan Crivat (Microsoft), &quot;I put a GPU behind Fabric Data Warehouse over a weekend and ran TPC-H at it&quot; (the anchor post): <a href="https://www.linkedin.com/posts/bogdanc_i-put-a-gpu-behind-fabric-data-warehouse-share-7480295686303928320-epRV/" target="_blank" rel="noopener">linkedin.com/posts/bogdanc_i-put-a-gpu-behind-fabric-data…</a></li>
+<li>Fabric Updates Blog, &quot;We Put a GPU Behind Fabric DW&quot; (full write-up, methodology and the 256-user anomaly): <a href="https://community.fabric.microsoft.com/t5/Fabric-Updates-Blog/We-Put-a-GPU-Behind-Fabric-DW/ba-p/5262382" target="_blank" rel="noopener">community.fabric.microsoft.com/t5/Fabric-Updates-Blog/We…</a></li>
+<li>Microsoft Learn, What's new in Microsoft Fabric, July 2026 entry &quot;Benchmarking GPU-accelerated Fabric Data Warehouse&quot;: <a href="https://learn.microsoft.com/fabric/fundamentals/whats-new" target="_blank" rel="noopener">learn.microsoft.com/fabric/fundamentals/whats-new</a></li>
+<li>&quot;CoddSpeed: Hardware Accelerated Query Processing in Microsoft Fabric&quot;, SIGMOD 2026 Industrial Track, Best Industry Paper (the GPU engine behind Fabric DW, built with NVIDIA): <a href="https://www.microsoft.com/en-us/research/publication/coddspeed-hardware-accelerated-query-processing-in-microsoft-fabric/" target="_blank" rel="noopener">microsoft.com/en-us/research/publication/coddspeed-hardwa…</a> (ACM: <a href="https://doi.org/10.1145/3788853.3803077" target="_blank" rel="noopener">doi.org/10.1145/3788853.3803077</a>)</li>
+<li>Fabric Updates Blog, &quot;From research to product: Microsoft Fabric wins best industry paper at SIGMOD 2026 for GPU-accelerated data warehousing&quot;: <a href="https://community.fabric.microsoft.com/blog/fbc_fabricupdatesblogs/from-research-to-product-microsoft-fabric-wins-best-industry-paper-at-sigmod-202/5191608" target="_blank" rel="noopener">community.fabric.microsoft.com/blog/fbc_fabricupdatesblog…</a></li>
+<li>VertiPaq, the column-store engine behind Power Pivot / Power BI / SSAS Tabular (2010). No URL was cited on air; Marco Russo and Alberto Ferrari (SQLBI) are the usual explainers.</li>
+</ul>
+    </div>
+  </div>
+  <div class="ep-part">
+    <h2>Notes</h2>
+    <div class="prose">
+<ul>
+<li>GPU acceleration for the Fabric data warehouse entered early access preview in July 2026, after this conversation was recorded. It is not generally available.</li>
+<li>Clouds on Mars is a Microsoft Fabric Featured Partner. This episode was not commissioned or sponsored by Microsoft.</li>
+</ul>
+    </div>
+  </div>
+  <div class="ep-part transcript" id="transcript">
+    <h2>Transcript</h2>
+    
+    <p class="section-note">Transcript of the published episode, lightly edited for readability. Timestamps match the video.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=0" target="_blank" rel="noopener">00:00</a> <span class="who">Sebastian Selman</span></span> Bogdan Crivat issued a LinkedIn post in which he described something that he built over one weekend and that pertained to Fabric, specifically the GPU acceleration. And what he said is it's the same SKU, it's the same button, but you get six times the throughput and a P95 latency that dropped from a minute and a half to 15 seconds. That's basically what GPU behind a Fabric data warehouse looks like. That was his claim and it piqued my interest. Now, every one of the numbers that he puts out there talking about a capacity allowing more throughput, I think has a footnote. And I would love for you, Estera, to kind of walk us through what actually happened and what that potentially means.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=53" target="_blank" rel="noopener">00:53</a> <span class="who">Estera Kot</span></span> Of course, happy to do it. One clarification that Bogdan Crivat, who is a corporate vice president working for Microsoft for many years, for sure he may try to build, do some benchmarks, but the acceleration with GPU took the team for sure a few months, a few years, to build, to ship to the data center that required hardware to optimize for this hardware. And that I can confirm that Bogdan can produce the benchmarks. But the work was huge and enormous and is a game changer for everyone who is using data warehouse technologies.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=101" target="_blank" rel="noopener">01:41</a> <span class="who">Sebastian Selman</span></span> But if I understand the post correctly, he also says it's one toggle, there's no re-architecture needed. I think he said all on plain Parquet in OneLake. So while it has been a huge effort for the product group to bring this to life, for a consumer of Fabric now that utilizing that engineering work, which is abstracted away for the user, seems to be very easy.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=127" target="_blank" rel="noopener">02:07</a> <span class="who">Estera Kot</span></span> Yes, that's right. And that is one of the first and fundamental pillars and promises that Microsoft Fabric is delivering, meaning that bringing the simplicity. And here, a few things to unpack. The first is that in Microsoft Fabric, there are a few ways to store the data. But under the hood, there is OneLake. The default format of data for OneLake is Parquet or Delta tables. So we can simplify that once you have Parquet files, then you are ready to start utilizing all of the goodnesses and features coming from Fabric. And here, the change is just switching a toggle button to switch for a different tier of hardware. But the same or similar capabilities happened already for, for example, data engineering Apache Spark-based workloads, where there is a functionality named Native Execution Engine. Long story short, just one toggle button that you have to know that it's there, because by default, it's not enabled. But once you toggle it, yes, you may leverage that feature acceleration, because it just runs behind on a very different hardware. And again, I'm repeating hardware, hardware. But under the hood, yes, there is a hardware. There is a rack server somewhere in a data center. There is a specific machine that is behind it, processor, memory usage, and so on. And when bringing this simplicity, we many times forget that it's really physical behind. And in the context of some results here, there are a few very different ways how to measure the performance, because here we are talking about performance-related requirements, which has a huge impact on the billing. And Bogdan points in his article one of the benchmarks, which is well known for data warehousing world, which is TPC-H benchmark with predefined list of queries. So as a user, as watchers, if you are listening to that, you can find this benchmark because it's publicly available. We need to be precise in a way that we compare apple to apple. And here, the results that Bogdan is publishing are comparing the SQL data warehouse as part of Microsoft Fabric based on CPUs and based on GPUs. So apple to apple comparison, that's why this acceleration is happening or can happen. I can trust that it's happening at the same time for every user as a user of those systems. Many times you have a very different query. That's why the best way to know the performance and tune it is to test it on your data and your queries.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=318" target="_blank" rel="noopener">05:18</a> <span class="who">Sebastian Selman</span></span> OK, so a lot to unpack. Thank you for that overview. What I understood is there is this TPC-H benchmark, which is more or less an industry standard that people can compare to. It's a standard set of data with a standard set of queries that you run against that data to understand how good is your engine or how quick does your engine perform those queries. And what he wrote is that he took a F64 trial capacity. So that's a certain size of deployment of a Fabric instance. And he's comparing the query execution times of the standard SQL warehouse and Fabric with the same thing, but with the GPU acceleration enabled, which, as you mentioned, is simply a toggle that you could choose to turn on or not. And that's what led to queries that used to take one and a half minutes to be, I think it was 15 seconds in the end, to be a lot faster eventually. Can you tell us a little bit more, what does that mean for users of Fabric and especially the Fabric data warehousing capability, for which use cases or for which contexts is this especially useful?</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=395" target="_blank" rel="noopener">06:35</a> <span class="who">Estera Kot</span></span> There are a few caveats of those numbers slash those results, that article. One is that, yes, it's run on trial capacity, and trial capacity is something what early adopters of Microsoft Fabric without paying for the service can try and use. But once you upgrade to the paid capacity, you will figure out that the hardware behind it may be a little different. And I'm saying that maybe because trial is for trying. At the same time, the F SKUs and the sizing matters a lot. But here, I think that the most important aspect is the purpose, the purpose of the data warehousing technology in the context of understanding the current data analytics systems. So the case he described that when we start to simulate a few hundreds of users running this similar queries at the same time, we are landing in a challenge that has been and is known in that world of technologies for a very long time. But let's start with purpose. Once we have data coming from a very different systems, sometimes it can be IoT, sometimes it can be SAP related, sometimes it can be an Excel file, whatever. But the goal is to integrate the data in one single place. Usually in the world of companies from FMCG, retail, manufacturing, data are either coming in real time or in batches. Most of the time they are coming in batches or micro batches. So from time to time, and we can categorize when they are landing, what impacts our purpose. Usually that data for the point of sales and so on, so FMCG related, e-commerce related scenarios, it means that during the day those systems are working heavily. But during the night, those systems are gathering new data, because some source systems are sending, pushing, or the main system is pulling the data from the source systems. Doing lots of data engineering, cleaning, checking, providing data quality measures and fixes, and making sure that for the next day, for the early morning, the new data, standardized, certified, are ready for business users to operate on them. For those systems, majority of the time we use, as of now, as of 2026, we use technologies from the group of big data processing based on Apache Spark and Delta Table, Delta Lake libraries. Here I mean Microsoft Fabric Data Engineering and, for example, Databricks. Those systems are designed for that purpose. At the same time, the broader and longer history of being the tool for data processing has the DW world, or data warehousing world. Now we are touching the point that during the day, once all of the pipelines during the night are landing the final results, so during the day, many times the gold layer is created on top of the SQL data warehouse, because users, they are more used to that. Now we are mixing two different engines and technologies, and this is a battle when and which we should use. Data engineering should be for the early layers, raw data, so bronze and up to silver, and building the gold layer should, or those are the thumb rules, should happen on the DW world. But looking at a very broad list of customers we are working with, it really depends. And I think that what Bogdan wanted to, that's my understanding, that what he wanted to explain here, that if the data warehouse is the gold layer that is keeping all of your data, and you have a few hundreds of users or Power BI models which are touching the source, which is DW, then you are landing in a situation of concurrency, meaning that there are different queries coming from different users, and the engine needs to reply for all of them, so it's scaling, but there are always the limits of how we can scale. But in a nutshell, it's about the purpose, when do you use which technology, and then evaluating this technology from the angle of not only security, because it should be out of the box, but from the context of how it can scale under the specific time and how fast it can complete the job, because at the end, in a cloud, you pay for the usage, so for the time that the service is running.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=712" target="_blank" rel="noopener">11:52</a> <span class="who">Sebastian Selman</span></span> Okay, so what I understood is, on the one hand side, you've got the data ingestions and the pipelines running, often in batches or microbatches overnight, basically gathering the data of what has happened over the day. And then, during the day, while your workforce is mainly probably working, you have a lot of users who have questions about that data, and eventually those questions are going to be queries that hit your data store. And while, from the bottom up, from the sources up into the system, you probably store things in Parquet files and you have a Spark engine running, the top or the gold layer, well, in the medallion architecture we might call it the gold layer, will have a data warehouse structure. So it's not going to be files as initially ingested, but people want to look at it as tables, and that's where the concurrency of users comes, because many people ask questions at the same time, maybe not the same question, but questions to the same data. And that's now where the GPU acceleration is going to hit, is that correct?</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=776" target="_blank" rel="noopener">12:56</a> <span class="who">Estera Kot</span></span> Yes, yes.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=779" target="_blank" rel="noopener">12:59</a> <span class="who">Sebastian Selman</span></span> Okay, so one thing that he brought up is that at 256 users, and I think he went up to a thousand users, but at 256 concurrent queries, so imitating 256 users, performance dropped, whereas everywhere else it kind of was as it would be expected, and he had this six times acceleration, or six x improvement on query speed even at the 95th percentile, so for a lot of the users it got a lot quicker. Is there any indication, because I think he didn't write anything about that, why there was this anomaly observed at 256? Is there something that you need to look out for in your user base, or is this just an anomaly that happens when you run such benchmarks, and you run those tests, and sometimes things are an anomaly?</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=838" target="_blank" rel="noopener">13:58</a> <span class="who">Estera Kot</span></span> Yeah, I think that we need to take into consideration what's the size of our capacity, because it has some limitations, not in the number of rows, but sometimes in a number of columns. And there are people who has more than 100 columns in a single table, which can also impact the experiment, the result. And under the hood, if we take into consideration the hardware we have, the capacity that is for us a logical one, expressing what are the capabilities of our Fabric engine, then as well the data size in terms of number of columns, and also the types which are there, it can guide us to a place where we will see that there are, because of the engine which is behind, in between the DW, Analysis Services and Power BI, and Analysis Services is hidden in Microsoft Fabric. But if we take into account those constraints and the split of how the architecture looks like, we may figure out the limitations related to concurrency. One is the aspect of capacity, because capacity has also limitations of how many concurrent queries we can run, and the second about concurrency of the final hardware, considering especially the data size, data types, number of columns and so on.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=929" target="_blank" rel="noopener">15:29</a> <span class="who">Sebastian Selman</span></span> Yeah, I think the argument that he made is that CoddSpeed is the engine in the background, which was built, if I understand correctly, with Microsoft and NVIDIA, and they also published that to some degree in a paper in 2026. And what he said in his post was that this is the most interesting thing he has worked on since publishing VertiPaq, which I think is trying to make a comparison here.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=960" target="_blank" rel="noopener">16:00</a> <span class="who">Estera Kot</span></span> I would like to spread and name a technology which Bogdan is also mentioning, which is a fundamental one, as it was the way to born Power BI. The technology, the tool, the engine is VertiPaq. This is the column store engine which is behind Power BI, which is behind the Power Pivot, and it's behind also SSAS Tabular. It landed in 2010, and it was a baseline to start thinking about the modern BI on top of Power BI, and it changed the game, as it showcased that the BI world can do calculations in memory. Now, analogy to Apache Spark, which was born in 2010: very different technology, but the same purpose, in-memory data computations, in that case also in parallel. But that time, because of VertiPaq, we started to explore the world of storing millions and billions of rows in a pure memory, in RAM. But then all of the questions related to how to compact that table into my RAM, which is always smaller than hard disk, SSD disks, happened. That's why one of the unique IPs that Microsoft Fabric has is the compression algorithms, which are making our data, once landed in OneLake, smaller. But Bogdan is mentioning VertiPaq in a way that, yes, he has been so excited to work on those benchmarks and the engine, and name it CoddSpeed. And here, happy to listen to why this name?</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1087" target="_blank" rel="noopener">18:07</a> <span class="who">Sebastian Selman</span></span> Well, Godspeed, CoddSpeed, I think that's a little bit of play of words maybe. But is the implication that he's making to say, when VertiPaq landed in 2010, it basically changed the BI game, because suddenly you could do a lot more computations in memory, and that allowed business intelligence tooling to become so much more useful to the users, that we see a proliferation of BI toolings following the 2010 years, or within the 2010s maybe. And what he now shipped with the GPU acceleration, with CoddSpeed, so that's not Godspeed but CoddSpeed, right, basically the price per query in a Fabric data warehouse is also going to drop sharply, allowing people to make so much more use and get so much more value out of that piece of technology. Is that the comparison that he's making when he says this was the most technically demanding thing I've touched at Microsoft since building VertiPaq 16 years ago?</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1153" target="_blank" rel="noopener">19:13</a> <span class="who">Estera Kot</span></span> Yeah, it's faster, because it has a different hardware. And here we don't process the data that is on disk, but in memory, and we can start doing some computation on the data which we have in memory. Some of that data we can cache as well between the queries, which is giving those users. But in a nutshell, yes, the compression matters here, because it's just making the same data, but magically lighter, means more efficient, more light for the hardware, it means faster.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1194" target="_blank" rel="noopener">19:54</a> <span class="who">Sebastian Selman</span></span> So for now that means you get an F64 SKU, you can toggle on the GPU acceleration, and you'll be able to process more data. And currently, and that might be subject to change at the discretion of Microsoft, not for us to speak about, basically the acceleration does not only accelerate the execution of queries for the users, it also reduces the time for which any customer using this technology basically blocks hardware in their data centers. So it makes the entire operation also more efficient, albeit potentially on better and more expensive hardware, but more efficient for Microsoft as well. So that basically shifts the real-world limit of the capacity, right? Where, when you do sizing for your environment and you say, do I need an F64, do I need maybe double that size with an F128, does that potentially mean that, where before GPU acceleration you might have been in a situation where you need to provide a bigger capacity for your users to maintain a certain level of query execution speed, with GPU acceleration now I can serve potentially a bigger population with the same capacity, thanks to the GPU acceleration?</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1278" target="_blank" rel="noopener">21:18</a> <span class="who">Estera Kot</span></span> Yeah, it's a good question, but I think that in terms of the sizing, I would say that yes, it impacts. For sure the concurrency matters here a lot, because we do the calculation of what is the capacity that you need mostly based on data volume and SLAs per either queries or processes that are happening. And here the GPU acceleration is impacting especially the second angle, so the performance. So I would say that yes, and here I would say that the wise option is to test it, try it and enable and monitor it many times. And here a comparison with Databricks Photon engine, which is also an acceleration engine: you have to pay for Photon more, depending on the feature. And a good practice here is that many times for a day you need a faster engine just to serve the query, but for the night, because you have a window of a few hours, let's say six hours, of that cleaning, pulling new data, restructuring, many times you don't need such huge machines and huge acceleration, which in the context of Databricks is expensive, you pay more. So here, going back to the purpose, about mapping what are your requirements during the day, how many users, by whom, what are the SLAs for the queries, and then we do the mapping into the capacity, into the split of engines that can serve your purpose, and then within those engines customizing or putting, enabling some toggle buttons which will, in that context of Microsoft Fabric, be accelerating single queries. For sure caching is happening behind, concurrency as well. One more point here, as we are touching also capacities, we'd love to have a separate episode on, you know, what are the thumb rules. But in a short nutshell, having one capacity and running development and production may be not a good approach, or it's not a good approach. We should always separate production environment from dev, as well as, once we have a few productions, think about capacity as a, again, it's a capacity, it's a fuel, fuel tank. If someone will hit, trigger one query that will dehydrate all of the resources, your different queries, Power BI questions to the data sources may not be run. Why? Because of the design. So now touching the point of, you know, the wise architecture and governance behind the capacities is a valid one, but it's a separate topic that would love...</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1457" target="_blank" rel="noopener">24:17</a> <span class="who">Sebastian Selman</span></span> That's, I mean, setting up capacities, doing workspace management, access control, all those little nifty things that Microsoft has done, that for sure would be a great discussion to have, yes. But for now I think there's a few things that I took away from this conversation. The first is, we've got a new feature coming in Microsoft Fabric, which is the GPU acceleration for the data warehouse. That is roadmap, underwritten, it is not yet generally available, it's not GA. What it does imply is that query execution is going to accelerate massively, potentially up to six times faster, right? That's what the initial attempt at emulating a benchmark for Bogdan showed.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1501" target="_blank" rel="noopener">25:01</a> <span class="who">Estera Kot</span></span> One detail, one detail that I would assume: that it's average results. One of your queries may run faster by 10 percent or double, but a few others may run 10 times faster. So the final is really an average result of the acceleration. That's why it's even more worth exploring, but I would not put the bet as, again, this is not the business world scenario. But for those which are very computationally heavy, go ahead and try it. That's GPU for you.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1541" target="_blank" rel="noopener">25:41</a> <span class="who">Sebastian Selman</span></span> Okay, so exactly. So it's roadmap, it's not GA. Your query execution is going to accelerate, so hence the throughput of your queries. You also said you should test, right? So we saw in Bogdan's post this 256-user anomaly, where acceleration was less than observed in the other cases. So definitely worthwhile looking at the numbers for your use case and your environment, right? It's not a general promise of six times acceleration, but it's an improvement which averaged out to 6x for what Bogdan did. That might be better or worse for other use cases. We spoke about CoddSpeed as the engine behind it, where, if the analogy that he made to VertiPaq holds true, we might see a proliferation of that kind of technology, enabling a lot more to be done in the, well, not the 2010s as in VertiPaq, but in the next decade for us now. And fundamentally that might mean that the limits to users or usage that a capacity puts on your business have shifted or have increased, because you have query acceleration, meaning potentially more concurrent users can run within a given capacity. It might change the economics to the benefit...</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1633" target="_blank" rel="noopener">27:13</a> <span class="who">Estera Kot</span></span> Yes, but Microsoft Fabric Data Engineering's Native Execution Engine, even though it's shipped as GA, so ready for production, is free for the usage. So not enabling that, I would say, is leaving money on the table.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1649" target="_blank" rel="noopener">27:29</a> <span class="who">Sebastian Selman</span></span> Exactly, exactly. Excellent. Good, so I think that's episode five, with Bogdan's post from LinkedIn and the Microsoft Learn page. Thank you so much for taking me through this, Estera, because I saw it and I was very interested, but I think I didn't understand all of it. So I'm grateful for this discussion.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1673" target="_blank" rel="noopener">27:53</a> <span class="who">Estera Kot</span></span> Thanks a lot, it was a pleasure.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1676" target="_blank" rel="noopener">27:56</a> <span class="who">Sebastian Selman</span></span> Thank you so much for listening, and speak to you in the next one.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=I9UWOuc8MKA&amp;t=1680" target="_blank" rel="noopener">28:00</a> <span class="who">Estera Kot</span></span> See you soon. Thank you.</p>
+  </div>
+  <p class="back"><a href="/podcast/">← All episodes</a></p>
+</article>
+</main>
+<footer>
+  <p>© 2026 Sebastian Selman · Switzerland</p>
+  <p class="muted">Earlier work published as Sebastian Rappen.</p>
+</footer>
+<script>
+  document.getElementById('theme').addEventListener('click', function () {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+
+  // Career timeline. Progressive enhancement: with no JS every detail block is
+  // already visible, so the section reads fine — this only adds the focus.
+  (function () {
+    var cv = document.querySelector('.cv');
+    if (!cv) return;
+    var bands = cv.querySelectorAll('.band');
+    var details = cv.querySelectorAll('.cv-detail');
+    if (!bands.length) return;
+    cv.classList.add('interactive');
+
+    function select(key) {
+      bands.forEach(function (b) {
+        var on = b.dataset.org === key;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      details.forEach(function (d) {
+        d.classList.toggle('active', d.dataset.org === key);
+      });
+    }
+    bands.forEach(function (b) {
+      b.addEventListener('click', function () { select(b.dataset.org); });
+    });
+    select(bands[0].dataset.org);
+  })();
+</script>
+</body>
+</html>

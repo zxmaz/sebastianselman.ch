@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://sebastianselman.ch/</loc><lastmod>2026-10-21</lastmod></url>
+  <url><loc>https://sebastianselman.ch/</loc><lastmod>2026-10-29</lastmod></url>
   <url><loc>https://sebastianselman.ch/articles/</loc><lastmod>2026-07-28</lastmod></url>
   <url><loc>https://sebastianselman.ch/articles/azure-databricks-ai-foundry-integration-announced-build-selman-vnuuf/</loc><lastmod>2025-05-23</lastmod></url>
   <url><loc>https://sebastianselman.ch/articles/azures-model-router-smarter-ai-lower-costs-your-business-selman-isbkf/</loc><lastmod>2025-05-28</lastmod></url>
@@ -18,4 +18,12 @@
   <url><loc>https://sebastianselman.ch/articles/the-value-and-limits-of-borders/</loc><lastmod>2021-03-05</lastmod></url>
   <url><loc>https://sebastianselman.ch/articles/thinking-outside-the-box-scares-people/</loc><lastmod>2020-02-19</lastmod></url>
   <url><loc>https://sebastianselman.ch/articles/why-does-ikea-sell-hot-dogs/</loc><lastmod>2021-02-23</lastmod></url>
+  <url><loc>https://sebastianselman.ch/podcast/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://sebastianselman.ch/podcast/what-does-a-sovereign-cloud-offer-actually-buy-you/</loc><lastmod>2026-10-29</lastmod></url>
+  <url><loc>https://sebastianselman.ch/podcast/ai-pilots-are-designed-to-pass-production-is-not-a-vacuum/</loc><lastmod>2026-10-01</lastmod></url>
+  <url><loc>https://sebastianselman.ch/podcast/the-fabric-toggle-that-is-ga-free-and-off-by-default/</loc><lastmod>2026-09-10</lastmod></url>
+  <url><loc>https://sebastianselman.ch/podcast/clean-the-data-estate-first-or-the-agent-guesses/</loc><lastmod>2026-08-27</lastmod></url>
+  <url><loc>https://sebastianselman.ch/podcast/ai-is-not-taking-your-job-it-is-promoting-you/</loc><lastmod>2026-08-13</lastmod></url>
+  <url><loc>https://sebastianselman.ch/podcast/what-happens-when-the-cloud-goes-down-smart-buildings-aws-and-resilience/</loc><lastmod>2026-07-02</lastmod></url>
+  <url><loc>https://sebastianselman.ch/podcast/what-leaders-need-before-ai-readiness-data-visibility/</loc><lastmod>2026-04-24</lastmod></url>
 </urlset>

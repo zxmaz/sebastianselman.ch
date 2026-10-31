@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Happens When the Cloud Goes Down? — Sebastian Selman</title>
+<meta name="description" content="Cloud resilience is no longer just an IT issue. It is now a board-level business risk. What happens when the cloud goes down and your building depends on it?">
+<link rel="canonical" href="https://sebastianselman.ch/podcast/what-happens-when-the-cloud-goes-down-smart-buildings-aws-and-resilience/">
+<meta property="og:site_name" content="Sebastian Selman">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="What Happens When the Cloud Goes Down? — Sebastian Selman">
+<meta property="og:description" content="Cloud resilience is no longer just an IT issue. It is now a board-level business risk. What happens when the cloud goes down and your building depends on it?">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://sebastianselman.ch/podcast/what-happens-when-the-cloud-goes-down-smart-buildings-aws-and-resilience/">
+<meta property="og:image" content="https://sebastianselman.ch/assets/img/share-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:published_time" content="2026-07-02">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/assets/icons/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "PodcastEpisode",
+      "@id": "https://sebastianselman.ch/podcast/what-happens-when-the-cloud-goes-down-smart-buildings-aws-and-resilience/#episode",
+      "url": "https://sebastianselman.ch/podcast/what-happens-when-the-cloud-goes-down-smart-buildings-aws-and-resilience/",
+      "name": "What Happens When the Cloud Goes Down? Smart Buildings, AWS and Resilience",
+      "episodeNumber": 2,
+      "datePublished": "2026-07-02",
+      "description": "Cloud resilience is no longer just an IT issue. It is now a board-level business risk. What happens when the cloud goes down and your building depends on it?",
+      "inLanguage": "en",
+      "duration": "PT31M45S",
+      "partOfSeries": {
+        "@type": "PodcastSeries",
+        "@id": "https://sebastianselman.ch/podcast/#series",
+        "name": "Business Mission Control",
+        "url": "https://sebastianselman.ch/podcast/"
+      },
+      "actor": [
+        {
+          "@type": "Person",
+          "@id": "https://sebastianselman.ch/#person",
+          "name": "Sebastian Selman",
+          "url": "https://sebastianselman.ch/"
+        },
+        {
+          "@type": "Person",
+          "name": "Estera Kot"
+        }
+      ],
+      "image": [
+        "https://sebastianselman.ch/assets/img/share-card.jpg"
+      ],
+      "associatedMedia": {
+        "@type": "VideoObject",
+        "name": "What Happens When the Cloud Goes Down? Smart Buildings, AWS and Resilience",
+        "description": "Cloud resilience is no longer just an IT issue. It is now a board-level business risk. What happens when the cloud goes down and your building depends on it?",
+        "uploadDate": "2026-07-02",
+        "duration": "PT31M45S",
+        "thumbnailUrl": [
+          "https://i.ytimg.com/vi/b7j9M3qlpUk/hqdefault.jpg"
+        ],
+        "url": "https://www.youtube.com/watch?v=b7j9M3qlpUk",
+        "embedUrl": "https://www.youtube.com/embed/b7j9M3qlpUk"
+      },
+      "sameAs": [
+        "https://www.youtube.com/watch?v=b7j9M3qlpUk"
+      ],
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://sebastianselman.ch/podcast/what-happens-when-the-cloud-goes-down-smart-buildings-aws-and-resilience/"
+      }
+    }
+  ]
+}
+</script>
+<script>
+  (function(){
+    try {
+      var stored = localStorage.getItem('theme');
+      var dark = stored ? stored === 'dark'
+        : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <a class="wordmark" href="/">Sebastian Selman</a>
+  <nav>
+    <a href="/#now">Now</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#writing">Writing</a>
+    <a href="/#career">Career</a>
+    <a href="/#certifications">Certifications</a>
+  </nav>
+  <button id="theme" type="button" aria-label="Switch between light and dark">
+    <span class="sun" aria-hidden="true">☀</span><span class="moon" aria-hidden="true">☾</span>
+  </button>
+</header>
+<main id="main">
+<article class="piece episode">
+  <header class="piece-head">
+    <p class="eyebrow"><a href="/podcast/">Business Mission Control</a> · Episode 2</p>
+    <h1>What Happens When the Cloud Goes Down? Smart Buildings, AWS and Resilience</h1>
+    <p class="ep-meta">2 July 2026 · 31:45 · Hosted by Estera Kot and Sebastian Selman</p>
+    <p class="links">
+      <a class="link primary" href="https://www.youtube.com/watch?v=b7j9M3qlpUk" target="_blank" rel="noopener">Watch on YouTube<span aria-hidden="true">↗</span></a>
+      <a class="link" href="#transcript">Transcript<span aria-hidden="true">↓</span></a>
+    </p>
+  </header>
+  <div class="prose">
+<p>Cloud resilience is no longer just an IT issue. It is now a board-level business risk.</p>
+<p>What happens when the cloud goes down and your building depends on it? Estera Kot and Sebastian discuss how physical cloud infrastructure, smart buildings, building management systems and geopolitical risk are changing the way businesses should think about resilience.</p>
+<p>We cover:</p>
+<ul>
+<li>why &quot;the cloud&quot; is still physical infrastructure</li>
+<li>what happens when a cloud-dependent building loses connectivity</li>
+<li>how HVAC, access control, elevators, energy optimization and fire monitoring can be affected</li>
+<li>why multi-zone redundancy may not be enough for critical systems</li>
+<li>what sovereign cloud, geo-redundancy and local edge mean in practice</li>
+<li>why CFOs, CEOs and legal teams should be part of cloud resilience decisions</li>
+</ul>
+  </div>
+  <div class="ep-part" id="chapters">
+    <h2>Chapters</h2>
+    <ol class="chapters">
+      <li><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=0" target="_blank" rel="noopener">00:00</a><span>Cloud data centers as physical targets</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=76" target="_blank" rel="noopener">01:16</a><span>What happens when a smart building loses its brain</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=132" target="_blank" rel="noopener">02:12</a><span>When cloud outage means building outage</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=310" target="_blank" rel="noopener">05:10</a><span>Cloud-based BMS is becoming mainstream</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=551" target="_blank" rel="noopener">09:11</a><span>Hour-by-hour impact on a commercial tower</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1106" target="_blank" rel="noopener">18:26</a><span>Data centers, regions, paired regions and edge</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1234" target="_blank" rel="noopener">20:34</a><span>Six levels of redundancy</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1579" target="_blank" rel="noopener">26:19</a><span>Sovereign cloud plus local edge</span></li>
+      <li><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1705" target="_blank" rel="noopener">28:25</a><span>Five takeaways for business leaders</span></li>
+    </ol>
+  </div>
+  <div class="ep-part">
+    <h2>Sources</h2>
+    <div class="prose">
+<div class="table"><table>
+<thead><tr><th>Claim</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>AWS drone strikes, March 1, 2026</td><td><a href="https://www.cnbc.com/2026/03/02/amazon-says-drone-strikes-damaged-3-facilities-in-uae-and-bahrain.html" target="_blank" rel="noopener">CNBC</a>, <a href="https://www.theregister.com/2026/03/02/amazon_outages_middle_east/" target="_blank" rel="noopener">The Register</a></td></tr>
+<tr><td>2 of 3 UAE zones down, 1 Bahrain zone down</td><td><a href="https://www.tomshardware.com/tech-industry/iranian-missile-blitz-takes-down-aws-data-centers-in-bahrain-and-dubai-amazon-declares-hard-down-status-for-multiple-zones" target="_blank" rel="noopener">Tom's Hardware</a></td></tr>
+<tr><td>Banking/payments disruption (Careem, Emirates NBD, etc.)</td><td><a href="https://www.cnbc.com/2026/03/03/iran-war-uae-drone-strikes-aws-data-centers.html" target="_blank" rel="noopener">CNBC</a>, <a href="https://www.thenationalnews.com/business/2026/03/03/drone-strikes-damage-amazon-data-centres-in-uae-and-bahrain-disrupting-services/" target="_blank" rel="noopener">The National</a></td></tr>
+<tr><td>Second Bahrain attack, March 24</td><td><a href="https://www.aljazeera.com/news/2026/3/24/amazon-says-aws-bahrain-region-disrupted-following-drone-activity" target="_blank" rel="noopener">Al Jazeera</a></td></tr>
+<tr><td>Still not recovered as of April 7</td><td><a href="https://www.cnbc.com/2026/04/07/aws-iran-threats-us-tech-data-centers.html" target="_blank" rel="noopener">CNBC</a></td></tr>
+<tr><td>ME-CENTRAL-1 still showing an active multi-service operational issue as of June 21, 2026 (~16 weeks after the strike; the &quot;late June&quot; status quoted on air)</td><td><a href="https://health.aws.amazon.com/health/status?eventID=arn%3Aaws%3Ahealth%3Ame-central-1%3A%3Aevent%2FMULTIPLE_SERVICES%2FAWS_MULTIPLE_SERVICES_OPERATIONAL_ISSUE%2FAWS_MULTIPLE_SERVICES_OPERATIONAL_ISSUE_5E6B8_EF2498889B5" target="_blank" rel="noopener">AWS Health Dashboard, active event</a></td></tr>
+<tr><td>Recovery will &quot;take several months&quot;; AWS urges migration; billing suspended; ME-CENTRAL-1 &quot;unable to reliably support customer applications&quot;</td><td><a href="https://health.aws.amazon.com/" target="_blank" rel="noopener">AWS Health Dashboard</a>, <a href="https://developingtelecoms.com/telecom-technology/data-centres-networks/20192-aws-says-restoring-uae-and-bahrain-cloud-regions-will-take-several-months.html" target="_blank" rel="noopener">Developing Telecoms</a>, <a href="https://www.tomshardware.com/desktops/servers/amazons-middle-east-data-centers-damaged-by-iran-drone-and-missile-attacks-will-be-down-for-several-months-during-repairs-u-s-and-iran-currently-observing-an-uneasy-truce-but-renewed-strikes-possible-if-talks-break-down" target="_blank" rel="noopener">Tom's Hardware</a>, <a href="https://www.networkworld.com/article/4151880/amazon-waives-entire-months-aws-charges-after-iranian-drone-attack.html" target="_blank" rel="noopener">Network World</a></td></tr>
+<tr><td>AWS Dec 2021 outage (~7.5 h broad, ~6 h Ring smart locks)</td><td><a href="https://www.androidcentral.com/ring-and-parts-aws-are-down-right-now" target="_blank" rel="noopener">Android Central</a>, <a href="https://www.infoq.com/news/2021/12/aws-outage-postmortem/" target="_blank" rel="noopener">InfoQ postmortem</a>, <a href="https://www.pbs.org/newshour/nation/amazon-cloud-computing-outage-disrupts-snapchat-ring-and-many-other-online-services" target="_blank" rel="noopener">PBS News</a>, <a href="https://futurism.com/amazon-outage-iot" target="_blank" rel="noopener">Futurism</a></td></tr>
+<tr><td>Iran target list (Amazon, Microsoft, Oracle, Palantir)</td><td><a href="https://www.cbsnews.com/news/iran-war-tehran-us-tech-companies-targets-middle-east-drones-cyberattacks/" target="_blank" rel="noopener">CBS News</a></td></tr>
+<tr><td>Stargate AI data centers threatened</td><td><a href="https://techcrunch.com/2026/04/06/iran-threatens-stargate-ai-data-centers/" target="_blank" rel="noopener">TechCrunch</a></td></tr>
+<tr><td>CrowdStrike incident, July 2024</td><td><a href="https://en.wikipedia.org/wiki/2024_CrowdStrike-related_IT_outages" target="_blank" rel="noopener">Wikipedia</a></td></tr>
+<tr><td>Uptime Institute outage data</td><td><a href="https://uptimeinstitute.com/resources/research-and-reports/annual-outage-analysis-2024" target="_blank" rel="noopener">2024 Report</a>, <a href="https://uptimeinstitute.com/resources/research-and-reports/annual-outage-analysis-2025" target="_blank" rel="noopener">2025 Report</a></td></tr>
+<tr><td>Harvard CO2 / cognitive function study</td><td>Allen et al., 2016, <em>Environmental Health Perspectives</em>, DOI: <a href="https://doi.org/10.1289/ehp.1510037" target="_blank" rel="noopener">10.1289/ehp.1510037</a></td></tr>
+<tr><td>47% cloud BMS adoption</td><td><a href="https://www.ashb.com/resources/technology-adoption-survey-2025" target="_blank" rel="noopener">ASHB 2025 Technology Adoption Survey</a> (n=308)</td></tr>
+<tr><td>Energy cost per sq ft</td><td>EIA Commercial Buildings Energy Consumption Survey (CBECS) 2018</td></tr>
+<tr><td>German fire safety fines</td><td>NRW BauO 2018, Section 84; StGB Sections 222, 229</td></tr>
+<tr><td>Azure redundancy tiers (LRS/ZRS/GRS/RA-GRS/GZRS)</td><td>Microsoft Azure documentation</td></tr>
+</tbody>
+</table></div>
+<p><strong>Further background reading:</strong> data centers as a new warfare target (<a href="https://www.euronews.com/next/2026/03/12/data-centres-are-the-new-target-in-modern-warfare-during-iran-war-experts-say" target="_blank" rel="noopener">Euronews</a>, <a href="https://datacentremagazine.com/news/how-war-is-damaging-the-middle-easts-data-centre-ambitions" target="_blank" rel="noopener">Data Centre Magazine</a>); Azure West Europe outage Oct 2023 (<a href="https://www.theregister.com/2023/10/23/microsoft_azure_power_issue/" target="_blank" rel="noopener">The Register</a>); Azure global WAN outage Jan 2023 (<a href="https://www.thousandeyes.com/blog/microsoft-outage-analysis-january-25-2023" target="_blank" rel="noopener">ThousandEyes</a>); Azure July 2024 incidents (<a href="https://azure.status.microsoft/en-us/status/history?trackingid=4L44-3F0" target="_blank" rel="noopener">Azure Status History</a>, <a href="https://www.crn.com.au/news-network/security/2024/microsoft-blames-major-azure-outage-on-ddos-attack-staff-error" target="_blank" rel="noopener">CRN Australia</a>).</p>
+    </div>
+  </div>
+  <div class="ep-part transcript" id="transcript">
+    <h2>Transcript</h2>
+    
+    <p class="section-note">Transcript of the published episode, lightly edited for readability. Timestamps match the video.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=0" target="_blank" rel="noopener">00:00</a> <span class="who">Estera Kot</span></span> On March 1st, 2026, Iran did something no one had ever done before. It turned a cloud data center into a military target. Three Amazon Web Services were hit. Two in the United Arab Emirates and one of them in Bahrain. The first known military attack on the major hyperscaler physical infrastructure in the history happened.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=31" target="_blank" rel="noopener">00:31</a> <span class="who">Sebastian Selman</span></span> And that translated on the ground into something every business listening will recognize. Banks froze, payment apps crashed, millions of people in Dubai and Abu Dhabi could not pay for coffee.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=47" target="_blank" rel="noopener">00:47</a> <span class="who">Estera Kot</span></span> Nearly four months after, as of now, in June, as we record this, AWS still has not fully recovered. The health dashboard says me-central-1 is currently unable to reliably support customer applications. And the recovery AWS says it will take several months to complete the fixes.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=76" target="_blank" rel="noopener">01:16</a> <span class="who">Sebastian Selman</span></span> Now, imagine you run a 42-story commercial tower in Dubai. 3,200 people work in it. Your building management system runs on that same cloud. Your building just lost its brain. And the bill for that hits your CFO's desk, not your IT director's.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=98" target="_blank" rel="noopener">01:38</a> <span class="who">Estera Kot</span></span> And you can see that this is not hypothetical. This is happening right now and pleasure to be here. My name is Estera Kot. I'm the CTO at Clouds on Mars.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=106" target="_blank" rel="noopener">01:46</a> <span class="who">Sebastian Selman</span></span> And I'm Sebastian, consulting lead for Switzerland.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=110" target="_blank" rel="noopener">01:50</a> <span class="who">Estera Kot</span></span> And this is the Business Mission Control. And today's episode is what changed on March 1st. Why every business that runs on the cloud has a problem they didn't have before. And how and what your board, not your IT department, needs to decide about.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=131" target="_blank" rel="noopener">02:11</a> <span class="who">Sebastian Selman</span></span> When most people hear cloud went down, they think of the obvious things, right? Your email might be slower. Your SaaS application is unreachable. But that is not what we're talking about today. We are talking, in fact, about what happens when the cloud going down means the building goes down. Because in 2026, more than half of commercial buildings have outsourced their nervous system to a data center that is somewhere else.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=161" target="_blank" rel="noopener">02:41</a> <span class="who">Estera Kot</span></span> Exactly. And even like you hear our tone, this is serious, due to the fact that cloud is not in a cloud. Cloud is physical. And now let me unpack that element technically. As you mentioned, Sebastian, the nervous system is somewhere. So here a building management system, we are calling that BMS, is a nervous system of every building. Your body has a brain that controls breathing, heartbeat, temperature, reflexes. And you don't think about it. It just works. And here a BMS does the same, exactly the same for the building, heating, cooling, who gets through the doors, which doors, the elevators, the fire suppression, the energy bill, all of it. And 10 years ago, that nervous system lived inside the building. A server room was there in the basement. It was local, self-contained. And then internet drops, but building was still working because of the local connectivity. And as of now, today, 2026, that nervous system lives in the cloud. A data center that could be 30 kilometers away or 3,000 kilometers away from the physical building. And the building sends the data anywhere from 144,000 to over a million sensors, which are reading day to day what is happening in the building. And those data are landing in the data center. And the data center is processing those points, data points, streaming data, and sending back the instruction. And then open this wave, lock the door, speed this elevator up, optimize the energy level because there is no one. So basically, the brain is externalized from the building, physical building. Now, imagine your brain was not in your head, but in a hospital across town, connected to your body by a simple phone list. As long as the line works, you walk, talk, breathe normally. The moment the line drops, your body doesn't know how to breathe.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=308" target="_blank" rel="noopener">05:08</a> <span class="who">Sebastian Selman</span></span> And that basically is a cloud-dependent building, right? And from a business standpoint, this is not fringe. It's mainstream, right? The 2025 ASHB Technology Adoption Survey of 308 building owners and operators found that 47% of organizations actually now run their building management systems in the cloud. And another 45% are planning to do so. The top barrier that was cited in that survey was data security at 49%.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=347" target="_blank" rel="noopener">05:47</a> <span class="who">Estera Kot</span></span> And you will find the link to that survey in the description of this episode. But in a nutshell, they were right to worry. So on March 1st, 2026, Iranian IRGC drones struck three AWS facilities. Two in the UAE, one in Bahrain, structural damage happened, power disruption was there, fire, water damage from the suppression systems trying to contain the fire. And this was the first known military attack on a major hyperscaler physical infrastructure in the history. And in the UAE region called me-central-1, two of three availability zones went down. In Bahrain, me-south-1, one zone was knocked out. Then on March 24th, a second drone attack hit Bahrain again.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=410" target="_blank" rel="noopener">06:50</a> <span class="who">Sebastian Selman</span></span> Here's just a list of some of the things that broke on the ground, right? Careem, the region's ride-hailing platform kind of like Uber, went down. So millions of people could not get a taxi. The Abu Dhabi commercial bank, the Emirates NBD, the first bank of Abu Dhabi, all reported outages, and people could not access their money. Hubpay and Alaan, two major payment platforms, went offline. Shops could not process transactions. Even Snowflake, the data cloud, reported disruptions. Now, imagine waking up and your debit card, your banking app, your taxi app, and your food delivery all stopped working at the same time. Not because of a hack, but because a building some 30 kilometers away from you caught fire.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=467" target="_blank" rel="noopener">07:47</a> <span class="who">Estera Kot</span></span> Yeah, and I think that some people may ask why it's shocking. As there are so many security and resiliency locks, we were promised to have at the same time the situation is showing that not exactly. So as of this morning, the late June, 2026, nearly four months after the strikes, the AWS health dashboard still listing the me-central-1 region as a currently unable to reliably support customer applications. So AWS formally told customers that restoring the UAE and Bahrain region will take several months. It's obvious this is the physical infrastructure, and they are urging customers to migrate their workloads to other regions and restore the data from remote backups, which hopefully are available and the customer was doing hopefully.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=529" target="_blank" rel="noopener">08:49</a> <span class="who">Sebastian Selman</span></span> AWS has also suspended billing for both regions while recovery work continues. Take a moment with that. The biggest cloud company in the world is offering you free services in their data center because their data center literally was on fire.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=549" target="_blank" rel="noopener">09:09</a> <span class="who">Estera Kot</span></span> Okay, so now we have a 42-story commercial tower in Dubai, 3200 occupants. The BMS runs on AWS on the region that was hit two of three zones went down.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=567" target="_blank" rel="noopener">09:27</a> <span class="who">Sebastian Selman</span></span> And here is what's going to happen hour by hour.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=574" target="_blank" rel="noopener">09:34</a> <span class="who">Estera Kot</span></span> So the first, the HVAC stops adjusting the control loop is in a cloud and the cloud is basically not answering. So set points freeze, CO2 starts building in a conference rooms. Nobody feels it yet, but think of it as a someone quietly is closing all of the windows. So you do not notice that for 20 minutes, but then you will.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=604" target="_blank" rel="noopener">10:04</a> <span class="who">Sebastian Selman</span></span> And from a business standpoint, this is not just comfort. It is productivity. Allen and colleagues, the 2016 Harvard CO2 study tested 24 knowledge workers at three CO2 levels at 1400 parts per million compared to 550 cognitive function scores drop by half. So crisis response scores were the most affected 131% higher at lower CO2 versus higher CO2, a sealed conference room in the end with eight people can reach that level in under 30 minutes. So if your HVAC system goes down, your people are not just uncomfortable. They are thinking slower in a law firm drafting a contract or on a trading floor where you need to make split second decisions that has direct financial consequences.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=666" target="_blank" rel="noopener">11:06</a> <span class="who">Estera Kot</span></span> Yeah, and how to enter the building if the access control is lost because it's in a cloud and the connection is lost. So it defaults to fail-open. So every door unlocks. That's a deliberate safety design in a fire. You don't want to lock doors just to do not trap people, but this is not a fire in the building. This is a geopolitical conflict 2000 kilometers away. Every secure door in a very big building is just open and the security team gets no alert because the alerting pipeline also runs on AWS.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=711" target="_blank" rel="noopener">11:51</a> <span class="who">Sebastian Selman</span></span> And this is not theoretical this exact thing happened to Ring smart lock users during an AWS outage back in December 2021 so not this specific case, but people were locked out of their own homes because the app that controls the lock depends on a data center in Virginia. And that outage ran for about seven and a half hours broadly, Ring services specifically were down for nearly six and the cause not a war. In this case, it simply was a software bug.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=747" target="_blank" rel="noopener">12:27</a> <span class="who">Estera Kot</span></span> Yeah, and the next stage is energy optimization, which also stops. So the building had a smart algorithm, which draws power when it's cheap throttle back during the peak hours. And that algorithm is where in a cloud and now it's gone. So the building flips to the full draw mode.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=768" target="_blank" rel="noopener">12:48</a> <span class="who">Sebastian Selman</span></span> The EIA commercial building energy consumption survey from 2018 says a US office building spends approximately $1.74 per square foot per year on energy. If you have a 500,000 square foot building about $870,000 a year. So $99 on an hour average, but peak demand charges run two to five times off peak rates. So during an unoptimized peak window that baseline doubles or triples in the Gulf where cooling is the dominant load and outdoor temperatures top the 40 degrees Celsius, the numbers for sure will be higher. One building, painful. A portfolio of 50 buildings on the same provider in the same region. The meter is running at hundreds of dollars an hour per building with nobody watching. And remember, this outage didn't last hours. We are at nearly four months and counting.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=839" target="_blank" rel="noopener">13:59</a> <span class="who">Estera Kot</span></span> Yeah. And what about the building I mentioned? It's very high building. What about the elevators? And as we love to optimize the modern elevators predict the demand, batch rides, route efficiently. And that intelligence is cloud-based. So without it, the elevators revert to the basic mode. Wait time increase, of course, and the people on the floor like 31, they need to start walking. And what if there is a person with some mobility impaired, which cannot walk. And now going to the next stage, the fire suppression monitoring goes offline. Sprinklers still work mechanically. So the water pressure does not need the internet. The monitoring system that tells the fire department that floor 17 has a smoke or everything is normal. That was also cloud dependent. So the building may now be non-compliant with the local fire regulations just because the cloud is gone.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=910" target="_blank" rel="noopener">15:10</a> <span class="who">Sebastian Selman</span></span> That's where suddenly a technical outage of a data center becomes a legal exposure in Germany as a European comparison point fire safety fines under state building codes range up to 50,000 euros for violations and up to 250,000 euros for unauthorized construction with fire safety deficiencies. That is the North Rhine-Westphalia building code 2018, section 84. The real exposure, though, is criminal liability German criminal code sections 222 and 229 state if fire safety negligence leads to injury or death building operators face prosecution. So the civil damages here dwarf the administrative fines in the UAE, where building safety is enforced by the Dubai civil defense, the regulatory and reputational exposure for a premium commercial tower is significant, especially in a market where smart building is a selling point for tenants paying top tier rents. Now, this is not new, but it probably has never been this dramatic cloud outages happened before March, they happen regularly. We are just talking about AWS ring smart locks in 2021 or those things. Those were a software bug, not a war. But about seven and a half hours broadly, roughly six for Ring specifically.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1007" target="_blank" rel="noopener">16:47</a> <span class="who">Estera Kot</span></span> And I remember the July 2024 when the CrowdStrike incident happened, a faulty sensor update crashed eight and a half million of Windows systems globally. In an hour, what we've seen: airlines grounded, banks down, hospitals turning patients away. Not Azure fault, but Azure-hosted workloads were hit at a huge, enormous scale.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1038" target="_blank" rel="noopener">17:18</a> <span class="who">Sebastian Selman</span></span> I remember that one. And the business cost is not new either, right? The Uptime Institute's 2024 annual outage analysis found 10 to 20 high profile it outages every year. And over 54% of organizations said their most recent significant outage cost more than $100,000 one in five respondents said it exceeded a million dollars. So almost 40% of organizations had a major outage caused by human error in the prior three years.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1073" target="_blank" rel="noopener">17:53</a> <span class="who">Estera Kot</span></span> And here is the new question. So before March, the worst case was a software bug. And the worst case was a software bug taking you down for hours. But now, after March, the worst case is a missile tracking you down for months, same architecture, but very different blast radius, which we can't control or maybe we can. That's the question. So, quick vocab 90 seconds skip to the next chapter. If you already know what is the availability zone. The first one, a data center data center is a physical building full of servers cooling power security concrete and a fiber, nothing abstract, nothing in the cloud. The second availability zone. This is like one or more data centers in the same metropolitan area, but must be physically separated and each zone, each availability zone has its own power cooling and a single region has at least three of those availability zones. Now, a region, a region is a geographic area where the provider operates a cluster of data centers like multiple zones here. An example, Switzerland North is Zurich, me-central-1 is Dubai, East US is Virginia. The region you choose determines whether your data physically sits there and which country's laws apply. Now, the next one, a paired region is the disaster recovery partner of your primary region. So, an example, Switzerland North pairs with Switzerland West, basically Zurich and Geneva, 225 kilometers apart, same country, different cities, planned failover destination. And now we have the edge. So the last vocab the edge: local compute, a server inside your building running cloud service on the local hardware here, an example, Azure stack edge or Azure arc. The pros of both of them: they don't depend on the internet.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1221" target="_blank" rel="noopener">20:21</a> <span class="who">Sebastian Selman</span></span> Perfect. So we've got five terms data center zone region paired region and edge. All those for the next chapter.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1233" target="_blank" rel="noopener">20:33</a> <span class="who">Estera Kot</span></span> Yeah, and now redundancy, how cloud providers protect your data six levels, each one bigger than the last. So we are starting with level one, locally redundant storage. Three copies of your data in the same data center. Different disks. Protects against a disk failing does not protect against the building burning down, but the disks, because they are physical, they can sometimes fail as well. That's the first level. The second level is zone-redundant, here zone-redundant storage has three copies across three availability zones in the same region. So, different buildings, separate power, separate cooling. And this is the gold standard for production workloads. So the next exercise after listening this podcast check if you enabled zone-redundant storage. And here is what March broke the multi-zone model assumed two data centers on separate power grids would never fail at the same time by accident. The odds are 100% when someone by purpose targets two of them with, for example, drones, which happened. Now, we know the two levels, the level three is geo-redundant storage. So, again, three copies in your primary region, plus three more in a paired region, hundreds kilometers away like Switzerland and Geneva. Very different cities, very different power grid.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1342" target="_blank" rel="noopener">22:22</a> <span class="who">Sebastian Selman</span></span> So, this is the level that would have saved most of the businesses affected by the March attacks, but they didn't have it. They ran single region in the UAE.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1353" target="_blank" rel="noopener">22:33</a> <span class="who">Estera Kot</span></span> Yeah, maybe because of costs, maybe not. But let's progress with the level number four, read-access geo-redundant. So, very similar as geo-redundant storage. But you can read from the paired region immediately after anything is happening. So no waiting for the formal failover. So we're getting a copy. Now, the level number five, which is the geo-zone-redundant storage and read-access geo-redundant storage. I know that lots of words, lots of acronyms, but here zone-redundant at home, plus geo-redundant to the paired regions. So in total, we are getting six copies, three in your city across separate buildings, three in another city, hundreds kilometers away. And this is the maximum protection Azure offers to the storage. That is our new gold or new oil.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1419" target="_blank" rel="noopener">23:39</a> <span class="who">Sebastian Selman</span></span> Yes, but if you go geo-zone-redundant storage or read-access geo-zone-redundant storage, you're probably paying roughly twice the cost of level one. So for life critical or regulation critical data, the question is whether you can afford not to pay it.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1438" target="_blank" rel="noopener">23:58</a> <span class="who">Estera Kot</span></span> Yeah, and we are getting used to using all of those applications. So I love that you mentioned life critical. And sometimes if some people relying on this simple application, but they really need them because it will cause disruption. Should we classify that as a life threat or life disruption or just skip it. But now, the level number six, the last one, that's why we mentioned about Azure Stack, for example. So level number six is the edge. This is not the storage tier, this is an architectural decision. And some systems should never leave the building fire suppression monitoring access control, elevator safety, energy optimization, emergency HVAC optimizations. They should run on Azure Stack Edge or Azure Arc on those nodes on the physical machines inside the tower inside the building, because the building's heartbeat keeps beating, even if there is a data center damage. If there is no internet connection. And the last one matters because the level one through level five, all assume that the cloud is reachable. And in the case of the edge, that level is the only one that is going to survive the total internet loss. And now a few more facts. The Iranian threat is not theoretical. If we talk about going forward, Iranian semi-official Tasnim news agency published a target list like Amazon, Microsoft, Oracle, Palantir, the caption: enemies' technological infrastructure, Iran's new goals in the region. So Iran also threatened the Stargate AI data centers, the massive US AI build-out every organization running workloads in the Middle East or in any US hyperscaler now is facing the question did not exist few months ago. So what happens if my cloud provider's data center becomes a military target.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1577" target="_blank" rel="noopener">26:17</a> <span class="who">Sebastian Selman</span></span> And the answer is not more redundancy in the same place. The answer is sovereign cloud plus local edge three layers. And these are exactly the three lines I take into board conversations in Switzerland.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1593" target="_blank" rel="noopener">26:33</a> <span class="who">Estera Kot</span></span> Yeah, layer one. Let's go. The recommendation: sovereign region. So it means that choose a cloud region in a stable legally predictable jurisdiction, Switzerland, Germany, Poland, Nordics, your primary workloads run there determines data resiliency determines data sovereignty. Layer two, geo-redundancy to the paired region within the same country, here Switzerland North to Switzerland West, Zurich to Geneva. If Zurich goes down, Geneva takes over. Data stays under Swiss law, either way. The time for layer three layer three is a local edge for the systems that cannot fail. Fire suppression, access control, elevator safety, emergency HVAC systems, here Azure Stack Edge or Arc, physically inside the building, as there is no internet dependency needed. And here, let's do some analogy and analogy to a commercial aircraft. So satellite link for weather, route optimization, communication with ground control. This is a cloud layers one and two, as mentioned previously, but the flight controls like steering, throttle, landing gears work even if the satellite link drops. And this is the edge, you don't fly a plane where the steering wheel depends on the Wi-Fi signal.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1698" target="_blank" rel="noopener">28:18</a> <span class="who">Sebastian Selman</span></span> And probably you shouldn't run a building that way either.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1703" target="_blank" rel="noopener">28:23</a> <span class="who">Estera Kot</span></span> Yeah, now let's summarize the things to remember five things to remember based on our discussion. One, so cloud data centers are now military attacked that we experienced March 2026 made that statement real, not just theoretical. And here drones hit three AWS buildings. Two of three zones in the region went down nearly four months later still not recovered and every architecture decision must now consider physical attack, not just a software bug or some energy issues. The second thing to remember that multi redundancy is necessary, but it's not sufficient. So two zones, which are hit simultaneously are causing an issue. So for any critical workload, especially in some geopolitically exposed region geo redundancy across distant regions or across multiple providers is now the bare minimum.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1773" target="_blank" rel="noopener">29:33</a> <span class="who">Sebastian Selman</span></span> And third, I mean, sovereign cloud is a board level decision. It's not about where your data sleeps for GDPR. It is about whether your operations survive a conflict you didn't start and can't control A Swiss cloud region might not care about Middle East drone strikes. A Polish region doesn't appear on Iran's target list. But geography for sure is architecture now.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1802" target="_blank" rel="noopener">30:02</a> <span class="who">Estera Kot</span></span> Yeah, number four, especially related to healthcare and any critical system. So life safety systems, they must never depend on a network call to another country. Fire suppression access control elevators. I will repeat myself. These should run on the local edge or they fail at the worst possible moment For a building, always-there is not a nice-to-have. It's a difference between safe and unsafe.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1834" target="_blank" rel="noopener">30:34</a> <span class="who">Sebastian Selman</span></span> Finally, five, the question is no longer how much does redundancy cost. The question is, how much does a multi month outage cost across my portfolio energy waste compounding every hour regulatory exposure tenant lawsuits insurance gaps reputational damage for every smart building that lost its brain. The CFO, the COO, the General Counsel, they all need to be in the room for this conversation. It simply stopped being an IT decision on March 1st.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1872" target="_blank" rel="noopener">31:12</a> <span class="who">Estera Kot</span></span> I'm Estera.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1874" target="_blank" rel="noopener">31:14</a> <span class="who">Sebastian Selman</span></span> I'm Sebastian.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1875" target="_blank" rel="noopener">31:15</a> <span class="who">Estera Kot</span></span> And this was Business Mission Control.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1878" target="_blank" rel="noopener">31:18</a> <span class="who">Sebastian Selman</span></span> Show notes, sources and the public transcript are at our episode page. Link is in the description. If your business runs on the cloud and any of this raised the flag. Get the right people in the room this week, not next quarter.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1894" target="_blank" rel="noopener">31:34</a> <span class="who">Estera Kot</span></span> As the topic is serious and see you in the next episode. Thanks.</p>
+    <p class="turn"><span class="turn-meta"><a class="ts" href="https://www.youtube.com/watch?v=b7j9M3qlpUk&amp;t=1899" target="_blank" rel="noopener">31:39</a> <span class="who">Sebastian Selman</span></span> Thank you.</p>
+  </div>
+  <p class="back"><a href="/podcast/">← All episodes</a></p>
+</article>
+</main>
+<footer>
+  <p>© 2026 Sebastian Selman · Switzerland</p>
+  <p class="muted">Earlier work published as Sebastian Rappen.</p>
+</footer>
+<script>
+  document.getElementById('theme').addEventListener('click', function () {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+
+  // Career timeline. Progressive enhancement: with no JS every detail block is
+  // already visible, so the section reads fine — this only adds the focus.
+  (function () {
+    var cv = document.querySelector('.cv');
+    if (!cv) return;
+    var bands = cv.querySelectorAll('.band');
+    var details = cv.querySelectorAll('.cv-detail');
+    if (!bands.length) return;
+    cv.classList.add('interactive');
+
+    function select(key) {
+      bands.forEach(function (b) {
+        var on = b.dataset.org === key;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      details.forEach(function (d) {
+        d.classList.toggle('active', d.dataset.org === key);
+      });
+    }
+    bands.forEach(function (b) {
+      b.addEventListener('click', function () { select(b.dataset.org); });
+    });
+    select(bands[0].dataset.org);
+  })();
+</script>
+</body>
+</html>
