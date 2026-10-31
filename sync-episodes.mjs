@@ -7,6 +7,10 @@
 // and an episode missing from the feed is not a deletion — the feed only
 // carries the latest 15 videos.
 //
+// Each new entry is a stub with a `slug`, so the build gives it its own page at
+// /podcast/<slug>/ straight away: title, date and the YouTube link. Show notes
+// and a transcript are added by hand later, in content/podcast/<slug>/.
+//
 //   node sync-episodes.mjs              add new episodes, write the file if any
 //   node sync-episodes.mjs --dry-run    print what would be added, write nothing
 //
@@ -149,6 +153,26 @@ function parseFeed(xml) {
   return out;
 }
 
+/**
+ * The page slug for an episode: its title folded to lowercase ASCII words
+ * joined by hyphens ("Estera's" → "esteras", "ü" → "ue"), at most 80
+ * characters, cut at a word. Stored in the entry, so the URL stays put when a
+ * title is tidied later. Keep in step with episodeSlug() in build.mjs, which
+ * derives the same slug for a hand-added entry that has none.
+ */
+const UMLAUTS = { ä: 'ae', ö: 'oe', ü: 'ue', Ä: 'ae', Ö: 'oe', Ü: 'ue', ß: 'ss' };
+
+function episodeSlug(title) {
+  const s = String(title || '')
+    .replace(/[äöüÄÖÜß]/g, (c) => UMLAUTS[c])
+    .normalize('NFD').replace(/[̀-ͯ]/g, '')
+    .replace(/['’]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return s.length <= 80 ? s : s.slice(0, 81).replace(/-[^-]*$/, '');
+}
+
 /** Video ID from any YouTube URL form a hand edit might use. */
 const videoIdOf = (url) => String(url || '')
   .match(/(?:youtu\.be\/|[?&]v=|\/(?:embed|shorts|live)\/)([A-Za-z0-9_-]{11})(?![A-Za-z0-9_-])/)?.[1];
@@ -272,13 +296,21 @@ async function main() {
 
   const feed = parseFeed(await fetchFeed(opts.feed, opts.timeout));
   const known = new Set(project.episodes.map(e => videoIdOf(e?.url)).filter(Boolean));
+  // Slugs already in use, given or derived, so two pages never share a path.
+  const taken = new Set(project.episodes.map(e => e?.slug || episodeSlug(e?.title)).filter(Boolean));
   const fresh = feed.filter(e => !known.has(e.id))
     .sort((a, b) => b.date.localeCompare(a.date))      // stable: ties keep feed order
-    .map(e => ({ date: e.date, title: e.title, url: `https://youtu.be/${e.id}` }));
+    .map(e => {
+      const base = episodeSlug(e.title) || `episode-${e.id.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+      let slug = base;
+      for (let k = 2; taken.has(slug); k++) slug = `${base}-${k}`;
+      taken.add(slug);
+      return { date: e.date, title: e.title, url: `https://youtu.be/${e.id}`, slug };
+    });
 
   console.log(`sync   ${feed.length} episodes in the feed, ${fresh.length} new` +
     (opts.dryRun ? ' (dry run, nothing written)' : ''));
-  for (const e of fresh) console.log(`       + ${e.date}  ${e.title}  ${e.url}`);
+  for (const e of fresh) console.log(`       + ${e.date}  ${e.title}  ${e.url}  slug ${e.slug}`);
   if (!fresh.length) return;
 
   const out = insertEpisodes(raw, data, fresh, rel);

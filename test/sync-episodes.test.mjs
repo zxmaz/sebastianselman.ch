@@ -59,13 +59,19 @@ const NEW_EXPECTED = {
   date: '2100-01-01',
   title: 'Ask Me Anything & Nothing: Estera\'s "Take" — Live',
   url: 'https://youtu.be/NewEp_12345',
+  slug: 'ask-me-anything-nothing-esteras-take-live',
 };
 
-let original, listed, server, base, closedPort, dir, n = 0;
+// A new video whose title folds to a slug an existing episode already has.
+const TWIN = { id: 'TwinEp_1234', published: '2099-11-30T10:00:00+00:00' };
+
+let original, listed, existing, server, base, closedPort, dir, n = 0;
 
 before(async () => {
   original = await readFile(REAL);
   const bmc = JSON.parse(original.toString('utf8')).find(p => p.name === 'Business Mission Control');
+  existing = bmc.episodes[0];
+  TWIN.title = existing.title;
   // Every listed episode, as the feed would carry it — with a different title,
   // to prove an entry already in the file is never overwritten from the feed.
   listed = bmc.episodes.map(e => ({
@@ -77,6 +83,7 @@ before(async () => {
   const routes = {
     '/new': () => feed([NEW, ...listed]),
     '/none': () => feed(listed),
+    '/twin': () => feed([TWIN, ...listed]),
     '/empty': () => feed([]),
     '/html': () => '<!doctype html><title>Before you continue to YouTube</title>',
   };
@@ -150,7 +157,7 @@ test('adds a new episode at the top: decoded, suffix stripped, existing entries 
   const indent = lines[at + 1].match(/^ */)[0];
   assert.equal(lines[at],
     `${indent}{ "date": "2100-01-01", "title": "Ask Me Anything & Nothing: Estera's \\"Take\\" — Live", ` +
-    `"url": "https://youtu.be/NewEp_12345" },`);
+    `"url": "https://youtu.be/NewEp_12345", "slug": "ask-me-anything-nothing-esteras-take-live" },`);
   assert.equal(lines.filter((_, i) => i !== at).join('\n'), before);
 
   // Running again finds nothing new and leaves the result byte-identical.
@@ -169,6 +176,7 @@ test('--dry-run reports the new episode and writes nothing', async () => {
   assert.equal(r.code, 0, r.stderr);
   assert.match(r.stdout, /1 new \(dry run, nothing written\)/);
   assert.match(r.stdout, /\+ 2100-01-01 {2}Ask Me Anything & Nothing/);
+  assert.match(r.stdout, /slug ask-me-anything-nothing-esteras-take-live/);
   await assertUntouched(file, mtime);
 });
 
@@ -201,4 +209,19 @@ test('a feed with no new episodes writes nothing', async () => {
   assert.match(r.stdout, new RegExp(`${listed.length} episodes in the feed, 0 new`));
   assert.equal(r.stderr, '');
   await assertUntouched(file, mtime);
+});
+
+test('every listed episode has a slug, and a new one never takes a slug already in use', async () => {
+  const eps = JSON.parse(original.toString('utf8')).find(p => p.name === 'Business Mission Control').episodes;
+  const slugs = eps.map(e => e.slug);
+  assert.ok(slugs.every(s => /^[a-z0-9]+(-[a-z0-9]+)*$/.test(s ?? '')), `slugs: ${slugs.join(', ')}`);
+  assert.equal(new Set(slugs).size, slugs.length, 'slugs are unique');
+
+  const file = await copy();
+  const r = await sync('--feed', `${base}/twin`, '--file', file);
+  assert.equal(r.code, 0, r.stderr);
+  const added = JSON.parse(await readFile(file, 'utf8'))
+    .find(p => p.name === 'Business Mission Control').episodes.find(e => e.url.endsWith(TWIN.id));
+  assert.equal(added.title, existing.title);
+  assert.equal(added.slug, `${existing.slug}-2`);
 });
