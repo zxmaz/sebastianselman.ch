@@ -5,6 +5,9 @@
 // right <html lang>, no LinkedIn redirect links or raw [[n]] citations, titles
 // and descriptions inside the search-result limits, share tags, a sitemap that
 // only lists real files, and the 404 page and favicon GitHub Pages serves.
+// The podcast pages (WI #219) get the same checks plus their own: structured
+// data, chapter and transcript deep links, the host line, and only the two
+// published files per episode.
 //
 // A second build runs on a temp copy of content/ with an offer line, an
 // Invite section, a new email address and a few fixture activities filled in,

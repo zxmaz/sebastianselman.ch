@@ -78,8 +78,41 @@ node sync-episodes.mjs             # add new episodes to content/projects.json
   the file alone and the rebuild carries on. On GitHub the warning shows on the
   run's summary page.
 
-New entries get the Zurich publish date, and the title without the
-" | Business Mission Control" suffix YouTube puts on some of them.
+New entries get the Zurich publish date, the title without the
+" | Business Mission Control" suffix YouTube puts on some of them, and a
+`slug` made from the title.
+
+### Episode pages
+
+Every episode has its own page at `/podcast/<slug>/`, and `/podcast/` lists
+them all (the project's `"page": "/podcast/"` in `projects.json` switches this
+on). A new episode's page exists from the night the sync adds it, with the
+title, date and YouTube link. To give it show notes and a transcript:
+
+1. Make a folder `content/podcast/<slug>/`, named exactly as the episode's
+   `slug`.
+2. Copy in `shownotes.md` and `transcript_website.md` from the delivery
+   folder, unchanged. Nothing else in that folder is read or published, so
+   never put the editor's final-cut file there.
+3. `node build.mjs`.
+
+The page then shows the summary and "We cover" list, chapters whose
+timestamps open the video at that second, the sources as links, any notes,
+and the full transcript with each timestamp linked the same way. The header
+says "Hosted by Estera Kot and Sebastian Selman" (from `schema.cohosts` plus
+your name): the Hosts line of the show notes and the speakers line at the top
+of the transcript, both with job titles, are never shown.
+
+| Episode field | Notes |
+|---|---|
+| `slug` | The page URL. Written once by the sync; **don't change it** after the page is live |
+| `transcript` | `"provisional"` adds a note that the transcript comes from automatic captions and will be replaced. Delete the field when the editor's version is in |
+| `same_as` | Optional. The episode on Spotify, Apple and the like: links on its page and in its structured data |
+| `description`, `seo_title`, `length`, `modified` | Optional overrides. By default the description is the summary's first sentences (up to 160 characters), a title over 65 characters is cut at its first sentence break, the length comes from the show notes, and the sitemap uses `date` |
+
+Episodes are numbered by date, oldest first. The build warns if a folder
+matches no slug, if its show notes or transcript link a different video
+(they are then left off the page), or if the show notes give another number.
 
 The tests (`node --test`) use a local fixture feed and a temp copy of the file;
 they never touch YouTube or the real `projects.json`.
@@ -92,6 +125,7 @@ they never touch YouTube or the real `projects.json`.
 |---|---|
 | `content/profile.json` | Name, role, bio paragraphs, the links, the email address, the optional offer line and Invite section, and the facts behind the home page's structured data. See *The profile* below |
 | `content/projects.json` | The Projects section. Podcast episodes sync themselves, see above |
+| `content/podcast/<slug>/` | Show notes and transcript per episode, see *Episode pages* |
 | `content/articles/*.md` | All 16 articles — 7 from limmatreframe.com, 9 from LinkedIn — one folder, one URL space |
 | `content/career.json` | The career timeline — employers, roles, month spans |
 | `content/certifications.json` | The Certifications section — Credly badges, advanced ones up front, the rest in a collapsed *More* group. To add one, see *Adding a certification* below |
@@ -149,6 +183,13 @@ Every page gets, from the templates in `build.mjs`:
   describe an `Article` whose author is that `Person`.
 - **Podcast platforms**: add Spotify, Apple and the like to the podcast's
   `schema.same_as` list, the RSS feed to `schema.web_feed`. No code change.
+  The links then also show on the home page card, `/podcast/` and every
+  episode page, named after the platform; nothing shows while the list is
+  empty. The YouTube playlist is always a `sameAs`, since the series' own
+  URL is `/podcast/`.
+- **Podcast episodes**: each page describes a `PodcastEpisode` (part of the
+  series, with its date, duration and the YouTube video as a `VideoObject`);
+  `/podcast/` describes the series and lists every episode.
 - **Events**: a venue starting "Online" (or `"mode": "online"`) becomes a
   virtual location. Optional `time_end` adds an end time; `address` a street
   address for an in-person venue.
@@ -256,7 +297,8 @@ node --test
 every page: one parseable JSON-LD block, `lang`, no LinkedIn redirect links or
 raw `[[n]]` citations, title and description lengths, share tags, the sitemap,
 the 404 page and the favicon. A second build on a temp copy of `content/`
-checks that the offer line, the Invite section and the events render from data
+checks that the offer line, the Invite section, the events, a stub episode and
+podcast platform links render from data
 alone. `test/sync-episodes.test.mjs` covers the episode sync.
 
 After adding large images:
