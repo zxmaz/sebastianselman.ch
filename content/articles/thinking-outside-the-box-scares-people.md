@@ -78,7 +78,7 @@ It is heroic, because the reframe you provide to your social system was created 
 
 ### Literature:
 
-1. 1Skin in the Game (N.N. Taleb)
-2. 2Maps of Meaning (J.B.Peterson)
-3. 3Begriffsschrift (G. Frege)
-4. 4Beyond good and evil (F. Nietzsche)
+1. Skin in the Game (N.N. Taleb)
+2. Maps of Meaning (J.B.Peterson)
+3. Begriffsschrift (G. Frege)
+4. Beyond good and evil (F. Nietzsche)

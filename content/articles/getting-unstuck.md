@@ -25,21 +25,17 @@ Thankfully understanding this problem does open up pathways to overcome the situ
 
 In the first case you can you sit down and write up things that inspire you and choose goals. It is better to choose badly initially than not to choose any goals at all, because as Zig Ziglar once said:
 
-# *“*
-
-***If you aim** at **nothing**, **you will** hit it **every time**.*
-
-***Zig Ziglar***
+> ***If you aim** at **nothing**, **you will** hit it **every time**.*
+>
+> ***Zig Ziglar***
 
 ## Identity conflict
 
 If you are stuck even though you have goals, you are probably not suffering of an identity deficit, but rather from the second type of identity crisis: the identity conflict. In that case you will need to sort out your goals and decide what you want to pursue. Laura Lang sharpened the above conflict of interests in the aphorism:
 
-# *“*
-
-***You can have anything*** you want, ***but not everything***.
-
-***Laura Lang***
+> ***You can have anything*** you want, ***but not everything***.
+>
+> ***Laura Lang***
 
 So goal setting does work – if you do not have “guiding commitments” – but those guiding commitments on their own might just as well ride you into paralysis, if they are conflicting. It does not work if you do not sort out your priorities among goals you are striving for.
 

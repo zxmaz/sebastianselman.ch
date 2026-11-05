@@ -348,6 +348,33 @@ test('article bodies start at h2', async () => {
   }
 });
 
+// Capture artefacts from the WordPress and LinkedIn exports. md2html turns a
+// body "# " into <h2>, so the <h1> check alone would never catch a repeated
+// title or a decorative heading: those are checked as text.
+test('article bodies carry no capture artefacts', async () => {
+  const words = (s) => decode(s.replace(/<[^>]+>/g, '')).replace(/[^\p{L}\p{N}]+/gu, ' ').trim().toLowerCase();
+  for (const { file, html } of await pages(out)) {
+    if (!/^articles\/[^/]+\//.test(file)) continue;
+    const prose = html.match(/<div class="prose">([\s\S]*?)\n {2}<\/div>/)?.[1] ?? '';
+    assert.equal([...html.matchAll(/<h1[\s>]/g)].length, 1, `${file}: a second <h1>`);
+    assert.ok(!/<h1[\s>]/.test(prose), `${file}: <h1> in the body`);
+
+    const title = words(html.match(/<h1>([\s\S]*?)<\/h1>/)[1]);
+    const opening = prose.replace(/<figure>[\s\S]*?<\/figure>/g, '').trim().match(/^<h[1-6]>([\s\S]*?)<\/h[1-6]>/)?.[1];
+    assert.ok(opening === undefined || words(opening) !== title, `${file}: the body opens by repeating the title`);
+
+    for (const [, heading] of prose.matchAll(/<h[1-6]>([\s\S]*?)<\/h[1-6]>/g)) {
+      assert.ok(words(heading), `${file}: decorative heading ${heading}`);
+    }
+    for (const [, para] of prose.matchAll(/<p>([\s\S]*?)<\/p>/g)) {
+      assert.ok(!/^<a [^>]*>Sebastian (Selman|Rappen)<\/a>$/.test(para.trim()), `${file}: stray author line`);
+    }
+    for (const [, item] of prose.matchAll(/<li>([\s\S]*?)<\/li>/g)) {
+      assert.ok(!/^\d[A-Z]/.test(item.replace(/<[^>]+>/g, '').trim()), `${file}: stray digit in list item: ${item.slice(0, 40)}`);
+    }
+  }
+});
+
 test('home page: no Reading section, early roles gone, certifications tiered', async () => {
   const html = await readFile(path.join(out, 'index.html'), 'utf8');
   assert.ok(!/id="reading"/.test(html) && !/href="\/#reading"/.test(html), 'Reading section or nav');

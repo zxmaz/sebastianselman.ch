@@ -15,10 +15,6 @@ description: "How could a small people’s knowledge center in the Sundarbans re
 ---
 ![Here is a real-life business challenge](/assets/img/here-real-life-business-challenge-sebastian-rappen-e4a6b61f96.jpg)
 
-# Here is a real-life business challenge
-
-[Sebastian Selman](https://ch.linkedin.com/in/humancentereddesign)
-
 If you were to help a small "people’s knowledge center" on the islands of the Ganges delta to reimagine their business-model: **What would be your suggestion?** Put down your ideas in the comments. I will randomly pick somebody amongst all of you who contribute and send you a glass of Sundarban [honey](https://amarkhamar.com/product-details?id=dnhUNTRkZmI4NzZkZjU3OTZERlZrajR4NTc0NTZ5), which is being produced in exactly that "people’s knowledge center".
 
 As part of my trip to India I had the pleasure to sit together with the [SOCEO](https://www.linkedin.com/company/soceo/) India team and discuss with them how Human Cented Design and Design Thinking could help them in their different projects. We covered topics ranging from deforrestation & drinking-water-scarcity to reducing plastic waste and improving the menstrual hygiene amongst women in rural areas. The topic we discussed last led to a small ideation session - and because I enjoyed the discussion so thoroughly I thought it would be brilliant to open up the discussion to the community here on LinkedIn:

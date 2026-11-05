@@ -52,12 +52,12 @@ The following questions and the below graphic provide guidance to program execut
 
 Therefore the following questions can be posed to the program leadership:
 
-1. 1Are users actively involved in creating and validating the challenge?
-2. 2Are you and the process open for solutions currently unknown to you?
-3. 3Do you test previously defined hypotheses with your prototypes?
-4. 4Is user feedback driving decision making along the process?
-5. 5Do you allow negative feedback to kill your darlings?
-6. 6Are you iterating to fit your solution to your problem?
+1. Are users actively involved in creating and validating the challenge?
+2. Are you and the process open for solutions currently unknown to you?
+3. Do you test previously defined hypotheses with your prototypes?
+4. Is user feedback driving decision making along the process?
+5. Do you allow negative feedback to kill your darlings?
+6. Are you iterating to fit your solution to your problem?
 
 **For a team working based on Design Thinking, the answer to all of the above questions should be “yes”.**If not – you may be running a successful project, but – you are not doing design thinking and there is a high risk, that you are wasting time & effort on what I call design-sinking.
 
