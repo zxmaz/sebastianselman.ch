@@ -564,6 +564,22 @@ function inviteSection(profile) {
  */
 const isPast = (a) => a.status === 'past' || (a.date_end ?? a.date) < TODAY;
 
+const isTeamsEvent = (url) => {
+  try { return new URL(url).hostname === 'events.teams.microsoft.com'; } catch { return false; }
+};
+
+/**
+ * An activity's title, linked where the link still leads somewhere. A Teams
+ * event page goes dead after the event, so a past one renders as plain text and
+ * the nightly rebuild drops the link by itself; the URL stays in activities.json.
+ * `recap`, an on-site path, wins over `url` at any date.
+ */
+function activityTitle(a) {
+  if (a.recap) return `<a href="${esc(u(a.recap))}">${esc(a.title)}</a>`;
+  if (!a.url || (isPast(a) && isTeamsEvent(a.url))) return esc(a.title);
+  return `<a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>`;
+}
+
 function nowSection(activities, showTentative) {
   const visible = activities.filter(a =>
     a.status !== 'tentative' || showTentative);
@@ -582,7 +598,7 @@ function nowSection(activities, showTentative) {
         ${a.status === 'tentative' ? '<span class="badge">tentative</span>' : ''}
       </div>
       <div class="what">
-        <h3>${a.url ? `<a href="${esc(a.url)}" target="_blank" rel="noopener">${esc(a.title)}</a>` : esc(a.title)}</h3>
+        <h3>${activityTitle(a)}</h3>
         <p class="venue">${esc(a.venue)}</p>
         ${a.blurb ? `<p class="blurb">${inline(a.blurb)}</p>` : ''}
       </div>

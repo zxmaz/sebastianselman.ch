@@ -38,7 +38,8 @@ Order in the file doesn't matter — entries sort themselves by date.
 | `date` | `YYYY-MM-DD`. Drives sorting and the "Previously" split. |
 | `date_end` | Optional. `YYYY-MM-DD`, last day of a multi-day event. The card shows the range ("20–21 October 2026") and the entry stays upcoming until this date has passed. |
 | `kind` | `talk`, `workshop`, `session`, `podcast` or `attending`. `attending` is for events you go to but don't speak at — labelled *Attending*, never *Talk*. |
-| `url` | Link to the programme, write-up or recording. `null` if there isn't one. |
+| `url` | Link to the programme, write-up or recording. `null` if there isn't one. A Teams event page goes dead after the event, so a past activity on `events.teams.microsoft.com` shows its title without a link; the nightly rebuild does this by itself. Leave the URL in the file. |
+| `recap` | Optional. An on-site path such as `/articles/my-recap/`. The title links there instead of to `url`, even once the activity is past. |
 | `status` | `confirmed`, `tentative` or `past`. **See below.** |
 | `blurb` | Optional. Markdown links and `**bold**` work. |
 
@@ -296,10 +297,10 @@ node --test
 `test/build.test.mjs` builds into a temp directory (never `docs/`) and checks
 every page: one parseable JSON-LD block, `lang`, no LinkedIn redirect links or
 raw `[[n]]` citations, title and description lengths, share tags, the sitemap,
-the 404 page and the favicon. A second build on a temp copy of `content/`
-checks that the offer line, the Invite section, the events, a stub episode and
-podcast platform links render from data
-alone. `test/sync-episodes.test.mjs` covers the episode sync.
+the 404 page, the favicon and no capture artefacts in article bodies. A second
+build on a temp copy of `content/` checks that the offer line, the Invite
+section, the events, activity links, a stub episode and podcast platform links
+render from data alone. `test/sync-episodes.test.mjs` covers the episode sync.
 
 After adding large images:
 

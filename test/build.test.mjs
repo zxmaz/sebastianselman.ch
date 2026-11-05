@@ -34,6 +34,11 @@ let tmp, out, fixtureOut;
 const STUB = { id: 'StubEp_1234', title: 'Ask Me Anything & Nothing: Estera\'s "Take" — Live',
                slug: 'ask-me-anything-nothing-esteras-take-live' };
 
+/** Fixture Teams event pages, which go dead after the event. */
+const TEAMS_EVENTS = 'https://events.teams.microsoft.com/event/';
+const TEAMS = { past: `${TEAMS_EVENTS}fixture-past`, upcoming: `${TEAMS_EVENTS}fixture-upcoming`,
+                recapped: `${TEAMS_EVENTS}fixture-recapped` };
+
 const run = (args) => new Promise((resolve, reject) => {
   execFile(process.execPath, [BUILD, ...args], { cwd: ROOT }, (err, stdout, stderr) =>
     err ? reject(Object.assign(err, { stdout, stderr })) : resolve({ stdout, stderr }));
@@ -126,6 +131,14 @@ before(async () => {
       venue: 'Somewhere', url: null, status: 'tentative' },
     { date: '2000-01-01', title: 'Fixture Past Talk', kind: 'talk',
       venue: 'Somewhere', url: null, status: 'confirmed' },
+    { date: '2000-02-01', title: 'Fixture Past Teams', kind: 'session',
+      venue: 'Online — Teams', url: TEAMS.past, status: 'confirmed' },
+    { date: '2099-07-01', title: 'Fixture Upcoming Teams', kind: 'attending',
+      venue: 'Online — Teams', url: TEAMS.upcoming, status: 'confirmed' },
+    { date: '2000-03-01', title: 'Fixture Past Teams With Recap', kind: 'session',
+      venue: 'Online — Teams', url: TEAMS.recapped, recap: '/articles/fixture-recap/', status: 'confirmed' },
+    { date: '2000-04-01', title: 'Fixture Past Luma', kind: 'session',
+      venue: 'Somewhere', url: 'https://luma.com/fixture', status: 'confirmed' },
   ];
   await writeFile(path.join(content, 'activities.json'), JSON.stringify(fixtureActivities, null, 2));
   fixtureOut = path.join(tmp, 'fixture-site');
@@ -440,6 +453,45 @@ test('events: talks and sessions only, upcoming and confirmed, Zurich time', asy
   assert.equal(podcast.url, `${SITE}/podcast/`);
   assert.deepEqual(podcast.sameAs, ['https://www.youtube.com/playlist?list=PL053kgqQv_fv9K7qPqv84G-rlbudzubzp',
     'https://open.spotify.com/show/fixture', 'https://podcasts.apple.com/podcast/fixture']);
+});
+
+test('activity links: a past Teams link is dropped, an upcoming one stays, recap wins, other past links stay', async () => {
+  const html = await readFile(path.join(fixtureOut, 'index.html'), 'utf8');
+  assert.ok(html.includes('<h3>Fixture Past Teams</h3>'), 'past Teams title is plain text');
+  assert.ok(!html.includes(TEAMS.past), 'past Teams URL is nowhere on the page');
+  assert.ok(html.includes(`<h3><a href="${TEAMS.upcoming}" target="_blank" rel="noopener">Fixture Upcoming Teams</a></h3>`), 'upcoming Teams link');
+  assert.ok(html.includes('<h3><a href="/articles/fixture-recap/">Fixture Past Teams With Recap</a></h3>'), 'recap link, same tab');
+  assert.ok(!html.includes(TEAMS.recapped), 'recap replaces the Teams URL');
+  assert.ok(html.includes('<h3><a href="https://luma.com/fixture" target="_blank" rel="noopener">Fixture Past Luma</a></h3>'), 'past non-Teams link');
+});
+
+test('activity links: the real Teams links follow the date, including the rebuild after the event', async () => {
+  const activities = JSON.parse(await readFile(path.join(CONTENT, 'activities.json'), 'utf8'));
+  const nov3 = activities.find(a => a.date === '2026-11-03').url;
+  const nov10 = activities.find(a => a.date === '2026-11-10').url;
+  const home = async (today) => {
+    const dir = path.join(tmp, `today-${today}`);
+    await run(['--out', dir, '--today', today]);
+    return readFile(path.join(dir, 'index.html'), 'utf8');
+  };
+  const before = await home('2026-11-05');
+  assert.ok(!before.includes(nov3), '3 Nov link gone by 5 Nov');
+  assert.ok(before.includes(`href="${nov10}"`), '10 Nov link there on 5 Nov');
+  assert.ok((await home('2026-11-10')).includes(`href="${nov10}"`), '10 Nov link stays through its day');
+  const afterwards = await home('2026-11-11');
+  assert.ok(!afterwards.includes(nov10), '10 Nov link gone on 11 Nov');
+  assert.ok(afterwards.includes('<h3>SAP Data in Microsoft Fabric: Choosing an Integration Route That Lasts</h3>'), 'title stays, as plain text');
+});
+
+test('activity links: no page of today\'s build links a Teams event that has passed', async () => {
+  const activities = JSON.parse(await readFile(path.join(CONTENT, 'activities.json'), 'utf8'));
+  const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Zurich' }).format(new Date());
+  const live = new Set(activities.filter(a => (a.date_end ?? a.date) >= today && a.status !== 'past').map(a => a.url));
+  for (const { file, html } of await pages(out)) {
+    for (const [url] of html.matchAll(/https:\/\/events\.teams\.microsoft\.com\/[^"\s<]+/g)) {
+      assert.ok(live.has(url), `${file}: dead Teams link ${url}`);
+    }
+  }
 });
 
 test('--out refuses to wipe a directory that is not a previous build', async () => {
