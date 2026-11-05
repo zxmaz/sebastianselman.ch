@@ -66,7 +66,8 @@ a:hover { text-decoration-color: var(--accent); }
 }
 #theme:hover { border-color: var(--accent); color: var(--accent); }
 :root[data-theme="light"] .moon, :root[data-theme="dark"] .sun { display: none; }
-@media (max-width: 620px) {
+/* The wordmark, six nav items and the theme button share a line from 768 px up. */
+@media (max-width: 767px) {
   .topbar { gap: .75rem; flex-wrap: wrap; }
   .topbar nav { width: 100%; order: 3; margin-left: 0; gap: .45rem 1rem;
                 flex-wrap: wrap; padding-bottom: .15rem; }

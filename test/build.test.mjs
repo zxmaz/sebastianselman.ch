@@ -418,6 +418,18 @@ test('home page: the Invite section sits between Projects and Writing, with a pr
   const href = `mailto:${profile.email}?subject=${encodeURIComponent(profile.invite.button.subject)}`;
   assert.ok(invite.includes(`href="${href}"`), `button links ${href}`);
   assert.ok(html.includes(`<p class="offer">`), 'offer line');
+  assert.match(html, /href="\/#projects">Projects<\/a>\s*<a href="\/#invite">Invite<\/a>\s*<a href="\/#writing">/, 'nav order');
+});
+
+test('the contact address is hello@ everywhere', async () => {
+  const home = await readFile(path.join(out, 'index.html'), 'utf8');
+  assert.ok(home.includes('href="mailto:hello@sebastianselman.ch?subject=Invitation%20via%20sebastianselman.ch"'), 'Invite button');
+  assert.ok(home.includes('href="mailto:hello@sebastianselman.ch">Email'), 'Email link');
+  for (const file of await walk(out)) {
+    if (!/\.(html|xml|txt|css)$/.test(file)) continue;
+    const text = await readFile(path.join(out, file), 'utf8');
+    assert.ok(!/sebastianrappen@gmail/i.test(text), `${file}: old address`);
+  }
 });
 
 // ── data-driven parts, on fixture content ──────────────────────────────────
