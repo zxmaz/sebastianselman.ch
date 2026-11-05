@@ -351,3 +351,8 @@ Two pairs are deliberately not what they look like:
 
 Earlier work carries the **Sebastian Rappen** byline, which the site shows
 explicitly rather than quietly rewriting.
+
+An image's alt text shows as its caption. The build ignores alt text left by
+the capture, so those images get `alt=""` and no caption: "Article content",
+"No alt text provided for this image", and the article's own title. The article
+files keep it as captured. Any other alt text is a real caption.

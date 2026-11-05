@@ -141,6 +141,15 @@ before(async () => {
       venue: 'Somewhere', url: 'https://luma.com/fixture', status: 'confirmed' },
   ];
   await writeFile(path.join(content, 'activities.json'), JSON.stringify(fixtureActivities, null, 2));
+  await writeFile(path.join(content, 'articles', 'fixture-captions.md'), [
+    '---', 'title: "Fixture: Captions & Alts"', 'slug: fixture-captions', 'date: 2000-01-01', 'origin: limmatreframe', '---',
+    '![fixture captions alts](/assets/img/fixture-title.jpg)', '',
+    'A paragraph long enough to serve as the description of this fixture article.', '',
+    '![Article content](/assets/img/fixture-placeholder.jpg)', '',
+    '![No alt text provided for this image](/assets/img/fixture-none.jpg)', '',
+    'Text around an ![Article content](/assets/img/fixture-inline.jpg) inline image.', '',
+    '![A real caption](/assets/img/fixture-real.jpg)', '',
+  ].join('\n'));
   fixtureOut = path.join(tmp, 'fixture-site');
   await run(['--content', content, '--out', fixtureOut, '--today', '2050-01-01']);
 });
@@ -386,6 +395,32 @@ test('article bodies carry no capture artefacts', async () => {
       assert.ok(!/^\d[A-Z]/.test(item.replace(/<[^>]+>/g, '').trim()), `${file}: stray digit in list item: ${item.slice(0, 40)}`);
     }
   }
+});
+
+test('article images: capture residue gets alt="" and no caption, real captions stay', async () => {
+  const residue = /Article content|No alt text provided for this image/;
+  const words = (s) => decode(s.replace(/<[^>]+>/g, '')).replace(/[^\p{L}\p{N}]+/gu, ' ').trim().toLowerCase();
+  const captions = {};
+  for (const { file, html } of await pages(out)) {
+    if (!/^articles\/[^/]+\//.test(file)) continue;
+    assert.ok(!residue.test(html), `${file}: placeholder alt text`);
+    const title = words(html.match(/<h1>([\s\S]*?)<\/h1>/)[1]);
+    captions[file] = [...html.matchAll(/<figcaption>([\s\S]*?)<\/figcaption>/g)].map(m => m[1]);
+    for (const c of captions[file]) assert.notEqual(words(c), title, `${file}: caption repeats the title`);
+    assert.ok(![...html.matchAll(/<img [^>]*alt="([^"]+)"/g)].some(m => words(m[1]) === title), `${file}: alt repeats the title`);
+  }
+  assert.deepEqual(captions['articles/here-real-life-business-challenge-sebastian-rappen/index.html'],
+    ['Indigineous rice varieties being prepped for germination'], 'real caption, business challenge');
+  assert.deepEqual(captions['articles/thinking-outside-the-box-scares-people/index.html'],
+    ['Where the magic happens'], 'real caption, heroes and fools');
+
+  const fixture = await readFile(path.join(fixtureOut, 'articles', 'fixture-captions', 'index.html'), 'utf8');
+  for (const name of ['fixture-title', 'fixture-placeholder', 'fixture-none']) {
+    assert.ok(fixture.includes(`<figure><img src="/assets/img/${name}.jpg" alt="" loading="lazy"></figure>`), name);
+  }
+  assert.ok(fixture.includes('<img src="/assets/img/fixture-inline.jpg" alt="" loading="lazy">'), 'inline image');
+  assert.ok(fixture.includes('<figure><img src="/assets/img/fixture-real.jpg" alt="A real caption" loading="lazy">' +
+    '<figcaption>A real caption</figcaption></figure>'), 'real caption');
 });
 
 test('home page: no Reading section, early roles gone, certifications tiered', async () => {

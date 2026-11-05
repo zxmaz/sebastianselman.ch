@@ -270,6 +270,19 @@ function md2html(md, top = topHeading(md)) {
   return out.join('\n');
 }
 
+/**
+ * md2html shows an image's alt text as its caption, and the captures left alt
+ * text that describes nothing: LinkedIn's placeholders, or the article's own
+ * title. Those images get alt="" and no caption; real captions stay.
+ */
+const PLACEHOLDER_ALTS = ['Article content', 'No alt text provided for this image'];
+
+function dropCaptureAlts(md, title) {
+  const words = (s) => String(s).replace(/[^\p{L}\p{N}]+/gu, ' ').trim().toLowerCase();
+  const residue = new Set([...PLACEHOLDER_ALTS, title].map(words));
+  return String(md).replace(/!\[([^\]]*)\]\(/g, (all, alt) => residue.has(words(alt)) ? '![](' : all);
+}
+
 /** Shallowest Markdown heading level in a body (1–6); 1 when there are none. */
 function topHeading(md) {
   let min = 7, fenced = false;
@@ -914,7 +927,7 @@ function articlePage(doc, docs, profile) {
   </header>
   ${variant}
   <div class="prose">
-${md2html(doc.body)}
+${md2html(dropCaptureAlts(doc.body, doc.meta.title))}
   </div>
   <p class="back"${en}><a href="${u('/articles/')}">← All articles</a></p>
 </article>`;
