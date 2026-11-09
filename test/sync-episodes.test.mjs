@@ -120,10 +120,14 @@ async function copy() {
   return file;
 }
 
-/** Run the script; resolves with its exit code and output, never rejects. */
+/**
+ * Run the script; resolves with its exit code and output, never rejects.
+ * An object as the first argument adds environment variables.
+ */
 function sync(...args) {
   const env = { ...process.env };
   delete env.GITHUB_ACTIONS;                // plain warnings, not annotations
+  if (typeof args[0] === 'object') Object.assign(env, args.shift());
   return new Promise(resolve => execFile(process.execPath, [SCRIPT, ...args],
     { env, timeout: 30000 },
     (err, stdout, stderr) => resolve({ code: err ? err.code : 0, stdout, stderr })));
@@ -199,6 +203,62 @@ test('a broken feed exits 0 and leaves projects.json byte-identical', async (t) 
       await assertUntouched(file, mtime);
     });
   }
+});
+
+test('repeated skips: quiet at first, the check fails from the third in a row, a good sync clears it', async () => {
+  const file = await copy();
+  const skips = path.join(dir, `skips-${++n}`);
+  const broken = ['--feed', `${base}/500`, '--file', file, '--skips-file', skips];
+  const count = async () => (await readFile(skips, 'utf8')).trim();
+  const mtime = (await stat(file)).mtimeMs;
+
+  assert.equal((await sync('--check-skips', skips)).code, 0, 'no count yet is no alert');
+  for (const night of [1, 2]) {
+    assert.equal((await sync(...broken)).code, 0, 'a skipped sync never fails its own step');
+    assert.equal(await count(), String(night));
+    assert.equal((await sync('--check-skips', skips)).code, 0, `no alert after ${night}`);
+  }
+
+  assert.equal((await sync(...broken)).code, 0);
+  assert.equal(await count(), '3');
+  await assertUntouched(file, mtime);
+  const alert = await sync('--check-skips', skips);
+  assert.equal(alert.code, 1, 'the run goes red on the third');
+  assert.match(alert.stdout, /skipped 3 runs in a row/);
+  const onGitHub = await sync({ GITHUB_ACTIONS: 'true' }, '--check-skips', skips);
+  assert.equal(onGitHub.code, 1);
+  assert.match(onGitHub.stdout, /^::error title=Episode sync::/);
+
+  assert.equal((await sync('--feed', `${base}/none`, '--file', file, '--skips-file', skips)).code, 0);
+  assert.equal(await count(), '0', 'one good sync clears the count');
+  assert.equal((await sync('--check-skips', skips)).code, 0);
+  assert.deepEqual(await readFile(file), original);
+});
+
+test('repeated skips: a killed run counts, a dry run and a run without --skips-file do not', async () => {
+  const file = await copy();
+  const skips = path.join(dir, `skips-${++n}`);
+  await new Promise(resolve => execFile(process.execPath,
+    [SCRIPT, '--feed', `${base}/hang`, '--file', file, '--skips-file', skips, '--timeout', '20000'],
+    { timeout: 1000 }, resolve));
+  assert.equal((await readFile(skips, 'utf8')).trim(), '1', 'counted before the attempt');
+
+  await sync('--dry-run', '--feed', `${base}/500`, '--file', file, '--skips-file', skips);
+  assert.equal((await readFile(skips, 'utf8')).trim(), '1', 'dry run leaves the count alone');
+  await sync('--feed', `${base}/500`, '--file', file);
+  assert.equal((await readFile(skips, 'utf8')).trim(), '1', 'no --skips-file, no counting');
+});
+
+test('rebuild workflow: the alert is the last step and the sync still cannot stop the build', async () => {
+  const yml = await readFile(path.join(ROOT, '.github', 'workflows', 'rebuild.yml'), 'utf8');
+  const at = (s) => { const i = yml.indexOf(s); assert.ok(i >= 0, `${s} missing`); return i; };
+  const steps = ['run: node sync-episodes.mjs --skips-file .sync-skips', 'run: node build.mjs',
+    'git push', 'cache/save', 'run: node sync-episodes.mjs --check-skips .sync-skips'].map(at);
+  assert.deepEqual(steps, steps.slice().sort((a, b) => a - b), `step order ${steps}`);
+  const syncStep = yml.slice(steps[0], yml.indexOf('- run: node build.mjs'));
+  assert.match(syncStep, /continue-on-error: true/);
+  assert.match(syncStep, /timeout-minutes:/);
+  assert.equal(yml.slice(steps[4]).trim().split('\n').length, 1, 'nothing runs after the check');
 });
 
 test('a feed with no new episodes writes nothing', async () => {

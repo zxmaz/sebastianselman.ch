@@ -79,6 +79,15 @@ node sync-episodes.mjs             # add new episodes to content/projects.json
 - If YouTube is down or the feed changes shape, the sync prints a warning, leaves
   the file alone and the rebuild carries on. On GitHub the warning shows on the
   run's summary page.
+- **A sync that keeps failing turns the run red.** A single skipped night stays a
+  warning. From the third skipped run in a row, the workflow's last step fails,
+  after the site has been built and pushed, so a red run never costs a deploy.
+  It stays red every night until a sync works again, which resets the count.
+  GitHub tells you about the failed run by email or on the web, according to your
+  notification settings (*Settings → Notifications → System → Actions*); check
+  that notifications for failed workflows are switched on. The count is the
+  `.sync-skips` file in the Actions cache. If that cache is cleared, the count
+  starts over.
 
 New entries get the Zurich publish date, the title without the
 " | Business Mission Control" suffix YouTube puts on some of them, and a

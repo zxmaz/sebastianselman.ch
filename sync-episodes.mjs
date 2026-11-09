@@ -14,13 +14,18 @@
 //   node sync-episodes.mjs              add new episodes, write the file if any
 //   node sync-episodes.mjs --dry-run    print what would be added, write nothing
 //
+// The nightly workflow adds two more, to catch a sync that keeps failing:
+//   --skips-file <path>   count this run in the file; a successful sync resets it
+//   --check-skips <path>  exit 1 once the file says ALERT_AFTER runs in a row
+//
 // For the tests, never the nightly job:
 //   --feed <url>  --file <path>  --timeout <ms>
 //
 // The nightly workflow runs this before `node build.mjs`, which stays offline:
 // the network lives here and only here. A sync problem must never cost the
 // rebuild, so every failure — feed down, slow, changed shape, even a bug in this
-// file — prints a warning, leaves projects.json byte-identical and exits 0.
+// file — prints a warning, leaves projects.json byte-identical and exits 0. Only
+// --check-skips can exit 1, and the workflow runs it last, after the push.
 
 import { readFile, writeFile, rename, rm } from 'node:fs/promises';
 import path from 'node:path';
@@ -29,6 +34,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const PROJECT = 'Business Mission Control';
 const PLAYLIST = 'PL053kgqQv_fv9K7qPqv84G-rlbudzubzp';
+const ALERT_AFTER = 3;
 
 /** Expected failures: reported as a plain warning, no stack trace. */
 class Skip extends Error {}
@@ -48,15 +54,19 @@ function parseArgs(argv) {
     feed: `https://www.youtube.com/feeds/videos.xml?playlist_id=${PLAYLIST}`,
     file: path.join(ROOT, 'content', 'projects.json'),
     timeout: 15000,
+    skipsFile: null,
+    checkSkips: null,
   };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--dry-run') { opts.dryRun = true; continue; }
-    if (['--feed', '--file', '--timeout'].includes(a) && argv[i + 1] !== undefined) {
+    if (['--feed', '--file', '--timeout', '--skips-file', '--check-skips'].includes(a) && argv[i + 1] !== undefined) {
       const v = argv[++i];
       if (a === '--feed') opts.feed = v;
       else if (a === '--file') opts.file = path.resolve(v);
-      else opts.timeout = Number(v);
+      else if (a === '--timeout') opts.timeout = Number(v);
+      else if (a === '--skips-file') opts.skipsFile = path.resolve(v);
+      else opts.checkSkips = path.resolve(v);
       continue;
     }
     // Refuse rather than guess: a mistyped "--dryrun" must not write.
@@ -282,8 +292,35 @@ function insertEpisodes(raw, data, fresh, rel) {
 
 // ── main ───────────────────────────────────────────────────────────────────
 
+/** The count in a --skips-file. A missing or unreadable file counts as zero. */
+const readSkips = (file) => readFile(file, 'utf8').then(s => Number.parseInt(s, 10) || 0, () => 0);
+
+/** --check-skips: exit 1 once the sync has been skipped ALERT_AFTER runs in a row. */
+async function checkSkips(file) {
+  const n = await readSkips(file);
+  if (n < ALERT_AFTER) {
+    console.log(`sync   ${n} skipped in a row, alert at ${ALERT_AFTER}`);
+    return;
+  }
+  const msg = `Episode sync skipped ${n} runs in a row, so new episodes are not reaching the site. ` +
+    `The warning on this run says why.`;
+  console.log(process.env.GITHUB_ACTIONS === 'true' ? `::error title=Episode sync::${msg}` : `  ! ${msg}`);
+  process.exitCode = 1;
+}
+
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
+  if (opts.checkSkips) return checkSkips(opts.checkSkips);
+
+  // Counted up before the attempt and cleared only after it succeeds, so a run
+  // that crashes or is killed by the step timeout still counts as skipped.
+  const counting = opts.skipsFile && !opts.dryRun;
+  if (counting) await writeFile(opts.skipsFile, `${await readSkips(opts.skipsFile) + 1}\n`, 'utf8');
+  await sync(opts);
+  if (counting) await writeFile(opts.skipsFile, '0\n', 'utf8');
+}
+
+async function sync(opts) {
   const rel = path.relative(process.cwd(), opts.file) || opts.file;
 
   const raw = await readFile(opts.file, 'utf8')

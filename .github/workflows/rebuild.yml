@@ -3,7 +3,8 @@
 # passes (build.mjs computes "today" in Europe/Zurich), and the CV tenure
 # months tick over. Before building, new Business Mission Control episodes
 # are pulled from the YouTube playlist into content/projects.json. Commits
-# only when the content or the generated output actually changed.
+# only when the content or the generated output actually changed. A sync
+# skipped three runs in a row turns the run red, after the push.
 name: Daily rebuild
 
 on:
@@ -24,12 +25,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Restore the count of skipped syncs
+        # Cache entries can't be overwritten, so each run saves its own and the
+        # next run restores the newest through the prefix.
+        uses: actions/cache/restore@v4
+        with:
+          path: .sync-skips
+          key: sync-skips-${{ github.run_id }}
+          restore-keys: sync-skips-
       - name: Sync podcast episodes from the playlist feed
         # The script already exits 0 on any feed problem and leaves the file
         # untouched; continue-on-error and the timeout are the backstop. A
         # YouTube outage can only ever cost tonight's new episodes, never the
-        # rebuild. Problems show as a warning on the run's summary page.
-        run: node sync-episodes.mjs
+        # rebuild. A skipped sync shows as a warning on the run's summary page
+        # and adds one to .sync-skips; a sync that works sets it back to 0.
+        run: node sync-episodes.mjs --skips-file .sync-skips
         continue-on-error: true
         timeout-minutes: 2
       - run: node build.mjs
@@ -48,3 +58,14 @@ jobs:
           git add -A
           git commit -m "$msg"
           git push
+      - name: Save the count of skipped syncs
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .sync-skips
+          key: sync-skips-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Fail the run if the sync keeps being skipped
+        # Last on purpose: the site is already built and pushed, so a red run
+        # here costs nothing. It turns red from the third skipped run in a row
+        # until a sync works again, and GitHub notifies about failed runs.
+        run: node sync-episodes.mjs --check-skips .sync-skips
