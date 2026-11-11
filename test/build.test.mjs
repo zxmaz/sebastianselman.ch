@@ -514,20 +514,45 @@ test('activity links: a past Teams link is dropped, an upcoming one stays, recap
 
 test('activity links: the real Teams links follow the date, including the rebuild after the event', async () => {
   const activities = JSON.parse(await readFile(path.join(CONTENT, 'activities.json'), 'utf8'));
-  const nov3 = activities.find(a => a.date === '2026-11-03').url;
   const nov10 = activities.find(a => a.date === '2026-11-10').url;
+  const nov17 = activities.find(a => a.date === '2026-11-17').url;
   const home = async (today) => {
     const dir = path.join(tmp, `today-${today}`);
     await run(['--out', dir, '--today', today]);
     return readFile(path.join(dir, 'index.html'), 'utf8');
   };
   const before = await home('2026-11-05');
-  assert.ok(!before.includes(nov3), '3 Nov link gone by 5 Nov');
   assert.ok(before.includes(`href="${nov10}"`), '10 Nov link there on 5 Nov');
+  assert.ok(before.includes(`href="${nov17}"`), '17 Nov link there on 5 Nov');
   assert.ok((await home('2026-11-10')).includes(`href="${nov10}"`), '10 Nov link stays through its day');
   const afterwards = await home('2026-11-11');
   assert.ok(!afterwards.includes(nov10), '10 Nov link gone on 11 Nov');
   assert.ok(afterwards.includes('<h3>SAP Data in Microsoft Fabric: Choosing an Integration Route That Lasts</h3>'), 'title stays, as plain text');
+  assert.ok((await home('2026-11-17')).includes(`href="${nov17}"`), '17 Nov link stays through its day');
+  const after17 = await home('2026-11-18');
+  assert.ok(!after17.includes(nov17), '17 Nov link gone on 18 Nov');
+  assert.ok(after17.includes('<h3>Same Event, Half the Grind: Event Management with Alibaba Cloud AI</h3>'), 'title stays, as plain text');
+});
+
+test('activity cards: the time shows while upcoming, with its end time if there is one', async () => {
+  const activities = JSON.parse(await readFile(path.join(CONTENT, 'activities.json'), 'utf8'));
+  const webinar = activities.find(a => a.url?.includes('cbd838dc'));
+  assert.deepEqual([webinar.date, webinar.time, webinar.time_end], ['2026-11-17', '10:30', '11:30']);
+  const dir = path.join(tmp, 'today-card-times');
+  await run(['--out', dir, '--today', '2026-11-09']);
+  const html = await readFile(path.join(dir, 'index.html'), 'utf8');
+  const title = html.indexOf('Same Event, Half the Grind', html.indexOf('<section id="now">'));
+  const card = html.slice(html.lastIndexOf('<li class="activity', title), title);
+  assert.match(card, /<span class="day">17 November 2026<\/span>\s*<span class="day">10:30–11:30<\/span>/, 'date and time range on the card');
+  assert.ok(title < html.indexOf('>Previously<'), 'listed under upcoming');
+  const graph = graphOf(html);
+  const event = graph.find(n => n['@type'] === 'Event' && n.name.startsWith('Same Event'));
+  assert.equal(event.startDate, '2026-11-17T10:30:00+01:00');
+  assert.equal(event.endDate, '2026-11-17T11:30:00+01:00');
+  const later = path.join(tmp, 'today-card-times-past');
+  await run(['--out', later, '--today', '2026-11-18']);
+  const past = await readFile(path.join(later, 'index.html'), 'utf8');
+  assert.ok(!past.includes('10:30–11:30'), 'no time on a past card');
 });
 
 test('activity links: no page of today\'s build links a Teams event that has passed', async () => {

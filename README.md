@@ -37,6 +37,7 @@ Order in the file doesn't matter — entries sort themselves by date.
 |---|---|
 | `date` | `YYYY-MM-DD`. Drives sorting and the "Previously" split. |
 | `date_end` | Optional. `YYYY-MM-DD`, last day of a multi-day event. The card shows the range ("20–21 October 2026") and the entry stays upcoming until this date has passed. |
+| `time`, `time_end` | Optional. `HH:MM`, Zurich time. Shown on the card while the activity is upcoming ("10:30–11:30"), and in the structured data. |
 | `kind` | `talk`, `workshop`, `session`, `podcast` or `attending`. `attending` is for events you go to but don't speak at — labelled *Attending*, never *Talk*. |
 | `url` | Link to the programme, write-up or recording. `null` if there isn't one. A Teams event page goes dead after the event, so a past activity on `events.teams.microsoft.com` shows its title without a link; the nightly rebuild does this by itself. Leave the URL in the file. |
 | `recap` | Optional. An on-site path such as `/articles/my-recap/`. The title links there instead of to `url`, even once the activity is past. |

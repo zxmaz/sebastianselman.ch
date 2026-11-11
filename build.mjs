@@ -606,7 +606,8 @@ function nowSection(activities, showTentative) {
   const card = (a) => `
     <li class="activity${isPast(a) ? ' past' : ''}">
       <div class="when">
-        <span class="day">${esc(humanRange(a.date, a.date_end))}</span>
+        <span class="day">${esc(humanRange(a.date, a.date_end))}</span>${a.time && !isPast(a) ? `
+        <span class="day">${esc(a.time_end ? `${a.time}–${a.time_end}` : a.time)}</span>` : ''}
         <span class="kind">${esc(KIND_LABEL[a.kind] || a.kind)}</span>
         ${a.status === 'tentative' ? '<span class="badge">tentative</span>' : ''}
       </div>

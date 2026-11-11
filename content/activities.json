@@ -18,14 +18,15 @@
     "blurb": "Every route from SAP into Microsoft Fabric on one map, rated for compliance, cost and readiness. I host; Markus Heinen and Bartosz Kłos make up the panel. One live hour, in English."
   },
   {
-    "date": "2026-11-03",
+    "date": "2026-11-17",
     "title": "Same Event, Half the Grind: Event Management with Alibaba Cloud AI",
     "kind": "session",
     "venue": "Online — Microsoft Teams webinar",
     "time": "10:30",
+    "time_end": "11:30",
     "url": "https://events.teams.microsoft.com/event/cbd838dc-21e9-4d7b-a58a-13430049e48a@c43808a1-6b83-4d5a-b474-063fc2b52d43",
     "status": "confirmed",
-    "blurb": "One 1,500-attendee conference run through the full event cycle twice, the way it runs today and the way it runs with AI, with live demos. Co-presented with Nico Bühler of Alibaba Cloud."
+    "blurb": "One 1,500-attendee conference run through the full event cycle twice, the way it runs today and the way it runs with AI, with live demos. Co-presented with Nico Bühler of Alibaba Cloud. Everyone who registers gets our event skill library afterwards: ten ready-to-use playbooks for AI agents. Free, one hour, in English."
   },
   {
     "date": "2026-10-20",
