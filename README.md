@@ -60,9 +60,16 @@ the individual entries instead.
 ## Podcast episodes
 
 The *Business Mission Control* episode list in `content/projects.json` keeps
-itself current. Every night the rebuild workflow runs `sync-episodes.mjs`, which
+itself current. Every day the rebuild workflow runs `sync-episodes.mjs`, which
 reads the YouTube playlist feed and adds any episode the list doesn't have yet,
 newest first, then the build and commit run as usual.
+
+The sync runs on its own schedule, 13:17 UTC (GitHub often starts it an hour or
+more late), not with the rebuild after midnight. YouTube's feed answers
+"404 Not Found" through most of the night, from about 23:40 to past 04:30 UTC,
+and the nightly run lands right in that window. Episodes go out around midday,
+so a new one appears the same afternoon. A manual run (*Run workflow* on the
+Actions tab) syncs too.
 
 To run it yourself:
 
@@ -75,14 +82,15 @@ node sync-episodes.mjs             # add new episodes to content/projects.json
   is already listed is never overwritten or removed, so hand edits stick: tidy a
   title or fix a date and it stays that way.
 - **To drop an episode**, remove it from the playlist first, then delete its line
-  from `projects.json`. Otherwise the next nightly sync adds it straight back.
+  from `projects.json`. Otherwise the next sync adds it straight back.
 - If YouTube is down or the feed changes shape, the sync prints a warning, leaves
   the file alone and the rebuild carries on. On GitHub the warning shows on the
   run's summary page.
-- **A sync that keeps failing turns the run red.** A single skipped night stays a
-  warning. From the third skipped run in a row, the workflow's last step fails,
-  after the site has been built and pushed, so a red run never costs a deploy.
-  It stays red every night until a sync works again, which resets the count.
+- **A sync that keeps failing turns the run red.** A single skipped day stays a
+  warning. From the third skipped sync in a row (three days, since the nightly
+  run doesn't sync), the workflow's last step fails, after the site has been
+  built and pushed, so a red run never costs a deploy. It stays red on every
+  sync until one works again, which resets the count.
   GitHub tells you about the failed run by email or on the web, according to your
   notification settings (*Settings → Notifications → System → Actions*); check
   that notifications for failed workflows are switched on. The count is the
@@ -97,7 +105,7 @@ New entries get the Zurich publish date, the title without the
 
 Every episode has its own page at `/podcast/<slug>/`, and `/podcast/` lists
 them all (the project's `"page": "/podcast/"` in `projects.json` switches this
-on). A new episode's page exists from the night the sync adds it, with the
+on). A new episode's page exists from the day the sync adds it, with the
 title, date and YouTube link. To give it show notes and a transcript:
 
 1. Make a folder `content/podcast/<slug>/`, named exactly as the episode's

@@ -1,17 +1,24 @@
 # Rebuilds the site every night so date-dependent output stays current
 # without a manual push: activities demote to "Previously" once their date
 # passes (build.mjs computes "today" in Europe/Zurich), and the CV tenure
-# months tick over. Before building, new Business Mission Control episodes
-# are pulled from the YouTube playlist into content/projects.json. Commits
+# months tick over. A second run by day pulls new Business Mission Control
+# episodes from the YouTube playlist into content/projects.json first. Commits
 # only when the content or the generated output actually changed. A sync
-# skipped three runs in a row turns the run red, after the push.
+# skipped three days in a row turns the day run red, after the push.
 name: Daily rebuild
 
 on:
   schedule:
     # 23:05 UTC = 00:05 CET (winter) / 01:05 CEST (summer) — always shortly
     # after midnight in Europe/Zurich, so a day's demotions land that morning.
+    # GitHub starts scheduled runs late: this one has landed 01:00-04:40 UTC.
     - cron: '5 23 * * *'
+    # 13:17 UTC, the episode sync. The playlist feed answers 404 through most
+    # of the night, which is when the run above lands. Measured from runners
+    # (WI #249): 22 of 138 requests answered between 23:00 and 04:46 UTC, and
+    # every request by day. Episodes go out around 10:00-12:30 UTC, so they
+    # appear the same day.
+    - cron: '17 13 * * *'
   workflow_dispatch:
 
 permissions:
@@ -20,6 +27,9 @@ permissions:
 jobs:
   rebuild:
     runs-on: ubuntu-latest
+    env:
+      # Every run syncs except the nightly one, including a manual run.
+      SYNC: ${{ github.event.schedule != '5 23 * * *' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -28,6 +38,7 @@ jobs:
       - name: Restore the count of skipped syncs
         # Cache entries can't be overwritten, so each run saves its own and the
         # next run restores the newest through the prefix.
+        if: env.SYNC == 'true'
         uses: actions/cache/restore@v4
         with:
           path: .sync-skips
@@ -36,9 +47,10 @@ jobs:
       - name: Sync podcast episodes from the playlist feed
         # The script already exits 0 on any feed problem and leaves the file
         # untouched; continue-on-error and the timeout are the backstop. A
-        # YouTube outage can only ever cost tonight's new episodes, never the
+        # YouTube outage can only ever cost today's new episodes, never the
         # rebuild. A skipped sync shows as a warning on the run's summary page
         # and adds one to .sync-skips; a sync that works sets it back to 0.
+        if: env.SYNC == 'true'
         run: node sync-episodes.mjs --skips-file .sync-skips
         continue-on-error: true
         timeout-minutes: 2
@@ -59,13 +71,15 @@ jobs:
           git commit -m "$msg"
           git push
       - name: Save the count of skipped syncs
-        if: always()
+        if: always() && env.SYNC == 'true'
         uses: actions/cache/save@v4
         with:
           path: .sync-skips
           key: sync-skips-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Fail the run if the sync keeps being skipped
         # Last on purpose: the site is already built and pushed, so a red run
-        # here costs nothing. It turns red from the third skipped run in a row
-        # until a sync works again, and GitHub notifies about failed runs.
+        # here costs nothing. It turns red from the third skipped sync in a row
+        # until a sync works again, and GitHub notifies about failed runs. The
+        # nightly run neither syncs nor counts, so the night alone never trips it.
+        if: env.SYNC == 'true'
         run: node sync-episodes.mjs --check-skips .sync-skips

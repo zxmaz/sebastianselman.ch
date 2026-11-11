@@ -14,14 +14,16 @@
 //   node sync-episodes.mjs              add new episodes, write the file if any
 //   node sync-episodes.mjs --dry-run    print what would be added, write nothing
 //
-// The nightly workflow adds two more, to catch a sync that keeps failing:
+// The rebuild workflow adds two more, to catch a sync that keeps failing:
 //   --skips-file <path>   count this run in the file; a successful sync resets it
 //   --check-skips <path>  exit 1 once the file says ALERT_AFTER runs in a row
 //
-// For the tests, never the nightly job:
+// For the tests, never the workflow:
 //   --feed <url>  --file <path>  --timeout <ms>
 //
-// The nightly workflow runs this before `node build.mjs`, which stays offline:
+// The rebuild workflow runs this by day, never in its run after midnight: the
+// feed answers 404 through most of the night (README, "Podcast episodes").
+// It runs before `node build.mjs`, which stays offline:
 // the network lives here and only here. A sync problem must never cost the
 // rebuild, so every failure — feed down, slow, changed shape, even a bug in this
 // file — prints a warning, leaves projects.json byte-identical and exits 0. Only

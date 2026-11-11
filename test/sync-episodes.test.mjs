@@ -261,6 +261,27 @@ test('rebuild workflow: the alert is the last step and the sync still cannot sto
   assert.equal(yml.slice(steps[4]).trim().split('\n').length, 1, 'nothing runs after the check');
 });
 
+test('rebuild workflow: the nightly run builds without syncing, every other run syncs', async () => {
+  const yml = await readFile(path.join(ROOT, '.github', 'workflows', 'rebuild.yml'), 'utf8');
+  const crons = [...yml.matchAll(/- cron: '([^']+)'/g)].map(m => m[1]);
+  assert.equal(crons.length, 2, `crons: ${crons}`);
+  // The one cron the sync skips must be a real one, or a typo would let the
+  // nightly run sync and count its 404s. Off by mistake is the safe direction:
+  // the expression is "not the nightly cron", so an unknown trigger syncs.
+  const nightly = yml.match(/SYNC: \$\{\{ github\.event\.schedule != '([^']+)' \}\}/)?.[1];
+  assert.ok(crons.includes(nightly), `SYNC names ${nightly}, crons are ${crons}`);
+  const [hour] = nightly.split(' ').slice(1).map(Number);
+  assert.ok(hour >= 21 || hour <= 2, 'the nightly cron is the one shortly after midnight in Zurich');
+  const day = crons.find(c => c !== nightly).split(' ').map(Number);
+  assert.ok(day[1] >= 10 && day[1] <= 15, `the sync runs by day (${day[1]}:${day[0]} UTC), clear of the feed's night 404s`);
+  for (const step of ['Restore the count', 'Sync podcast episodes', 'Save the count', 'Fail the run if']) {
+    const block = yml.slice(yml.indexOf(`- name: ${step}`)).split(/\n\s+- (?:name|run|uses):/)[0];
+    assert.match(block, /if: (always\(\) && )?env\.SYNC == 'true'/, `${step} runs only on syncing runs`);
+  }
+  assert.ok(!/if:.*SYNC/.test(yml.slice(yml.indexOf('- run: node build.mjs'), yml.indexOf('- name: Save the count'))),
+    'build and push run on every run');
+});
+
 test('a feed with no new episodes writes nothing', async () => {
   const file = await copy();
   const mtime = (await stat(file)).mtimeMs;
